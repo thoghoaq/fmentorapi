@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FMentorAPI.Models
 {
@@ -10,8 +11,9 @@ namespace FMentorAPI.Models
             Bookings = new HashSet<Booking>();
             Courses = new HashSet<Course>();
         }
-
+        [Key]
         public int MenteeId { get; set; }
+        [Required]
         public int UserId { get; set; }
 
         public virtual User User { get; set; } = null!;

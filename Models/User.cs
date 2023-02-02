@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FMentorAPI.Models
 {
@@ -18,14 +19,23 @@ namespace FMentorAPI.Models
             ReviewReviewers = new HashSet<Review>();
             UserSpecialties = new HashSet<UserSpecialty>();
         }
-
+        [Key]
         public int UserId { get; set; }
+        [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; } = null!;
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; } = null!;
+        [Required(ErrorMessage = "Password is required")]
+        [MinLength(8, ErrorMessage = "Password must be at least 8 characters long")]
         public string Password { get; set; } = null!;
+        [Required(ErrorMessage = "Role is required")]
         public string Role { get; set; } = null!;
+        [Range(0, int.MaxValue, ErrorMessage = "Age must be a positive number")]
         public int Age { get; set; }
+        [StringLength(1000, ErrorMessage = "Description cannot be longer than 1000 characters.")]
         public string Description { get; set; } = null!;
+        [StringLength(255, ErrorMessage = "Video introduction link cannot be longer than 255 characters.")]
         public string VideoIntroduction { get; set; } = null!;
 
         public virtual UserPermission? UserPermission { get; set; }
