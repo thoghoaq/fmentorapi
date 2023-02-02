@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\FPT University\\EXE201\\fmentorapi\\FMentorAPI\\FMentorAPI.csproj": {}
+    "D:\\FPT University\\EXE201\\fmentorapi\\FMentorAPI.csproj": {}
   },
   "projects": {
-    "D:\\FPT University\\EXE201\\fmentorapi\\FMentorAPI\\FMentorAPI.csproj": {
+    "D:\\FPT University\\EXE201\\fmentorapi\\FMentorAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\FPT University\\EXE201\\fmentorapi\\FMentorAPI\\FMentorAPI.csproj",
+        "projectUniqueName": "D:\\FPT University\\EXE201\\fmentorapi\\FMentorAPI.csproj",
         "projectName": "FMentorAPI",
-        "projectPath": "D:\\FPT University\\EXE201\\fmentorapi\\FMentorAPI\\FMentorAPI.csproj",
+        "projectPath": "D:\\FPT University\\EXE201\\fmentorapi\\FMentorAPI.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\FPT University\\EXE201\\fmentorapi\\FMentorAPI\\obj\\",
+        "outputPath": "D:\\FPT University\\EXE201\\fmentorapi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,26 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.13, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.13, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.13, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.11, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
