@@ -7,7 +7,7 @@ namespace FMentorAPI.Models
     public partial class UserPermission
     {
         [Key]
-        public int UserId { get; set; }
+        public byte IsMentor { get; set; }
         [Range(0, 1, ErrorMessage = "CanSeeSettings must be either 0 or 1")]
         public byte CanSeeSettings { get; set; }
         [Range(0, 1, ErrorMessage = "CanSeePolicy must be either 0 or 1")]
@@ -23,6 +23,6 @@ namespace FMentorAPI.Models
         [Range(0, 1, ErrorMessage = "CanSeeCourses must be either 0 or 1")]
         public byte CanSeeCourses { get; set; }
 
-        public virtual User User { get; set; } = null!;
+        public virtual ICollection<User> Users { get; set; }
     }
 }
