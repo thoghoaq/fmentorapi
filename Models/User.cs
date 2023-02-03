@@ -30,7 +30,7 @@ namespace FMentorAPI.Models
         [MinLength(8, ErrorMessage = "Password must be at least 8 characters long")]
         public string Password { get; set; } = null!;
         [Required(ErrorMessage = "Role is required")]
-        public string Role { get; set; } = null!;
+        public byte IsMentor { get; set; }
         [Range(0, int.MaxValue, ErrorMessage = "Age must be a positive number")]
         public int Age { get; set; }
         [StringLength(1000, ErrorMessage = "Description cannot be longer than 1000 characters.")]
@@ -38,7 +38,7 @@ namespace FMentorAPI.Models
         [StringLength(255, ErrorMessage = "Video introduction link cannot be longer than 255 characters.")]
         public string VideoIntroduction { get; set; } = null!;
 
-        public virtual UserPermission? UserPermission { get; set; }
+        public virtual UserPermission IsMentorNavigation { get; set; } = null!;
         public virtual ICollection<Appointment> AppointmentMentees { get; set; }
         public virtual ICollection<Appointment> AppointmentMentors { get; set; }
         public virtual ICollection<Education> Educations { get; set; }

@@ -1,4 +1,7 @@
+using AutoMapper;
+using FMentorAPI.Extensions.AutoMapper;
 using FMentorAPI.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<FMentorDBContext>(
         options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
+builder.Services.AddAutoMapper();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

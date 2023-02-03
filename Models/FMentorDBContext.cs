@@ -405,6 +405,8 @@ namespace FMentorAPI.Models
                     .IsUnicode(false)
                     .HasColumnName("email");
 
+                entity.Property(e => e.IsMentor).HasColumnName("is_mentor");
+
                 entity.Property(e => e.Name)
                     .HasMaxLength(255)
                     .IsUnicode(false)
@@ -415,25 +417,24 @@ namespace FMentorAPI.Models
                     .IsUnicode(false)
                     .HasColumnName("password");
 
-                entity.Property(e => e.Role)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("role");
-
                 entity.Property(e => e.VideoIntroduction)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("video_introduction");
+
+                entity.HasOne(d => d.IsMentorNavigation)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.IsMentor)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Users_UserPermissions_is_mentor_fk");
             });
 
             modelBuilder.Entity<UserPermission>(entity =>
             {
-                entity.HasKey(e => e.UserId)
-                    .HasName("PK__UserPerm__B9BE370FFEDA65D9");
+                entity.HasKey(e => e.IsMentor)
+                    .HasName("UserPermissions_pk");
 
-                entity.Property(e => e.UserId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("user_id");
+                entity.Property(e => e.IsMentor).HasColumnName("is_mentor");
 
                 entity.Property(e => e.CanFollowMentors).HasColumnName("can_follow_mentors");
 
@@ -448,12 +449,6 @@ namespace FMentorAPI.Models
                 entity.Property(e => e.CanSeePolicy).HasColumnName("can_see_policy");
 
                 entity.Property(e => e.CanSeeSettings).HasColumnName("can_see_settings");
-
-                entity.HasOne(d => d.User)
-                    .WithOne(p => p.UserPermission)
-                    .HasForeignKey<UserPermission>(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__UserPermi__user___0D7A0286");
             });
 
             modelBuilder.Entity<UserSpecialty>(entity =>

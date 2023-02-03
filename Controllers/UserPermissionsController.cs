@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FMentorAPI.Models;
+using AutoMapper;
+using FMentorAPI.DTOs;
 
 namespace FMentorAPI.Controllers
 {
@@ -14,24 +16,26 @@ namespace FMentorAPI.Controllers
     public class UserPermissionsController : ControllerBase
     {
         private readonly FMentorDBContext _context;
+        private readonly IMapper _mapper;
 
-        public UserPermissionsController(FMentorDBContext context)
+        public UserPermissionsController(FMentorDBContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/UserPermissions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserPermission>>> GetUserPermissions()
+        public async Task<ActionResult<IEnumerable<UserPermissionResponseModel>>> GetUserPermissions()
         {
-            return await _context.UserPermissions.ToListAsync();
+            return _mapper.Map<List<UserPermissionResponseModel>>(await _context.UserPermissions.ToListAsync());
         }
 
         // GET: api/UserPermissions/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserPermission>> GetUserPermission(int id)
+        public async Task<ActionResult<UserPermissionResponseModel>> GetUserPermission(byte id)
         {
-            var userPermission = await _context.UserPermissions.FindAsync(id);
+            var userPermission = _mapper.Map<UserPermissionResponseModel>(await _context.UserPermissions.FindAsync(id));
 
             if (userPermission == null)
             {
@@ -44,14 +48,14 @@ namespace FMentorAPI.Controllers
         // PUT: api/UserPermissions/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserPermission(int id, UserPermission userPermission)
+        public async Task<IActionResult> PutUserPermission(byte id, UserPermissionResponseModel userPermission)
         {
-            if (id != userPermission.UserId)
+            if (id != userPermission.IsMentor)
             {
                 return BadRequest();
             }
 
-            _context.Entry(userPermission).State = EntityState.Modified;
+            _context.Entry(_mapper.Map<UserPermission>(userPermission)).State = EntityState.Modified;
 
             try
             {
@@ -75,16 +79,16 @@ namespace FMentorAPI.Controllers
         // POST: api/UserPermissions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserPermission>> PostUserPermission(UserPermission userPermission)
+        public async Task<ActionResult<UserPermissionResponseModel>> PostUserPermission(UserPermissionResponseModel userPermission)
         {
-            _context.UserPermissions.Add(userPermission);
+            _context.UserPermissions.Add(_mapper.Map<UserPermission>(userPermission));
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (UserPermissionExists(userPermission.UserId))
+                if (UserPermissionExists(userPermission.IsMentor))
                 {
                     return Conflict();
                 }
@@ -94,12 +98,12 @@ namespace FMentorAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetUserPermission", new { id = userPermission.UserId }, userPermission);
+            return CreatedAtAction("GetUserPermission", new { id = userPermission.IsMentor }, userPermission);
         }
 
         // DELETE: api/UserPermissions/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserPermission(int id)
+        public async Task<IActionResult> DeleteUserPermission(byte id)
         {
             var userPermission = await _context.UserPermissions.FindAsync(id);
             if (userPermission == null)
@@ -113,9 +117,9 @@ namespace FMentorAPI.Controllers
             return NoContent();
         }
 
-        private bool UserPermissionExists(int id)
+        private bool UserPermissionExists(byte id)
         {
-            return _context.UserPermissions.Any(e => e.UserId == id);
+            return _context.UserPermissions.Any(e => e.IsMentor == id);
         }
     }
 }
