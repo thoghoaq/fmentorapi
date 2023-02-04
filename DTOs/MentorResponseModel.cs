@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FMentorAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,5 +12,6 @@ namespace FMentorAPI.DTOs
         public string Specialty { get; set; } = null!;
         public decimal HourlyRate { get; set; }
         public byte Availability { get; set; }
+        public virtual User User { get; set; } = null!;
     }
 }
