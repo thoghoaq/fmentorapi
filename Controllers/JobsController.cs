@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FMentorAPI.Models;
+using AutoMapper;
+using FMentorAPI.DTOs;
 
 namespace FMentorAPI.Controllers
 {
@@ -14,22 +16,24 @@ namespace FMentorAPI.Controllers
     public class JobsController : ControllerBase
     {
         private readonly FMentorDBContext _context;
+        private readonly IMapper _mapper;
 
-        public JobsController(FMentorDBContext context)
+        public JobsController(FMentorDBContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Jobs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Job>>> GetJobs()
+        public async Task<ActionResult<IEnumerable<JobResponseModel>>> GetJobs()
         {
-            return await _context.Jobs.ToListAsync();
+            return _mapper.Map<List<JobResponseModel>>(await _context.Jobs.ToListAsync());
         }
 
         // GET: api/Jobs/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Job>> GetJob(int id)
+        public async Task<ActionResult<JobResponseModel>> GetJob(int id)
         {
             var job = await _context.Jobs.FindAsync(id);
 
@@ -38,7 +42,7 @@ namespace FMentorAPI.Controllers
                 return NotFound();
             }
 
-            return job;
+            return _mapper.Map<JobResponseModel>(job);
         }
 
         // PUT: api/Jobs/5

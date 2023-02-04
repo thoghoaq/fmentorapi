@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FMentorAPI.Models;
+using AutoMapper;
+using FMentorAPI.DTOs;
+using System.Diagnostics.Metrics;
 
 namespace FMentorAPI.Controllers
 {
@@ -14,22 +17,24 @@ namespace FMentorAPI.Controllers
     public class MentorWorkingTimesController : ControllerBase
     {
         private readonly FMentorDBContext _context;
+        private readonly IMapper _mapper;
 
-        public MentorWorkingTimesController(FMentorDBContext context)
+        public MentorWorkingTimesController(FMentorDBContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/MentorWorkingTimes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MentorWorkingTime>>> GetMentorWorkingTimes()
+        public async Task<ActionResult<IEnumerable<MentorWorkingTimeResponseModel>>> GetMentorWorkingTimes()
         {
-            return await _context.MentorWorkingTimes.ToListAsync();
+            return _mapper.Map<List<MentorWorkingTimeResponseModel>>(await _context.MentorWorkingTimes.ToListAsync());
         }
 
         // GET: api/MentorWorkingTimes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<MentorWorkingTime>> GetMentorWorkingTime(int id)
+        public async Task<ActionResult<MentorWorkingTimeResponseModel>> GetMentorWorkingTime(int id)
         {
             var mentorWorkingTime = await _context.MentorWorkingTimes.FindAsync(id);
 
@@ -38,7 +43,7 @@ namespace FMentorAPI.Controllers
                 return NotFound();
             }
 
-            return mentorWorkingTime;
+            return _mapper.Map<MentorWorkingTimeResponseModel>(mentorWorkingTime);
         }
 
         // PUT: api/MentorWorkingTimes/5
