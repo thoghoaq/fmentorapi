@@ -29,14 +29,14 @@ namespace FMentorAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MentorResponseModel>>> GetMentors()
         {
-            return _mapper.Map<List<MentorResponseModel>>(await _context.Mentors.ToListAsync());
+            return _mapper.Map<List<MentorResponseModel>>(await _context.Mentors.Include(u => u.User).ToListAsync());
         }
 
         // GET: api/Mentors/5
         [HttpGet("{id}")]
         public async Task<ActionResult<MentorResponseModel>> GetMentor(int id)
         {
-            var mentor = await _context.Mentors.FindAsync(id);
+            var mentor = _context.Mentors.Include(u => u.User).Where(m => m.MentorId == id).FirstOrDefault();
 
             if (mentor == null)
             {
