@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FMentorAPI.Models;
+using AutoMapper;
+using FMentorAPI.DTOs;
+using System.Diagnostics.Metrics;
 
 namespace FMentorAPI.Controllers
 {
@@ -14,22 +17,24 @@ namespace FMentorAPI.Controllers
     public class MentorsController : ControllerBase
     {
         private readonly FMentorDBContext _context;
+        private readonly IMapper _mapper;
 
-        public MentorsController(FMentorDBContext context)
+        public MentorsController(FMentorDBContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Mentors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Mentor>>> GetMentors()
+        public async Task<ActionResult<IEnumerable<MentorResponseModel>>> GetMentors()
         {
-            return await _context.Mentors.ToListAsync();
+            return _mapper.Map<List<MentorResponseModel>>(await _context.Mentors.ToListAsync());
         }
 
         // GET: api/Mentors/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Mentor>> GetMentor(int id)
+        public async Task<ActionResult<MentorResponseModel>> GetMentor(int id)
         {
             var mentor = await _context.Mentors.FindAsync(id);
 
@@ -38,7 +43,7 @@ namespace FMentorAPI.Controllers
                 return NotFound();
             }
 
-            return mentor;
+            return _mapper.Map<MentorResponseModel>(mentor);
         }
 
         // PUT: api/Mentors/5

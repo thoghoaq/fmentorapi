@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FMentorAPI.Models;
+using AutoMapper;
+using FMentorAPI.DTOs;
+using System.Diagnostics.Metrics;
 
 namespace FMentorAPI.Controllers
 {
@@ -14,22 +17,24 @@ namespace FMentorAPI.Controllers
     public class UserSpecialtiesController : ControllerBase
     {
         private readonly FMentorDBContext _context;
+        private readonly IMapper _mapper;
 
-        public UserSpecialtiesController(FMentorDBContext context)
+        public UserSpecialtiesController(FMentorDBContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/UserSpecialties
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserSpecialty>>> GetUserSpecialties()
+        public async Task<ActionResult<IEnumerable<UserSpecialtyResponseModel>>> GetUserSpecialties()
         {
-            return await _context.UserSpecialties.ToListAsync();
+            return _mapper.Map<List<UserSpecialtyResponseModel>>(await _context.UserSpecialties.ToListAsync());
         }
 
         // GET: api/UserSpecialties/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserSpecialty>> GetUserSpecialty(int id)
+        public async Task<ActionResult<UserSpecialtyResponseModel>> GetUserSpecialty(int id)
         {
             var userSpecialty = await _context.UserSpecialties.FindAsync(id);
 
@@ -38,7 +43,7 @@ namespace FMentorAPI.Controllers
                 return NotFound();
             }
 
-            return userSpecialty;
+            return _mapper.Map<UserSpecialtyResponseModel>(userSpecialty);
         }
 
         // PUT: api/UserSpecialties/5

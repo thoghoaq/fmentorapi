@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FMentorAPI.Models;
+using AutoMapper;
+using FMentorAPI.DTOs;
 
 namespace FMentorAPI.Controllers
 {
@@ -14,22 +16,24 @@ namespace FMentorAPI.Controllers
     public class BookingsController : ControllerBase
     {
         private readonly FMentorDBContext _context;
+        private readonly IMapper _mapper;
 
-        public BookingsController(FMentorDBContext context)
+        public BookingsController(FMentorDBContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Bookings
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Booking>>> GetBookings()
+        public async Task<ActionResult<IEnumerable<BookingResponseModel>>> GetBookings()
         {
-            return await _context.Bookings.ToListAsync();
+            return _mapper.Map<List<BookingResponseModel>> (await _context.Bookings.ToListAsync());
         }
 
         // GET: api/Bookings/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Booking>> GetBooking(int id)
+        public async Task<ActionResult<BookingResponseModel>> GetBooking(int id)
         {
             var booking = await _context.Bookings.FindAsync(id);
 
@@ -38,7 +42,7 @@ namespace FMentorAPI.Controllers
                 return NotFound();
             }
 
-            return booking;
+            return _mapper.Map<BookingResponseModel>(booking);
         }
 
         // PUT: api/Bookings/5
