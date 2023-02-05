@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FMentorAPI.Models;
+using AutoMapper;
+using FMentorAPI.DTOs;
+using System.Diagnostics.Metrics;
 
 namespace FMentorAPI.Controllers
 {
@@ -14,22 +17,24 @@ namespace FMentorAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly FMentorDBContext _context;
+        private readonly IMapper _mapper;
 
-        public UsersController(FMentorDBContext context)
+        public UsersController(FMentorDBContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserResponseModel>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            return _mapper.Map<List<UserResponseModel>>(await _context.Users.ToListAsync());
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserResponseModel>> GetUser(int id)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -38,7 +43,7 @@ namespace FMentorAPI.Controllers
                 return NotFound();
             }
 
-            return user;
+            return _mapper.Map<UserResponseModel>(user);
         }
 
         // PUT: api/Users/5

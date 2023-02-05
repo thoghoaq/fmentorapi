@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FMentorAPI.Models;
+using AutoMapper;
+using FMentorAPI.DTOs;
 
 namespace FMentorAPI.Controllers
 {
@@ -14,22 +16,24 @@ namespace FMentorAPI.Controllers
     public class EducationsController : ControllerBase
     {
         private readonly FMentorDBContext _context;
+        private readonly IMapper _mapper;
 
-        public EducationsController(FMentorDBContext context)
+        public EducationsController(FMentorDBContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Educations
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Education>>> GetEducations()
+        public async Task<ActionResult<IEnumerable<EducationResponseModel>>> GetEducations()
         {
-            return await _context.Educations.ToListAsync();
+            return _mapper.Map<List<EducationResponseModel>>(await _context.Educations.ToListAsync());
         }
 
         // GET: api/Educations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Education>> GetEducation(int id)
+        public async Task<ActionResult<EducationResponseModel>> GetEducation(int id)
         {
             var education = await _context.Educations.FindAsync(id);
 
@@ -38,7 +42,7 @@ namespace FMentorAPI.Controllers
                 return NotFound();
             }
 
-            return education;
+            return _mapper.Map<EducationResponseModel>(education);
         }
 
         // PUT: api/Educations/5

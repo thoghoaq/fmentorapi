@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FMentorAPI.Models;
+using FMentorAPI.DTOs;
+using AutoMapper;
+using System.Diagnostics.Metrics;
 
 namespace FMentorAPI.Controllers
 {
@@ -14,22 +17,24 @@ namespace FMentorAPI.Controllers
     public class ReviewsController : ControllerBase
     {
         private readonly FMentorDBContext _context;
+        private readonly IMapper _mapper;
 
-        public ReviewsController(FMentorDBContext context)
+        public ReviewsController(FMentorDBContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Reviews
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Review>>> GetReviews()
+        public async Task<ActionResult<IEnumerable<ReviewResponseModel>>> GetReviews()
         {
-            return await _context.Reviews.ToListAsync();
+            return _mapper.Map<List<ReviewResponseModel>>(await _context.Reviews.ToListAsync());
         }
 
         // GET: api/Reviews/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Review>> GetReview(int id)
+        public async Task<ActionResult<ReviewResponseModel>> GetReview(int id)
         {
             var review = await _context.Reviews.FindAsync(id);
 
@@ -38,7 +43,7 @@ namespace FMentorAPI.Controllers
                 return NotFound();
             }
 
-            return review;
+            return _mapper.Map<ReviewResponseModel>(review);
         }
 
         // PUT: api/Reviews/5

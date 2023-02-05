@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FMentorAPI.Models;
+using AutoMapper;
+using FMentorAPI.DTOs;
+using System.Diagnostics.Metrics;
 
 namespace FMentorAPI.Controllers
 {
@@ -14,22 +17,24 @@ namespace FMentorAPI.Controllers
     public class MentorAvailabilitiesController : ControllerBase
     {
         private readonly FMentorDBContext _context;
+        private readonly IMapper _mapper;
 
-        public MentorAvailabilitiesController(FMentorDBContext context)
+        public MentorAvailabilitiesController(FMentorDBContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/MentorAvailabilities
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MentorAvailability>>> GetMentorAvailabilities()
+        public async Task<ActionResult<IEnumerable<MentorAvailabilityResponseModel>>> GetMentorAvailabilities()
         {
-            return await _context.MentorAvailabilities.ToListAsync();
+            return _mapper.Map<List<MentorAvailabilityResponseModel>>(await _context.MentorAvailabilities.ToListAsync());
         }
 
         // GET: api/MentorAvailabilities/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<MentorAvailability>> GetMentorAvailability(int id)
+        public async Task<ActionResult<MentorAvailabilityResponseModel>> GetMentorAvailability(int id)
         {
             var mentorAvailability = await _context.MentorAvailabilities.FindAsync(id);
 
@@ -38,7 +43,7 @@ namespace FMentorAPI.Controllers
                 return NotFound();
             }
 
-            return mentorAvailability;
+            return _mapper.Map<MentorAvailabilityResponseModel>(mentorAvailability);
         }
 
         // PUT: api/MentorAvailabilities/5
