@@ -37,6 +37,8 @@ namespace FMentorAPI.Models
         public string Description { get; set; } = null!;
         [StringLength(255, ErrorMessage = "Video introduction link cannot be longer than 255 characters.")]
         public string VideoIntroduction { get; set; } = null!;
+        [StringLength(255, ErrorMessage = "Photo link cannot be longer than 255 characters.")]
+        public string Photo { get; set; } = null!;
 
         public virtual UserPermission IsMentorNavigation { get; set; } = null!;
         public virtual ICollection<Appointment> AppointmentMentees { get; set; }
