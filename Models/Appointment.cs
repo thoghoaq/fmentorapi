@@ -32,8 +32,8 @@ namespace FMentorAPI.Models
         [StringLength(500, ErrorMessage = "Note cannot be longer than 500 characters.")]
         public string? Note { get; set; }
 
-        public virtual User Mentee { get; set; } = null!;
-        public virtual User Mentor { get; set; } = null!;
+        public virtual Mentee Mentee { get; set; } = null!;
+        public virtual Mentor Mentor { get; set; } = null!;
         public virtual ICollection<Review> Reviews { get; set; }
     }
 }

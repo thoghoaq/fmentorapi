@@ -8,8 +8,6 @@ namespace FMentorAPI.Models
     {
         public User()
         {
-            AppointmentMentees = new HashSet<Appointment>();
-            AppointmentMentors = new HashSet<Appointment>();
             Educations = new HashSet<Education>();
             Jobs = new HashSet<Job>();
             Mentees = new HashSet<Mentee>();
@@ -41,8 +39,6 @@ namespace FMentorAPI.Models
         public string Photo { get; set; } = null!;
 
         public virtual UserPermission IsMentorNavigation { get; set; } = null!;
-        public virtual ICollection<Appointment> AppointmentMentees { get; set; }
-        public virtual ICollection<Appointment> AppointmentMentors { get; set; }
         public virtual ICollection<Education> Educations { get; set; }
         public virtual ICollection<Job> Jobs { get; set; }
         public virtual ICollection<Mentee> Mentees { get; set; }
