@@ -76,6 +76,26 @@ namespace FMentorAPI.Controllers
             return NoContent();
         }
 
+        [HttpGet("mentee/{id}")]
+        public async Task<ActionResult<IEnumerable<AppointmentResponseModel>>> GetAppointmentsByMentee(int id)
+        {
+            var appointments = await _context.Appointments.Include(m => m.Mentor).Where(u => u.MenteeId == id).ToListAsync();
+            foreach (Appointment appointment in appointments)
+            {
+                var mentor = appointment.Mentor;
+                if (mentor != null)
+                {
+                    var user = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).FirstOrDefault();
+                    if (user == null)
+                    {
+                        return NotFound();
+                    }
+                    mentor.User = user;
+                }
+            }
+            return _mapper.Map<List<AppointmentResponseModel>>(appointments);
+        }
+
         // POST: api/Appointments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]

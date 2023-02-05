@@ -29,6 +29,16 @@ namespace FMentorAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MentorResponseModel>>> GetMentors()
         {
+            var mentors = await _context.Mentors.Include(u => u.User).ToListAsync();
+            foreach (Mentor mentor in mentors)
+            {
+                var user = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                mentor.User = user;
+            }
             return _mapper.Map<List<MentorResponseModel>>(await _context.Mentors.Include(u => u.User).ToListAsync());
         }
 
@@ -37,7 +47,15 @@ namespace FMentorAPI.Controllers
         public async Task<ActionResult<MentorResponseModel>> GetMentor(int id)
         {
             var mentor = _context.Mentors.Include(u => u.User).Where(m => m.MentorId == id).FirstOrDefault();
-
+            if (mentor != null)
+            {
+                var user = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                mentor.User = user;
+            }
             if (mentor == null)
             {
                 return NotFound();
