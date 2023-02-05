@@ -20,6 +20,7 @@ namespace FMentorAPI.DTOs
         public int Age { get; set; }
         public string Description { get; set; } = null!;
         public string VideoIntroduction { get; set; } = null!;
+        public string Photo { get; set; } = null!;
 
         public virtual ICollection<JobResponseModel> Jobs { get; set; }
         public virtual ICollection<EducationResponseModel> Educations { get; set; }
