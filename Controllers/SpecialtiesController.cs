@@ -29,7 +29,41 @@ namespace FMentorAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SpecialtyResponseModel>>> GetSpecialties()
         {
-            return _mapper.Map<List<SpecialtyResponseModel>>(await _context.Specialties.ToListAsync());
+            List<Specialty> specialties = await _context.Specialties.ToListAsync();
+            List<UserSpecialty> userSpecialties = await _context.UserSpecialties.ToListAsync();
+            return (from specialty in specialties
+                    join userSpecialty in userSpecialties
+                    on specialty.SpecialtyId equals userSpecialty.SpecialtyId
+                    into g
+                    select
+                    new SpecialtyResponseModel
+                    {
+                        SpecialtyId = specialty.SpecialtyId,
+                        Name = specialty.Name,
+                        NumberMentor = g.Count()
+                    })
+                .OrderByDescending(x => x.NumberMentor)
+                .ToList();
+        }
+
+        [HttpGet("top3")]
+        public async Task<ActionResult<IEnumerable<SpecialtyResponseModel>>> GetTop3Specialties()
+        {
+            List<Specialty> specialties = await _context.Specialties.ToListAsync();
+            List<UserSpecialty> userSpecialties = await _context.UserSpecialties.ToListAsync();
+            return (from specialty in specialties
+                    join userSpecialty in userSpecialties
+                    on specialty.SpecialtyId equals userSpecialty.SpecialtyId
+                    into g
+                    select 
+                    new SpecialtyResponseModel
+                    {
+                        SpecialtyId = specialty.SpecialtyId,
+                        Name = specialty.Name,
+                        NumberMentor = g.Count()
+                    })
+                .OrderByDescending(x => x.NumberMentor).Take(3)
+                .ToList();
         }
 
         // GET: api/Specialties/5
