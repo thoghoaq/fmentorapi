@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FMentorAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -14,5 +15,7 @@ namespace FMentorAPI.DTOs
         public decimal TotalCost { get; set; }
         public string Status { get; set; } = null!;
         public string? ReasonForRejection { get; set; }
+
+        public virtual MentorResponseModel Mentor { get; set; } = null!;
     }
 }

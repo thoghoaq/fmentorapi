@@ -422,6 +422,11 @@ namespace FMentorAPI.Models
                     .IsUnicode(false)
                     .HasColumnName("video_introduction");
 
+                entity.Property(e => e.Photo)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("photo");
+
                 entity.HasOne(d => d.IsMentorNavigation)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.IsMentor)

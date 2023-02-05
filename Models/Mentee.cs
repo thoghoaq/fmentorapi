@@ -9,6 +9,7 @@ namespace FMentorAPI.Models
         public Mentee()
         {
             Bookings = new HashSet<Booking>();
+            AppointmentMentees = new HashSet<Appointment>();
             Courses = new HashSet<Course>();
         }
         [Key]
@@ -18,6 +19,7 @@ namespace FMentorAPI.Models
 
         public virtual User User { get; set; } = null!;
         public virtual ICollection<Booking> Bookings { get; set; }
+        public virtual ICollection<Appointment> AppointmentMentees { get; set; }
 
         public virtual ICollection<Course> Courses { get; set; }
     }

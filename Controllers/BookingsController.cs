@@ -28,14 +28,14 @@ namespace FMentorAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BookingResponseModel>>> GetBookings()
         {
-            return _mapper.Map<List<BookingResponseModel>> (await _context.Bookings.ToListAsync());
+            return _mapper.Map<List<BookingResponseModel>> (await _context.Bookings.Include(m => m.Mentor).ToListAsync());
         }
 
         // GET: api/Bookings/5
         [HttpGet("{id}")]
         public async Task<ActionResult<BookingResponseModel>> GetBooking(int id)
         {
-            var booking = await _context.Bookings.FindAsync(id);
+            var booking = _context.Bookings.Include(m => m.Mentor).Where(u => u.BookingId == id).FirstOrDefault();
 
             if (booking == null)
             {
@@ -43,6 +43,26 @@ namespace FMentorAPI.Controllers
             }
 
             return _mapper.Map<BookingResponseModel>(booking);
+        }
+
+        [HttpGet("mentee/{id}")]
+        public async Task<ActionResult<IEnumerable<BookingResponseModel>>> GetBookingsByMentee(int id)
+        {
+            var bookings = await _context.Bookings.Include(m => m.Mentor).Where(u => u.MenteeId == id).ToListAsync();
+            foreach(Booking booking in bookings)
+            {
+                var mentor = booking.Mentor;
+                if (mentor != null)
+                {
+                    var user = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).FirstOrDefault();
+                    if (user == null)
+                    {
+                        return NotFound();
+                    }
+                    mentor.User = user;
+                }
+            }
+            return _mapper.Map<List<BookingResponseModel>>(bookings);
         }
 
         // PUT: api/Bookings/5
