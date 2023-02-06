@@ -6,6 +6,11 @@ namespace FMentorAPI.Models
 {
     public partial class UserPermission
     {
+        public UserPermission()
+        {
+            Users = new HashSet<User>();
+        }
+
         [Key]
         public byte IsMentor { get; set; }
         [Range(0, 1, ErrorMessage = "CanSeeSettings must be either 0 or 1")]

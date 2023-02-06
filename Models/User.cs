@@ -11,8 +11,8 @@ namespace FMentorAPI.Models
             Educations = new HashSet<Education>();
             Jobs = new HashSet<Job>();
             Mentees = new HashSet<Mentee>();
-            MentorAvailabilities = new HashSet<MentorAvailability>();
             Mentors = new HashSet<Mentor>();
+            Payments = new HashSet<Payment>();
             ReviewReviewees = new HashSet<Review>();
             ReviewReviewers = new HashSet<Review>();
             UserSpecialties = new HashSet<UserSpecialty>();
@@ -36,14 +36,15 @@ namespace FMentorAPI.Models
         [StringLength(255, ErrorMessage = "Video introduction link cannot be longer than 255 characters.")]
         public string VideoIntroduction { get; set; } = null!;
         [StringLength(255, ErrorMessage = "Photo link cannot be longer than 255 characters.")]
-        public string Photo { get; set; } = null!;
+        public string? Photo { get; set; }
 
         public virtual UserPermission IsMentorNavigation { get; set; } = null!;
+        public virtual Wallet? Wallet { get; set; }
         public virtual ICollection<Education> Educations { get; set; }
         public virtual ICollection<Job> Jobs { get; set; }
         public virtual ICollection<Mentee> Mentees { get; set; }
-        public virtual ICollection<MentorAvailability> MentorAvailabilities { get; set; }
         public virtual ICollection<Mentor> Mentors { get; set; }
+        public virtual ICollection<Payment> Payments { get; set; }
         public virtual ICollection<Review> ReviewReviewees { get; set; }
         public virtual ICollection<Review> ReviewReviewers { get; set; }
         public virtual ICollection<UserSpecialty> UserSpecialties { get; set; }

@@ -8,10 +8,12 @@ namespace FMentorAPI.Models
     {
         public Mentor()
         {
+            Appointments = new HashSet<Appointment>();
             Bookings = new HashSet<Booking>();
-            AppointmentMentors = new HashSet<Appointment>();
             Courses = new HashSet<Course>();
+            MentorAvailabilities = new HashSet<MentorAvailability>();
             MentorWorkingTimes = new HashSet<MentorWorkingTime>();
+            Mentees = new HashSet<Mentee>();
         }
         [Key]
         public int MentorId { get; set; }
@@ -28,9 +30,13 @@ namespace FMentorAPI.Models
         public byte Availability { get; set; }
 
         public virtual User User { get; set; } = null!;
+        public virtual Ranking? Ranking { get; set; }
+        public virtual ICollection<Appointment> Appointments { get; set; }
         public virtual ICollection<Booking> Bookings { get; set; }
-        public virtual ICollection<Appointment> AppointmentMentors { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
+        public virtual ICollection<MentorAvailability> MentorAvailabilities { get; set; }
         public virtual ICollection<MentorWorkingTime> MentorWorkingTimes { get; set; }
+
+        public virtual ICollection<Mentee> Mentees { get; set; }
     }
 }
