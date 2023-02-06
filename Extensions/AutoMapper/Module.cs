@@ -29,6 +29,8 @@ namespace FMentorAPI.Extensions.AutoMapper
             mc.CreateMap<Ranking, DTOs.RankingResponseModel>().ReverseMap();
             mc.CreateMap<Wallet, DTOs.WalletResponseModel>().ReverseMap();
 
+            mc.CreateMap<Booking, DTOs.RequestModel.BookingRequestModel>().ReverseMap();
+
         }
     }
 }

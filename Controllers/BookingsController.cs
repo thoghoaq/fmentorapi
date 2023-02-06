@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FMentorAPI.Models;
 using AutoMapper;
 using FMentorAPI.DTOs;
+using FMentorAPI.DTOs.RequestModel;
 
 namespace FMentorAPI.Controllers
 {
@@ -119,12 +120,16 @@ namespace FMentorAPI.Controllers
         // POST: api/Bookings
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Booking>> PostBooking(Booking booking)
+        public async Task<ActionResult<Booking>> PostBooking(BookingRequestModel booking)
         {
-            _context.Bookings.Add(booking);
+            booking.TotalCost = 0;
+            booking.Status = "Scheduled";
+
+            var newbooking = _mapper.Map<Booking>(booking);
+            _context.Bookings.Add(newbooking);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBooking", new { id = booking.BookingId }, booking);
+            return CreatedAtAction("GetBooking", new { id = booking.MentorId }, booking);
         }
 
         // DELETE: api/Bookings/5
