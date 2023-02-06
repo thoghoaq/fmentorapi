@@ -11,6 +11,7 @@ namespace FMentorAPI.DTOs
         public string School { get; set; } = null!;
         public string Major { get; set; } = null!;
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public byte IsCurrent { get; set; }
     }
 }

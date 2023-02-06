@@ -8,8 +8,10 @@ namespace FMentorAPI.DTOs
     {
         public int SpecialtyId { get; set; }
         public string Name { get; set; } = null!;
+        public string? Picture { get; set; }
         public int NumberMentor { get; set; }
 
         public string Picture { get; set; }
+
     }
 }
