@@ -96,6 +96,10 @@ namespace FMentorAPI.Controllers
         [HttpPost("/favorite_course")]
         public async Task<ActionResult<FavoriteCourseResponseModel>> FavoriteCourse([Required] int courseId, [Required] int menteeId)
         {
+            if (_context.Courses.FirstOrDefault(c => c.CourseId == courseId) == null)
+                return NotFound();
+            if (_context.Mentees.FirstOrDefault(c => c.MenteeId == menteeId) == null)
+                return NotFound();
             var favoriteCourse = GetFavoriteCourse(courseId, menteeId);
 
             if (favoriteCourse == null)
@@ -112,6 +116,10 @@ namespace FMentorAPI.Controllers
         [HttpPost("/unfavorite_course")]
         public async Task<ActionResult<FavoriteCourseResponseModel>> UnFavoriteCourse([Required] int courseId, [Required] int menteeId)
         {
+            if (_context.Courses.FirstOrDefault(c => c.CourseId == courseId) == null)
+                return NotFound();
+            if (_context.Mentees.FirstOrDefault(c => c.MenteeId == menteeId) == null)
+                return NotFound();
             var favoriteCourse = GetFavoriteCourse(courseId, menteeId);
 
             if (favoriteCourse != null)
@@ -134,6 +142,10 @@ namespace FMentorAPI.Controllers
         [HttpPost("/followed_mentor")]
         public async Task<ActionResult<FollowMentorResponseModel>> FollowedMentor([Required] int mentorId, [Required] int menteeId)
         {
+            if (_context.Mentors.FirstOrDefault(c => c.MentorId == mentorId) == null)
+                return NotFound();
+            if (_context.Mentees.FirstOrDefault(c => c.MenteeId == menteeId) == null)
+                return NotFound();
             FollowedMentor followedMenter = GetFollowedMentor(mentorId, menteeId);
 
             if (followedMenter == null)
@@ -150,6 +162,10 @@ namespace FMentorAPI.Controllers
         [HttpPost("/unfollowed_mentor")]
         public async Task<ActionResult<FollowMentorResponseModel>> UnFollowedMentor([Required] int mentorId, [Required] int menteeId)
         {
+            if (_context.Mentors.FirstOrDefault(c => c.MentorId == mentorId) == null)
+                return NotFound();
+            if (_context.Mentees.FirstOrDefault(c => c.MenteeId == menteeId) == null)
+                return NotFound();
             FollowedMentor followedMenter = GetFollowedMentor(mentorId, menteeId);
 
             if (followedMenter != null)
