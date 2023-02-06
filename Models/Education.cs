@@ -18,8 +18,9 @@ namespace FMentorAPI.Models
         public string Major { get; set; } = null!;
         [Required]
         public DateTime StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         [Required]
-        public DateTime EndDate { get; set; }
+        public byte IsCurrent { get; set; }
 
         public virtual User User { get; set; } = null!;
     }

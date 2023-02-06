@@ -15,7 +15,7 @@ namespace FMentorAPI.Models
         [Required]
         public DateTime StartTime { get; set; }
         [Required]
-        public DateTime EndTime { get; set; }
+        public int Duration { get; set; }
         [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Total cost must be greater than or equal to 0.")]
         public decimal TotalCost { get; set; }

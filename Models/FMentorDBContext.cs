@@ -25,11 +25,14 @@ namespace FMentorAPI.Models
         public virtual DbSet<Mentor> Mentors { get; set; } = null!;
         public virtual DbSet<MentorAvailability> MentorAvailabilities { get; set; } = null!;
         public virtual DbSet<MentorWorkingTime> MentorWorkingTimes { get; set; } = null!;
+        public virtual DbSet<Payment> Payments { get; set; } = null!;
+        public virtual DbSet<Ranking> Rankings { get; set; } = null!;
         public virtual DbSet<Review> Reviews { get; set; } = null!;
         public virtual DbSet<Specialty> Specialties { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserPermission> UserPermissions { get; set; } = null!;
         public virtual DbSet<UserSpecialty> UserSpecialties { get; set; } = null!;
+        public virtual DbSet<Wallet> Wallets { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -76,25 +79,23 @@ namespace FMentorAPI.Models
                     .HasColumnName("status");
 
                 entity.HasOne(d => d.Mentee)
-                    .WithMany(p => p.AppointmentMentees)
+                    .WithMany(p => p.Appointments)
                     .HasForeignKey(d => d.MenteeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Appointme__mente__7E37BEF6");
+                    .HasConstraintName("FK__Appointme__mente__30C33EC3");
 
                 entity.HasOne(d => d.Mentor)
-                    .WithMany(p => p.AppointmentMentors)
+                    .WithMany(p => p.Appointments)
                     .HasForeignKey(d => d.MentorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Appointme__mento__7F2BE32F");
+                    .HasConstraintName("FK__Appointme__mento__2FCF1A8A");
             });
 
             modelBuilder.Entity<Booking>(entity =>
             {
                 entity.Property(e => e.BookingId).HasColumnName("booking_id");
 
-                entity.Property(e => e.EndTime)
-                    .HasColumnType("datetime")
-                    .HasColumnName("end_time");
+                entity.Property(e => e.Duration).HasColumnName("duration");
 
                 entity.Property(e => e.MenteeId).HasColumnName("mentee_id");
 
@@ -182,6 +183,8 @@ namespace FMentorAPI.Models
                     .HasColumnType("date")
                     .HasColumnName("end_date");
 
+                entity.Property(e => e.IsCurrent).HasColumnName("is_current");
+
                 entity.Property(e => e.Major)
                     .HasMaxLength(255)
                     .IsUnicode(false)
@@ -217,6 +220,8 @@ namespace FMentorAPI.Models
                 entity.Property(e => e.EndDate)
                     .HasColumnType("date")
                     .HasColumnName("end_date");
+
+                entity.Property(e => e.IsCurrent).HasColumnName("is_current");
 
                 entity.Property(e => e.Role)
                     .HasMaxLength(255)
@@ -288,6 +293,23 @@ namespace FMentorAPI.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Mentors__user_id__08B54D69");
+
+                entity.HasMany(d => d.Mentees)
+                    .WithMany(p => p.Mentors)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "FollowedMentor",
+                        l => l.HasOne<Mentee>().WithMany().HasForeignKey("MenteeId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_FollowedMentors_Mentees"),
+                        r => r.HasOne<Mentor>().WithMany().HasForeignKey("MentorId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_FollowedMentors_Mentors"),
+                        j =>
+                        {
+                            j.HasKey("MentorId", "MenteeId");
+
+                            j.ToTable("FollowedMentors");
+
+                            j.IndexerProperty<int>("MentorId").HasColumnName("mentor_id");
+
+                            j.IndexerProperty<int>("MenteeId").HasColumnName("mentee_id");
+                        });
             });
 
             modelBuilder.Entity<MentorAvailability>(entity =>
@@ -307,15 +329,11 @@ namespace FMentorAPI.Models
                     .HasColumnType("date")
                     .HasColumnName("end_date");
 
-                entity.Property(e => e.EndTime).HasColumnName("end_time");
-
-                entity.Property(e => e.StartTime).HasColumnName("start_time");
-
                 entity.HasOne(d => d.Mentor)
                     .WithMany(p => p.MentorAvailabilities)
                     .HasForeignKey(d => d.MentorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MentorAva__mento__07C12930");
+                    .HasConstraintName("MentorAvailability_Mentors_mentor_id_fk");
             });
 
             modelBuilder.Entity<MentorWorkingTime>(entity =>
@@ -341,6 +359,55 @@ namespace FMentorAPI.Models
                     .HasForeignKey(d => d.MentorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__MentorWor__mento__09A971A2");
+            });
+
+            modelBuilder.Entity<Payment>(entity =>
+            {
+                entity.Property(e => e.PaymentId).HasColumnName("payment_id");
+
+                entity.Property(e => e.Amount)
+                    .HasColumnType("money")
+                    .HasColumnName("amount");
+
+                entity.Property(e => e.Note)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("note");
+
+                entity.Property(e => e.PaymentDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("payment_date");
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Payments)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Payments_Users_user_id_fk");
+            });
+
+            modelBuilder.Entity<Ranking>(entity =>
+            {
+                entity.HasKey(e => e.MentorId)
+                    .HasName("Rankings_pk");
+
+                entity.Property(e => e.MentorId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("mentor_id");
+
+                entity.Property(e => e.Point).HasColumnName("point");
+
+                entity.Property(e => e.Rank)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("rank");
+
+                entity.HasOne(d => d.Mentor)
+                    .WithOne(p => p.Ranking)
+                    .HasForeignKey<Ranking>(d => d.MentorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Rankings_Mentors_mentor_id_fk");
             });
 
             modelBuilder.Entity<Review>(entity =>
@@ -387,6 +454,10 @@ namespace FMentorAPI.Models
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("name");
+
+                entity.Property(e => e.Picture)
+                    .HasMaxLength(250)
+                    .HasColumnName("picture");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -417,15 +488,15 @@ namespace FMentorAPI.Models
                     .IsUnicode(false)
                     .HasColumnName("password");
 
-                entity.Property(e => e.VideoIntroduction)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("video_introduction");
-
                 entity.Property(e => e.Photo)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("photo");
+
+                entity.Property(e => e.VideoIntroduction)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("video_introduction");
 
                 entity.HasOne(d => d.IsMentorNavigation)
                     .WithMany(p => p.Users)
@@ -475,6 +546,26 @@ namespace FMentorAPI.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__UserSpeci__user___0F624AF8");
+            });
+
+            modelBuilder.Entity<Wallet>(entity =>
+            {
+                entity.HasKey(e => e.UserId)
+                    .HasName("PK__Wallets__B9BE370F907A3F31");
+
+                entity.Property(e => e.UserId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("user_id");
+
+                entity.Property(e => e.Balance)
+                    .HasColumnType("money")
+                    .HasColumnName("balance");
+
+                entity.HasOne(d => d.User)
+                    .WithOne(p => p.Wallet)
+                    .HasForeignKey<Wallet>(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Wallets_Users_user_id_fk");
             });
 
             OnModelCreatingPartial(modelBuilder);
