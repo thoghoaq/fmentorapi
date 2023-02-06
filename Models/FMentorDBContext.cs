@@ -353,9 +353,9 @@ namespace FMentorAPI.Models
                     .HasColumnType("date")
                     .HasColumnName("end_date");
 
-                entity.Property(e => e.EndTime).HasColumnName("end_time");
+                //entity.Property(e => e.EndTime).HasColumnName("end_time");
 
-                entity.Property(e => e.StartTime).HasColumnName("start_time");
+                //entity.Property(e => e.StartTime).HasColumnName("start_time");
 
                 entity.HasOne(d => d.Mentor)
                     .WithMany(p => p.MentorAvailabilities)

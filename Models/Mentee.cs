@@ -32,7 +32,6 @@ namespace FMentorAPI.Models
         public virtual ICollection<FollowedMentor> FollowedMentors {get;set;}
         public virtual ICollection<FavoriteCourse> FavoriteCourses { get; set; }
 
-        public virtual ICollection<Course> Courses { get; set; }
         public virtual ICollection<Mentor> Mentors { get; set; }
 
     }

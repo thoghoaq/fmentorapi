@@ -35,5 +35,6 @@ namespace FMentorAPI.Models
         public virtual Mentor Mentor { get; set; } = null!;
 
         public virtual ICollection<Mentee> Mentees { get; set; }
+        public virtual ICollection<FavoriteCourse> FavoriteCourses { get; set; }
     }
 }
