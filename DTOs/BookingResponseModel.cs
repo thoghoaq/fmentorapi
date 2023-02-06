@@ -17,5 +17,6 @@ namespace FMentorAPI.DTOs
         public int Duration { get; set; }
 
         public virtual MentorResponseModel Mentor { get; set; } = null!;
+        public virtual MenteeResponseModel Mentee { get; set; } = null!;
     }
 }

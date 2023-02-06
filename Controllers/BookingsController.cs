@@ -65,6 +65,26 @@ namespace FMentorAPI.Controllers
             return _mapper.Map<List<BookingResponseModel>>(bookings);
         }
 
+        [HttpGet("mentor/{id}")]
+        public async Task<ActionResult<IEnumerable<BookingResponseModel>>> GetBookingsByMentor(int id)
+        {
+            var bookings = await _context.Bookings.Include(m => m.Mentee).Where(u => u.MentorId == id).ToListAsync();
+            foreach (Booking booking in bookings)
+            {
+                var mentor = booking.Mentee;
+                if (mentor != null)
+                {
+                    var user = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                    if (user == null)
+                    {
+                        return NotFound();
+                    }
+                    mentor.User = user;
+                }
+            }
+            return _mapper.Map<List<BookingResponseModel>>(bookings);
+        }
+
         // PUT: api/Bookings/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
