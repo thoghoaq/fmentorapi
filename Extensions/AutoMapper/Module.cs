@@ -21,9 +21,14 @@ namespace FMentorAPI.Extensions.AutoMapper
             mc.CreateMap<User, DTOs.UserResponseModel>().ReverseMap();
             mc.CreateMap<UserPermission, DTOs.UserPermissionResponseModel>().ReverseMap();
             mc.CreateMap<UserSpecialty, DTOs.UserSpecialtyResponseModel>().ReverseMap();
+
+            mc.CreateMap<FollowedMentor, DTOs.FollowMentorResponseModel>().ReverseMap();
+            mc.CreateMap<FavoriteCourse, DTOs.FavoriteCourseResponseModel>().ReverseMap();
+
             mc.CreateMap<Payment, DTOs.PaymentResponseModel>().ReverseMap();
             mc.CreateMap<Ranking, DTOs.RankingResponseModel>().ReverseMap();
             mc.CreateMap<Wallet, DTOs.WalletResponseModel>().ReverseMap();
+
         }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FMentorAPI.Models;
 using AutoMapper;
 using FMentorAPI.DTOs;
+using System.ComponentModel.DataAnnotations;
 
 namespace FMentorAPI.Controllers
 {
@@ -86,6 +87,81 @@ namespace FMentorAPI.Controllers
 
             return CreatedAtAction("GetMentee", new { id = mentee.MenteeId }, mentee);
         }
+        private FavoriteCourse GetFavoriteCourse(int courseId, int menteeId)
+        {
+            return _context.FavoriteCourses.FirstOrDefault(c => c.MenteeId == menteeId && c.CourseId == courseId);
+        }
+
+
+        [HttpPost("/favorite_course")]
+        public async Task<ActionResult<FavoriteCourseResponseModel>> FavoriteCourse([Required] int courseId, [Required] int menteeId)
+        {
+            var favoriteCourse = GetFavoriteCourse(courseId, menteeId);
+
+            if (favoriteCourse == null)
+            {
+                favoriteCourse = new FavoriteCourse { CourseId = courseId, MenteeId = menteeId };
+                _context.FavoriteCourses.Add(favoriteCourse);
+                _context.SaveChanges();
+                return new FavoriteCourseResponseModel { CourseId = menteeId, MenteeId = menteeId, IsFavorite = true };
+            }
+            else return new FavoriteCourseResponseModel { CourseId = menteeId, MenteeId = menteeId, IsFavorite = true };
+            return new FavoriteCourseResponseModel { CourseId = menteeId, MenteeId = menteeId, IsFavorite = false };
+        }
+
+        [HttpPost("/unfavorite_course")]
+        public async Task<ActionResult<FavoriteCourseResponseModel>> UnFavoriteCourse([Required] int courseId, [Required] int menteeId)
+        {
+            var favoriteCourse = GetFavoriteCourse(courseId, menteeId);
+
+            if (favoriteCourse != null)
+            {
+                _context.FavoriteCourses.Remove(favoriteCourse);
+                _context.SaveChanges();
+                return new FavoriteCourseResponseModel { CourseId = menteeId, MenteeId = menteeId, IsFavorite = false };
+
+            }
+            else return new FavoriteCourseResponseModel { CourseId = menteeId, MenteeId = menteeId, IsFavorite = false };
+
+            return new FavoriteCourseResponseModel { CourseId = menteeId, MenteeId = menteeId, IsFavorite = true };
+        }
+        private FollowedMentor GetFollowedMentor(int mentorId, int menteeId)
+        {
+            return _context.FollowedMentors.FirstOrDefault(c => c.MenteeId == menteeId && c.MentorId == mentorId);
+        }
+
+
+        [HttpPost("/followed_mentor")]
+        public async Task<ActionResult<FollowMentorResponseModel>> FollowedMentor([Required] int mentorId, [Required] int menteeId)
+        {
+            FollowedMentor followedMenter = GetFollowedMentor(mentorId, menteeId);
+
+            if (followedMenter == null)
+            {
+                followedMenter = new FollowedMentor { MenteeId = menteeId, MentorId = mentorId };
+                _context.FollowedMentors.Add(followedMenter);
+                _context.SaveChanges();
+                return new FollowMentorResponseModel { MentorId = menteeId, MenteeId = menteeId, IsFollow = true };
+            }
+            else return new FollowMentorResponseModel { MentorId = menteeId, MenteeId = menteeId, IsFollow = true };
+            return new FollowMentorResponseModel { MentorId = menteeId, MenteeId = menteeId, IsFollow = false };
+        }
+
+        [HttpPost("/unfollowed_mentor")]
+        public async Task<ActionResult<FollowMentorResponseModel>> UnFollowedMentor([Required] int mentorId, [Required] int menteeId)
+        {
+            FollowedMentor followedMenter = GetFollowedMentor(mentorId, menteeId);
+
+            if (followedMenter != null)
+            {
+                _context.FollowedMentors.Remove(followedMenter);
+                _context.SaveChanges();
+                return new FollowMentorResponseModel { MentorId = menteeId, MenteeId = menteeId, IsFollow = false };
+                
+            } else return new FollowMentorResponseModel { MentorId = menteeId, MenteeId = menteeId, IsFollow = false };
+
+            return new FollowMentorResponseModel { MentorId = menteeId, MenteeId = menteeId, IsFollow = true };
+        }
 
         // DELETE: api/Mentees/5
         [HttpDelete("{id}")]
@@ -105,7 +181,7 @@ namespace FMentorAPI.Controllers
 
         private bool MenteeExists(int id)
         {
-            return _context.Mentees.Any(e => e.MenteeId == id);
+            return _context.Mentees.FirstOrDefault(c => c.MenteeId == id) != null;
         }
     }
 }

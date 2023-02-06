@@ -16,35 +16,61 @@ namespace FMentorAPI.Models
         {
         }
 
-        public virtual DbSet<Appointment> Appointments { get; set; } = null!;
-        public virtual DbSet<Booking> Bookings { get; set; } = null!;
-        public virtual DbSet<Course> Courses { get; set; } = null!;
-        public virtual DbSet<Education> Educations { get; set; } = null!;
-        public virtual DbSet<Job> Jobs { get; set; } = null!;
-        public virtual DbSet<Mentee> Mentees { get; set; } = null!;
-        public virtual DbSet<Mentor> Mentors { get; set; } = null!;
-        public virtual DbSet<MentorAvailability> MentorAvailabilities { get; set; } = null!;
-        public virtual DbSet<MentorWorkingTime> MentorWorkingTimes { get; set; } = null!;
-        public virtual DbSet<Payment> Payments { get; set; } = null!;
-        public virtual DbSet<Ranking> Rankings { get; set; } = null!;
-        public virtual DbSet<Review> Reviews { get; set; } = null!;
-        public virtual DbSet<Specialty> Specialties { get; set; } = null!;
-        public virtual DbSet<User> Users { get; set; } = null!;
-        public virtual DbSet<UserPermission> UserPermissions { get; set; } = null!;
-        public virtual DbSet<UserSpecialty> UserSpecialties { get; set; } = null!;
+        public virtual DbSet<Appointment> Appointments { get; set; }
+        public virtual DbSet<Booking> Bookings { get; set; }
+        public virtual DbSet<Course> Courses { get; set; }
+        public virtual DbSet<Education> Educations { get; set; }
+        public virtual DbSet<Job> Jobs { get; set; }
+        public virtual DbSet<Mentee> Mentees { get; set; }
+        public virtual DbSet<Mentor> Mentors { get; set; }
+        public virtual DbSet<MentorAvailability> MentorAvailabilities { get; set; }
+        public virtual DbSet<MentorWorkingTime> MentorWorkingTimes { get; set; }
+        public virtual DbSet<Review> Reviews { get; set; }
+        public virtual DbSet<Specialty> Specialties { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserPermission> UserPermissions { get; set; }
+        public virtual DbSet<UserSpecialty> UserSpecialties { get; set; }
+        public virtual DbSet<FollowedMentor> FollowedMentors { get; set; }
+        public virtual DbSet<FavoriteCourse> FavoriteCourses { get; set; }
+
         public virtual DbSet<Wallet> Wallets { get; set; } = null!;
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=tcp:fmentor.database.windows.net,1433;Initial Catalog=FMentorDB;Persist Security Info=False;User ID=sqladmin;Password=adpass01@;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                optionsBuilder.UseSqlServer("Server=tcp:fmentor.database.windows.net,1433;Initial Catalog=FMentorDB;User ID=sqladmin;Password=adpass01@;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<FavoriteCourse>(entity =>
+            {
+                entity.HasKey(e => new { e.CourseId, e.MenteeId });
+                entity.HasOne(e => e.Course)
+                .WithMany(e => e.FavoriteCourses)
+                .HasForeignKey(e => e.CourseId)
+                ;
+                entity.HasOne(e => e.Mentee)
+                .WithMany(e => e.FavoriteCourses)
+                .HasForeignKey(e => e.MenteeId)
+                ;
+            });
+            modelBuilder.Entity<FollowedMentor>(entity =>
+            {
+                entity.HasKey(e => new { e.MentorId, e.MenteeId });
+                entity.HasOne(e => e.Mentor)
+                .WithMany(e => e.FollowedMentors)
+                .HasForeignKey(e => e.MentorId)
+                ;
+                entity.HasOne(e => e.Mentee)
+                .WithMany(e => e.FollowedMentors)
+                .HasForeignKey(e => e.MenteeId)
+                ;
+            });
             modelBuilder.Entity<Appointment>(entity =>
             {
                 entity.Property(e => e.AppointmentId).HasColumnName("appointment_id");
@@ -56,6 +82,7 @@ namespace FMentorAPI.Models
                     .HasColumnName("end_time");
 
                 entity.Property(e => e.GoogleMeetLink)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("google_meet_link");
@@ -74,6 +101,7 @@ namespace FMentorAPI.Models
                     .HasColumnName("start_time");
 
                 entity.Property(e => e.Status)
+                    .IsRequired()
                     .HasMaxLength(20)
                     .IsUnicode(false)
                     .HasColumnName("status");
@@ -111,6 +139,7 @@ namespace FMentorAPI.Models
                     .HasColumnName("start_time");
 
                 entity.Property(e => e.Status)
+                    .IsRequired()
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .HasColumnName("status");
@@ -137,16 +166,19 @@ namespace FMentorAPI.Models
                 entity.Property(e => e.CourseId).HasColumnName("course_id");
 
                 entity.Property(e => e.Description)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("description");
 
                 entity.Property(e => e.Instructor)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("instructor");
 
                 entity.Property(e => e.Link)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("link");
@@ -154,16 +186,19 @@ namespace FMentorAPI.Models
                 entity.Property(e => e.MentorId).HasColumnName("mentor_id");
 
                 entity.Property(e => e.Photo)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("photo");
 
                 entity.Property(e => e.Platform)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("platform");
 
                 entity.Property(e => e.Title)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("title");
@@ -186,11 +221,13 @@ namespace FMentorAPI.Models
                 entity.Property(e => e.IsCurrent).HasColumnName("is_current");
 
                 entity.Property(e => e.Major)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("major");
 
                 entity.Property(e => e.School)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("school");
@@ -213,6 +250,7 @@ namespace FMentorAPI.Models
                 entity.Property(e => e.JobId).HasColumnName("job_id");
 
                 entity.Property(e => e.Company)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("company");
@@ -224,6 +262,7 @@ namespace FMentorAPI.Models
                 entity.Property(e => e.IsCurrent).HasColumnName("is_current");
 
                 entity.Property(e => e.Role)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("role");
@@ -253,22 +292,22 @@ namespace FMentorAPI.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Mentees__user_id__06CD04F7");
 
-                entity.HasMany(d => d.Courses)
-                    .WithMany(p => p.Mentees)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "FavoriteCourse",
-                        l => l.HasOne<Course>().WithMany().HasForeignKey("CourseId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__FavoriteC__cours__03F0984C"),
-                        r => r.HasOne<Mentee>().WithMany().HasForeignKey("MenteeId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__FavoriteC__mente__04E4BC85"),
-                        j =>
-                        {
-                            j.HasKey("MenteeId", "CourseId").HasName("PK__Favorite__38881DED171370A5");
+                //entity.HasMany(d => d.Courses)
+                //    .WithMany(p => p.Mentees)
+                //    .UsingEntity<Dictionary<string, object>>(
+                //        "FavoriteCourse",
+                //        l => l.HasOne<Course>().WithMany().HasForeignKey("CourseId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__FavoriteC__cours__03F0984C"),
+                //        r => r.HasOne<Mentee>().WithMany().HasForeignKey("MenteeId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__FavoriteC__mente__04E4BC85"),
+                //        j =>
+                //        {
+                //            j.HasKey("MenteeId", "CourseId").HasName("PK__Favorite__38881DED171370A5");
 
-                            j.ToTable("FavoriteCourses");
+                //            j.ToTable("FavoriteCourses");
 
-                            j.IndexerProperty<int>("MenteeId").HasColumnName("mentee_id");
+                //            j.IndexerProperty<int>("MenteeId").HasColumnName("mentee_id");
 
-                            j.IndexerProperty<int>("CourseId").HasColumnName("course_id");
-                        });
+                //            j.IndexerProperty<int>("CourseId").HasColumnName("course_id");
+                //        });
             });
 
             modelBuilder.Entity<Mentor>(entity =>
@@ -282,6 +321,7 @@ namespace FMentorAPI.Models
                     .HasColumnName("hourly_rate");
 
                 entity.Property(e => e.Specialty)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("specialty");
@@ -294,22 +334,6 @@ namespace FMentorAPI.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Mentors__user_id__08B54D69");
 
-                entity.HasMany(d => d.Mentees)
-                    .WithMany(p => p.Mentors)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "FollowedMentor",
-                        l => l.HasOne<Mentee>().WithMany().HasForeignKey("MenteeId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_FollowedMentors_Mentees"),
-                        r => r.HasOne<Mentor>().WithMany().HasForeignKey("MentorId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_FollowedMentors_Mentors"),
-                        j =>
-                        {
-                            j.HasKey("MentorId", "MenteeId");
-
-                            j.ToTable("FollowedMentors");
-
-                            j.IndexerProperty<int>("MentorId").HasColumnName("mentor_id");
-
-                            j.IndexerProperty<int>("MenteeId").HasColumnName("mentee_id");
-                        });
             });
 
             modelBuilder.Entity<MentorAvailability>(entity =>
@@ -329,11 +353,16 @@ namespace FMentorAPI.Models
                     .HasColumnType("date")
                     .HasColumnName("end_date");
 
+                entity.Property(e => e.EndTime).HasColumnName("end_time");
+
+                entity.Property(e => e.StartTime).HasColumnName("start_time");
+
                 entity.HasOne(d => d.Mentor)
                     .WithMany(p => p.MentorAvailabilities)
                     .HasForeignKey(d => d.MentorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("MentorAvailability_Mentors_mentor_id_fk");
+
             });
 
             modelBuilder.Entity<MentorWorkingTime>(entity =>
@@ -417,6 +446,7 @@ namespace FMentorAPI.Models
                 entity.Property(e => e.AppointmentId).HasColumnName("appointment_id");
 
                 entity.Property(e => e.Comment)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("comment");
@@ -451,6 +481,7 @@ namespace FMentorAPI.Models
                 entity.Property(e => e.SpecialtyId).HasColumnName("specialty_id");
 
                 entity.Property(e => e.Name)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("name");
@@ -467,11 +498,13 @@ namespace FMentorAPI.Models
                 entity.Property(e => e.Age).HasColumnName("age");
 
                 entity.Property(e => e.Description)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("description");
 
                 entity.Property(e => e.Email)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("email");
@@ -479,11 +512,13 @@ namespace FMentorAPI.Models
                 entity.Property(e => e.IsMentor).HasColumnName("is_mentor");
 
                 entity.Property(e => e.Name)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("name");
 
                 entity.Property(e => e.Password)
+                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("password");
