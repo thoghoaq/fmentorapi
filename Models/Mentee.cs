@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FMentorAPI.Models
 {
@@ -8,20 +8,32 @@ namespace FMentorAPI.Models
     {
         public Mentee()
         {
-            Bookings = new HashSet<Booking>();
             Appointments = new HashSet<Appointment>();
+            Bookings = new HashSet<Booking>();
+
+            Courses = new HashSet<Course>();
+            FollowedMentors = new HashSet<FollowedMentor>();
+            FavoriteCourses = new HashSet<FavoriteCourse>();
+
             Courses = new HashSet<Course>();
             Mentors = new HashSet<Mentor>();
+
         }
-        [Key]
+
         public int MenteeId { get; set; }
-        [Required]
         public int UserId { get; set; }
 
-        public virtual User User { get; set; } = null!;
-        public virtual ICollection<Booking> Bookings { get; set; }
+        public virtual User User { get; set; }
         public virtual ICollection<Appointment> Appointments { get; set; }
+        public virtual ICollection<Booking> Bookings { get; set; }
+
+
+        public virtual ICollection<Course> Courses { get; set; }
+        public virtual ICollection<FollowedMentor> FollowedMentors {get;set;}
+        public virtual ICollection<FavoriteCourse> FavoriteCourses { get; set; }
+
         public virtual ICollection<Course> Courses { get; set; }
         public virtual ICollection<Mentor> Mentors { get; set; }
+
     }
 }

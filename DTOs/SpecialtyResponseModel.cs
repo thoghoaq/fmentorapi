@@ -11,5 +11,7 @@ namespace FMentorAPI.DTOs
         public string? Picture { get; set; }
         public int NumberMentor { get; set; }
 
+        public string Picture { get; set; }
+
     }
 }
