@@ -34,6 +34,8 @@ namespace FMentorAPI.Models
         public virtual DbSet<FavoriteCourse> FavoriteCourses { get; set; }
 
         public virtual DbSet<Wallet> Wallets { get; set; } = null!;
+        public virtual DbSet<Payment> Payments { get; set; } = null!;
+        public virtual DbSet<Ranking> Rankings { get; set; } = null!;
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
