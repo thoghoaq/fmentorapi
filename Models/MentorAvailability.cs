@@ -12,11 +12,7 @@ namespace FMentorAPI.Models
         public DateTime StartDate { get; set; }
         [Required]
         public DateTime EndDate { get; set; }
-        [Required]
-        public TimeSpan StartTime { get; set; }
-        [Required]
-        public TimeSpan EndTime { get; set; }
 
-        public virtual User Mentor { get; set; } = null!;
+        public virtual Mentor Mentor { get; set; } = null!;
     }
 }
