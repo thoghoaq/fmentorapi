@@ -40,7 +40,8 @@ namespace FMentorAPI.Controllers
                     {
                         SpecialtyId = specialty.SpecialtyId,
                         Name = specialty.Name,
-                        NumberMentor = g.Count()
+                        NumberMentor = g.Count(),
+                        Picture = specialty.Picture
                     })
                 .OrderByDescending(x => x.NumberMentor)
                 .ToList();
@@ -60,7 +61,8 @@ namespace FMentorAPI.Controllers
                     {
                         SpecialtyId = specialty.SpecialtyId,
                         Name = specialty.Name,
-                        NumberMentor = g.Count()
+                        NumberMentor = g.Count(),
+                        Picture = specialty.Picture
                     })
                 .OrderByDescending(x => x.NumberMentor).Take(3)
                 .ToList();
