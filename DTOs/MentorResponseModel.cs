@@ -12,6 +12,8 @@ namespace FMentorAPI.DTOs
         public string Specialty { get; set; } = null!;
         public decimal HourlyRate { get; set; }
         public byte Availability { get; set; }
-        public virtual UserResponseModel User { get; set; } = null!;
+        public int NumberFollower { get; set; }
+        public int NumberMentee { get; set; }
+        public virtual UserResponseModel? User { get; set; } = null!;
     }
 }

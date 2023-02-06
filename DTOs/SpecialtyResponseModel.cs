@@ -9,5 +9,7 @@ namespace FMentorAPI.DTOs
         public int SpecialtyId { get; set; }
         public string Name { get; set; } = null!;
         public int NumberMentor { get; set; }
+
+        public string Picture { get; set; }
     }
 }

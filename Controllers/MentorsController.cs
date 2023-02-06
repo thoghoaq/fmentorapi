@@ -47,21 +47,35 @@ namespace FMentorAPI.Controllers
         public async Task<ActionResult<MentorResponseModel>> GetMentor(int id)
         {
             var mentor = _context.Mentors.Include(u => u.User).Where(m => m.MentorId == id).FirstOrDefault();
+            MentorResponseModel mentorResponse = null;
             if (mentor != null)
             {
                 var user = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                int numberFollowers = _context.FollowedMentors.Where(f => f.MentorId == id).Count();
+                int numberMentees = 0;
+                List<Course> courses = _context.Courses.Where(c => c.MentorId == id).ToList();
+                List<FavoriteCourse> favoriteCourses = _context.FavoriteCourses.ToList();
+                numberMentees = (from course in courses
+                 join favorite in favoriteCourses
+                 on course.CourseId equals favorite.CourseId
+                 into g
+                 select new { NumberMentee = g.Count() }).Count();
+                
                 if (user == null)
                 {
                     return NotFound();
                 }
                 mentor.User = user;
+                mentorResponse = _mapper.Map<MentorResponseModel>(mentor);
+                mentorResponse.NumberMentee = numberMentees;
+                mentorResponse.NumberFollower = numberFollowers;
             }
             if (mentor == null)
             {
                 return NotFound();
             }
 
-            return _mapper.Map<MentorResponseModel>(mentor);
+            return mentorResponse;
         }
 
         // PUT: api/Mentors/5
