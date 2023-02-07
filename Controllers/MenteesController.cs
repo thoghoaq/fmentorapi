@@ -27,14 +27,14 @@ namespace FMentorAPI.Controllers
 
         // GET: api/Mentees
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MenteeResponseModel>>> GetMentees()
+        public async Task<ActionResult<IEnumerable<MenteeResponseModel2>>> GetMentees()
         {
-            return _mapper.Map<List<MenteeResponseModel>>(await _context.Mentees.ToListAsync());
+            return _mapper.Map<List<MenteeResponseModel2>>(await _context.Mentees.ToListAsync());
         }
 
         // GET: api/Mentees/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<MenteeResponseModel>> GetMentee(int id)
+        public async Task<ActionResult<MenteeResponseModel2>> GetMentee(int id)
         {
             var mentee = await _context.Mentees.FindAsync(id);
 
@@ -43,7 +43,7 @@ namespace FMentorAPI.Controllers
                 return NotFound();
             }
 
-            return _mapper.Map<MenteeResponseModel>(mentee);
+            return _mapper.Map<MenteeResponseModel2>(mentee);
         }
 
         // PUT: api/Mentees/5
