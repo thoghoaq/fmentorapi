@@ -42,6 +42,70 @@ namespace FMentorAPI.Controllers
             return _mapper.Map<List<MentorResponseModel>>(await _context.Mentors.Include(u => u.User).ToListAsync());
         }
 
+        [HttpGet("/followed/{id}")]
+        public async Task<ActionResult<IEnumerable<MentorResponseModel>>> GetFollowedMentorsByMenteeId(int id)
+        {
+            if (_context.Mentees.FirstOrDefault(m => m.MenteeId == id) == null)
+                return NotFound();
+            var followedMentors = await _context.FollowedMentors.Where(m => m.MenteeId == id).ToListAsync();
+
+            if (followedMentors == null)
+            {
+                return NotFound();
+            }
+
+            var mentors = new List<MentorResponseModel>();
+
+            foreach (var followedMentor in followedMentors)
+            {
+                var mentor = await _context.Mentors.FirstOrDefaultAsync(c => c.MentorId == followedMentor.MentorId);
+                if (mentor != null)
+                {
+                    mentors.Add(new MentorResponseModel
+                    {
+                        MentorId = mentor.MentorId,
+                        Availability = mentor.Availability,
+                        HourlyRate = mentor.HourlyRate,
+                        Specialty = mentor.Specialty,
+                        UserId = mentor.UserId
+                    });
+                }
+            }
+            return mentors != null ? Ok(mentors) : NotFound();
+        }
+
+        [HttpGet("/specialty/{id}")]
+        public async Task<ActionResult<IEnumerable<MentorResponseModel>>> GetFollowedMentorsBySpecialtyId(int id)
+        {
+            if (_context.Specialties.FirstOrDefault(m => m.SpecialtyId == id) == null)
+                return NotFound();
+            var userSpecialties = await _context.UserSpecialties.Where(m => m.SpecialtyId == id).ToListAsync();
+
+            if (userSpecialties == null)
+            {
+                return NotFound();
+            }
+
+            var mentors = new List<MentorResponseModel>();
+
+            foreach (var userSpecialty in userSpecialties)
+            {
+                var mentor = await _context.Mentors.FirstOrDefaultAsync(c => c.UserId == userSpecialty.UserId);
+                if (mentor != null)
+                {
+                    mentors.Add(new MentorResponseModel
+                    {
+                        MentorId = mentor.MentorId,
+                        Availability = mentor.Availability,
+                        HourlyRate = mentor.HourlyRate,
+                        Specialty = mentor.Specialty,
+                        UserId = mentor.UserId
+                    });
+                }
+            }
+            return mentors != null ? Ok(mentors) : NotFound();
+        }
+
         // GET: api/Mentors/5
         [HttpGet("{id}")]
         public async Task<ActionResult<MentorResponseModel>> GetMentor(int id)
