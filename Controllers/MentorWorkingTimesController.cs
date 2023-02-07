@@ -34,16 +34,16 @@ namespace FMentorAPI.Controllers
 
         // GET: api/MentorWorkingTimes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<MentorWorkingTimeResponseModel>> GetMentorWorkingTime(int id)
+        public async Task<ActionResult<List<MentorWorkingTimeResponseModel>>> GetMentorWorkingTime(int id)
         {
-            var mentorWorkingTime = await _context.MentorWorkingTimes.FindAsync(id);
+            var mentorWorkingTime = await _context.MentorWorkingTimes.Where(m => m.MentorId == id).ToListAsync();
 
             if (mentorWorkingTime == null)
             {
                 return NotFound();
             }
 
-            return _mapper.Map<MentorWorkingTimeResponseModel>(mentorWorkingTime);
+            return _mapper.Map<List<MentorWorkingTimeResponseModel>>(mentorWorkingTime);
         }
 
         // PUT: api/MentorWorkingTimes/5
