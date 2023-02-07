@@ -44,6 +44,41 @@ namespace FMentorAPI.Controllers
 
             return _mapper.Map<CourseResponseModel>(course);
         }
+        [HttpGet("favorite/{id}")]
+        public async Task<ActionResult<CourseResponseModel>> GetFavoriteCourseByMentee(int id)
+        {
+            if (_context.Mentees.FirstOrDefault(m => m.MenteeId == id) == null)
+                return NotFound();
+            var favoriteCourses = await _context.FavoriteCourses.Where(m => m.MenteeId == id).ToListAsync();
+
+            if (favoriteCourses == null)
+            {
+                return NotFound();
+            }
+
+            var courses = new List<CourseResponseModel>();
+
+            foreach(var favoriteCourse in favoriteCourses)
+            {
+                var course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == favoriteCourse.CourseId);
+                if (course != null)
+                {
+                    courses.Add(new CourseResponseModel
+                    {
+                        CourseId = course.CourseId,
+                        Description = course.Description,
+                        Instructor = course.Instructor,
+                        Link = course.Link,
+                        MentorId = course.MentorId,
+                        Platform = course.Platform,
+                        Photo = course.Photo,
+                        Title = course.Title
+                    }) ;
+                }
+            }
+
+            return courses != null ? Ok(courses) : NotFound();
+        }
 
         // PUT: api/Courses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
