@@ -9,6 +9,7 @@ using FMentorAPI.Models;
 using AutoMapper;
 using FMentorAPI.DTOs;
 using System.Diagnostics.Metrics;
+using FMentorAPI.DTOs.RequestModel;
 
 namespace FMentorAPI.Controllers
 {
@@ -86,6 +87,33 @@ namespace FMentorAPI.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+        }
+
+        [HttpPost]
+        [Route("signin")]
+        public async Task<ActionResult<UserResponseModel>> SignIn(SignInRequestModel model)
+        {
+            if (model == null)
+            {
+                return BadRequest();
+            }
+            var user = _context.Users.Where(u => u.Email == model.Email && u.Password == model.Password)
+                .Include(m => m.Mentees)
+                .Include(m => m.Mentors)
+                .Include(m => m.Jobs)
+                .Include(m => m.Educations)
+                .Include(m => m.Wallet)
+                .Include(m => m.Payments)
+                .Include(m => m.ReviewReviewees)
+                .Include(m => m.ReviewReviewers)
+                .Include(m => m.UserSpecialties)
+                .Include(m => m.IsMentorNavigation)
+                .FirstOrDefault();
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(_mapper.Map<UserResponseModel>(user));
         }
 
         // DELETE: api/Users/5

@@ -1,11 +1,6 @@
-﻿using FMentorAPI.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
-namespace FMentorAPI.DTOs
+﻿namespace FMentorAPI.DTOs
 {
-    public partial class MentorResponseModel
+    public class MentorResponseModel2
     {
         public int MentorId { get; set; }
         public int UserId { get; set; }
@@ -14,6 +9,6 @@ namespace FMentorAPI.DTOs
         public byte Availability { get; set; }
         public int NumberFollower { get; set; }
         public int NumberMentee { get; set; }
-        //public virtual UserResponseModel? User { get; set; } = null!;
+        public virtual UserResponseModel? User { get; set; } = null!;
     }
 }

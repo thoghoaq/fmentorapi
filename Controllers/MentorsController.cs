@@ -27,7 +27,7 @@ namespace FMentorAPI.Controllers
 
         // GET: api/Mentors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MentorResponseModel>>> GetMentors()
+        public async Task<ActionResult<IEnumerable<MentorResponseModel2>>> GetMentors()
         {
             var mentors = await _context.Mentors.Include(u => u.User).ToListAsync();
             foreach (Mentor mentor in mentors)
@@ -39,9 +39,8 @@ namespace FMentorAPI.Controllers
                 }
                 mentor.User = user;
             }
-            return _mapper.Map<List<MentorResponseModel>>(await _context.Mentors.Include(u => u.User).ToListAsync());
+            return _mapper.Map<List<MentorResponseModel2>>(await _context.Mentors.Include(u => u.User).ToListAsync());
         }
-
         [HttpGet("/api/mentors/followed/{id}")]
         public async Task<ActionResult<IEnumerable<MentorResponseModel>>> GetFollowedMentorsByMenteeId(int id)
         {
@@ -58,14 +57,14 @@ namespace FMentorAPI.Controllers
                 return NotFound();
             }
 
-            var mentors = new List<MentorResponseModel>();
+            var mentors = new List<MentorResponseModel2>();
 
             foreach (var followedMentor in followedMentors)
             {
                 var mentor = await _context.Mentors.FirstOrDefaultAsync(c => c.MentorId == followedMentor.MentorId);
                 if (mentor != null)
                 {
-                    mentors.Add(new MentorResponseModel
+                    mentors.Add(new MentorResponseModel2
                     {
                         MentorId = mentor.MentorId,
                         Availability = mentor.Availability,
@@ -90,14 +89,14 @@ namespace FMentorAPI.Controllers
                 return NotFound();
             }
 
-            var mentors = new List<MentorResponseModel>();
+            var mentors = new List<MentorResponseModel2>();
 
             foreach (var userSpecialty in userSpecialties)
             {
                 var mentor = await _context.Mentors.FirstOrDefaultAsync(c => c.UserId == userSpecialty.UserId);
                 if (mentor != null)
                 {
-                    mentors.Add(new MentorResponseModel
+                    mentors.Add(new MentorResponseModel2
                     {
                         MentorId = mentor.MentorId,
                         Availability = mentor.Availability,
@@ -112,10 +111,10 @@ namespace FMentorAPI.Controllers
 
         // GET: api/Mentors/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<MentorResponseModel>> GetMentor(int id)
+        public async Task<ActionResult<MentorResponseModel2>> GetMentor(int id)
         {
             var mentor = _context.Mentors.Include(u => u.User).Where(m => m.MentorId == id).FirstOrDefault();
-            MentorResponseModel mentorResponse = null;
+            MentorResponseModel2 mentorResponse = null;
             if (mentor != null)
             {
                 var user = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
@@ -134,7 +133,7 @@ namespace FMentorAPI.Controllers
                     return NotFound();
                 }
                 mentor.User = user;
-                mentorResponse = _mapper.Map<MentorResponseModel>(mentor);
+                mentorResponse = _mapper.Map<MentorResponseModel2>(mentor);
                 mentorResponse.NumberMentee = numberMentees;
                 mentorResponse.NumberFollower = numberFollowers;
             }

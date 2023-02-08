@@ -14,6 +14,8 @@ namespace FMentorAPI.Extensions.AutoMapper
             mc.CreateMap<Job, DTOs.JobResponseModel>().ReverseMap();
             mc.CreateMap<Mentee, DTOs.MenteeResponseModel>().ReverseMap();
             mc.CreateMap<Mentor, DTOs.MentorResponseModel>().ReverseMap();
+            mc.CreateMap<Mentee, DTOs.MenteeResponseModel2>().ReverseMap();
+            mc.CreateMap<Mentor, DTOs.MentorResponseModel2>().ReverseMap();
             mc.CreateMap<MentorAvailability, DTOs.MentorAvailabilityResponseModel>().ReverseMap();
             mc.CreateMap<MentorWorkingTime, DTOs.MentorWorkingTimeResponseModel>().ReverseMap();
             mc.CreateMap<Review, DTOs.ReviewResponseModel>().ReverseMap();
