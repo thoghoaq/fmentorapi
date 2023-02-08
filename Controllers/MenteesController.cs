@@ -45,6 +45,18 @@ namespace FMentorAPI.Controllers
 
             return _mapper.Map<MenteeResponseModel2>(mentee);
         }
+        [HttpGet("/api/mentees/user/{id}")]
+        public async Task<ActionResult<MenteeResponseModel>> GetMenteeByUserId(int id)
+        {
+            var mentee = await _context.Mentees.FirstOrDefaultAsync(m => m.UserId == id);
+
+            if (mentee == null)
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<MenteeResponseModel>(mentee);
+        }
 
         // PUT: api/Mentees/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -93,7 +105,7 @@ namespace FMentorAPI.Controllers
         }
 
 
-        [HttpPost("/favorite_course")]
+        [HttpPost("/api/mentees/favorite_course")]
         public async Task<ActionResult<FavoriteCourseResponseModel>> FavoriteCourse([Required] int courseId, [Required] int menteeId)
         {
             if (_context.Courses.FirstOrDefault(c => c.CourseId == courseId) == null)
@@ -113,7 +125,7 @@ namespace FMentorAPI.Controllers
             return new FavoriteCourseResponseModel { CourseId = menteeId, MenteeId = menteeId, IsFavorite = false };
         }
 
-        [HttpPost("/unfavorite_course")]
+        [HttpPost("/api/mentees/unfavorite_course")]
         public async Task<ActionResult<FavoriteCourseResponseModel>> UnFavoriteCourse([Required] int courseId, [Required] int menteeId)
         {
             if (_context.Courses.FirstOrDefault(c => c.CourseId == courseId) == null)
@@ -139,7 +151,7 @@ namespace FMentorAPI.Controllers
         }
 
 
-        [HttpPost("/followed_mentor")]
+        [HttpPost("/api/mentees/followed_mentor")]
         public async Task<ActionResult<FollowMentorResponseModel>> FollowedMentor([Required] int mentorId, [Required] int menteeId)
         {
             if (_context.Mentors.FirstOrDefault(c => c.MentorId == mentorId) == null)
@@ -159,7 +171,7 @@ namespace FMentorAPI.Controllers
             return new FollowMentorResponseModel { MentorId = menteeId, MenteeId = menteeId, IsFollow = false };
         }
 
-        [HttpPost("/unfollowed_mentor")]
+        [HttpPost("/api/mentees/unfollowed_mentor")]
         public async Task<ActionResult<FollowMentorResponseModel>> UnFollowedMentor([Required] int mentorId, [Required] int menteeId)
         {
             if (_context.Mentors.FirstOrDefault(c => c.MentorId == mentorId) == null)
