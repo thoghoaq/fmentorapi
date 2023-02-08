@@ -80,9 +80,16 @@ namespace FMentorAPI.Controllers
         // POST: api/Reviews
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Review>> PostReview(Review review)
+        public async Task<ActionResult<ReviewResponseModel>> PostReview(ReviewResponseModel review)
         {
-            _context.Reviews.Add(review);
+            if (_context.Users.Find(review.RevieweeId) == null)
+                return NotFound("Mentee not found!");
+            if (_context.Users.Find(review.ReviewerId) == null)
+                return NotFound("Mentor not found!");
+            if (_context.Appointments.Find(review.AppointmentId) == null)
+                return NotFound("Appointment not found!");
+            _context.Reviews.Add(new Review { IsReviewed = true, Rating = review.Rating, Comment = review.Comment, AppointmentId = review.AppointmentId,
+            RevieweeId = review.RevieweeId, ReviewerId = review.ReviewerId });
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetReview", new { id = review.ReviewId }, review);
