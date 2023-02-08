@@ -28,7 +28,27 @@ namespace FMentorAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppointmentResponseModel>>> GetAppointments()
         {
-            return _mapper.Map<List<AppointmentResponseModel>>(await _context.Appointments.ToListAsync());
+            var appointments = await _context.Appointments.ToListAsync();
+            foreach(var appointment in appointments)
+            {
+                var mentor = _context.Mentors.Find(appointment.MentorId);
+                if (mentor == null)
+                    return NotFound();
+                var mentee = _context.Mentees.Find(appointment.MenteeId);
+                if (mentee == null)
+                    return NotFound();
+                var user = _context.Users.Where(u => u.UserId == mentee.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                var user1 = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                if (user1 == null || user == null)
+                {
+                    return NotFound();
+                }
+                mentor.User = user1;
+                mentee.User = user;
+                appointment.Mentor = mentor;
+                appointment.Mentee = mentee;
+            }
+            return _mapper.Map<List<AppointmentResponseModel>>(appointments);
         }
 
         // GET: api/Appointments/5
@@ -41,6 +61,22 @@ namespace FMentorAPI.Controllers
             {
                 return NotFound();
             }
+            var mentor = _context.Mentors.Find(appointment.MentorId);
+            if (mentor == null)
+                return NotFound();
+            var mentee = _context.Mentees.Find(appointment.MenteeId);
+            if (mentee == null)
+                return NotFound();
+            var user = _context.Users.Where(u => u.UserId == mentee.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+            var user1 = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+            if (user1 == null || user == null)
+            {
+                return NotFound();
+            }
+            mentor.User = user1;
+            mentee.User = user;
+            appointment.Mentor = mentor;
+            appointment.Mentee = mentee;
 
             return _mapper.Map<AppointmentResponseModel>(appointment);
         }
@@ -80,18 +116,24 @@ namespace FMentorAPI.Controllers
         public async Task<ActionResult<IEnumerable<AppointmentResponseModel>>> GetAppointmentsByMentee(int id)
         {
             var appointments = await _context.Appointments.Include(m => m.Mentor).Where(u => u.MenteeId == id).ToListAsync();
-            foreach (Appointment appointment in appointments)
+            foreach (var appointment in appointments)
             {
-                var mentor = appointment.Mentor;
-                if (mentor != null)
+                var mentor = _context.Mentors.Find(appointment.MentorId);
+                if (mentor == null)
+                    return NotFound();
+                var mentee = _context.Mentees.Find(appointment.MenteeId);
+                if (mentee == null)
+                    return NotFound();
+                var user = _context.Users.Where(u => u.UserId == mentee.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                var user1 = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                if (user1 == null || user == null)
                 {
-                    var user = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).FirstOrDefault();
-                    if (user == null)
-                    {
-                        return NotFound();
-                    }
-                    mentor.User = user;
+                    return NotFound();
                 }
+                mentor.User = user1;
+                mentee.User = user;
+                appointment.Mentor = mentor;
+                appointment.Mentee = mentee;
             }
             return _mapper.Map<List<AppointmentResponseModel>>(appointments);
         }
@@ -100,18 +142,24 @@ namespace FMentorAPI.Controllers
         public async Task<ActionResult<IEnumerable<AppointmentResponseModel>>> GetAppointmentsByMentor(int id)
         {
             var appointments = await _context.Appointments.Include(m => m.Mentee).Where(u => u.MentorId == id).ToListAsync();
-            foreach (Appointment appointment in appointments)
+            foreach (var appointment in appointments)
             {
-                var mentee = appointment.Mentee;
-                if (mentee != null)
+                var mentor = _context.Mentors.Find(appointment.MentorId);
+                if (mentor == null)
+                    return NotFound();
+                var mentee = _context.Mentees.Find(appointment.MenteeId);
+                if (mentee == null)
+                    return NotFound();
+                var user = _context.Users.Where(u => u.UserId == mentee.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                var user1 = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                if (user1 == null || user == null)
                 {
-                    var user = _context.Users.Where(u => u.UserId == mentee.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
-                    if (user == null)
-                    {
-                        return NotFound();
-                    }
-                    mentee.User = user;
+                    return NotFound();
                 }
+                mentor.User = user1;
+                mentee.User = user;
+                appointment.Mentor = mentor;
+                appointment.Mentee = mentee;
             }
             return _mapper.Map<List<AppointmentResponseModel>>(appointments);
         }
