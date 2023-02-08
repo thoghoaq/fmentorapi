@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FMentorAPI.Models;
 using AutoMapper;
 using FMentorAPI.DTOs;
+using System.ComponentModel.DataAnnotations;
 
 namespace FMentorAPI.Controllers
 {
@@ -43,6 +44,12 @@ namespace FMentorAPI.Controllers
             }
 
             return _mapper.Map<CourseResponseModel>(course);
+        }
+        [HttpGet("/api/courses/is-favorite")]
+        public async Task<ActionResult<bool>> CheckIfMenterIsFollowedByMentee([Required] int courseId, [Required] int menteeId)
+        {
+            return _context.FavoriteCourses.FirstOrDefault(f => f.MenteeId == menteeId && f.CourseId == courseId) != null;
+
         }
         [HttpGet("favorite/{id}")]
         public async Task<ActionResult<CourseResponseModel>> GetFavoriteCourseByMentee(int id)

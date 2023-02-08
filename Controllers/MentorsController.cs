@@ -9,6 +9,7 @@ using FMentorAPI.Models;
 using AutoMapper;
 using FMentorAPI.DTOs;
 using System.Diagnostics.Metrics;
+using System.ComponentModel.DataAnnotations;
 
 namespace FMentorAPI.Controllers
 {
@@ -75,6 +76,13 @@ namespace FMentorAPI.Controllers
                 }
             }
             return mentors != null ? Ok(mentors) : NotFound();
+        }
+
+        [HttpGet("/api/mentors/is-followed")]
+        public async Task<ActionResult<bool>> CheckIfMenterIsFollowedByMentee([Required] int mentorId, [Required] int menteeId)
+        {
+            return _context.FollowedMentors.FirstOrDefault(f => f.MenteeId == menteeId && f.MentorId == mentorId) != null;
+            
         }
 
         [HttpGet("/api/mentors/specialty/{id}")]
