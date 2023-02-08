@@ -12,5 +12,6 @@ namespace FMentorAPI.DTOs
         public int RevieweeId { get; set; }
         public int Rating { get; set; }
         public string Comment { get; set; } = null!;
+        public bool IsReviewed { get; set; }
     }
 }

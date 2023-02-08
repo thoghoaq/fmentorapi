@@ -85,7 +85,7 @@ namespace FMentorAPI.Controllers
         }
 
         [HttpGet("/api/mentors/specialty/{id}")]
-        public async Task<ActionResult<IEnumerable<MentorResponseModel>>> GetFollowedMentorsBySpecialtyId(int id)
+        public async Task<ActionResult<IEnumerable<MentorResponseModel2>>> GetFollowedMentorsBySpecialtyId(int id)
         {
             if (_context.Specialties.FirstOrDefault(m => m.SpecialtyId == id) == null)
                 return NotFound();
@@ -96,24 +96,23 @@ namespace FMentorAPI.Controllers
                 return NotFound();
             }
 
-            var mentors = new List<MentorResponseModel2>();
+            var mentors = new List<Mentor>();
 
             foreach (var userSpecialty in userSpecialties)
             {
                 var mentor = await _context.Mentors.FirstOrDefaultAsync(c => c.UserId == userSpecialty.UserId);
                 if (mentor != null)
                 {
-                    mentors.Add(new MentorResponseModel2
+                    var user1 = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                    if (user1 == null)
                     {
-                        MentorId = mentor.MentorId,
-                        Availability = mentor.Availability,
-                        HourlyRate = mentor.HourlyRate,
-                        Specialty = mentor.Specialty,
-                        UserId = mentor.UserId
-                    });
+                        return NotFound();
+                    }
+                    mentor.User = user1;
+                    mentors.Add(mentor);
                 }
             }
-            return mentors != null ? Ok(mentors) : NotFound();
+            return _mapper.Map<List<MentorResponseModel2>>(mentors);
         }
 
         // GET: api/Mentors/5
