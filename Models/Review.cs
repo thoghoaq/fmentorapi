@@ -19,8 +19,7 @@ namespace FMentorAPI.Models
         [Range(1, 5, ErrorMessage = "Rating must be between 1 and 5")]
         public int Rating { get; set; }
         public string Comment { get; set; } = null!;
-        [Column("is_reviewed")]
-        public bool IsReviewed { get; set; } = false;
+        
 
         public virtual Appointment Appointment { get; set; } = null!;
         public virtual User Reviewee { get; set; } = null!;

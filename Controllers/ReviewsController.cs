@@ -88,8 +88,11 @@ namespace FMentorAPI.Controllers
                 return NotFound("Mentor not found!");
             if (_context.Appointments.Find(review.AppointmentId) == null)
                 return NotFound("Appointment not found!");
-            _context.Reviews.Add(new Review { IsReviewed = true, Rating = review.Rating, Comment = review.Comment, AppointmentId = review.AppointmentId,
+            _context.Reviews.Add(new Review { Rating = review.Rating, Comment = review.Comment, AppointmentId = review.AppointmentId,
             RevieweeId = review.RevieweeId, ReviewerId = review.ReviewerId });
+            var appointment = _context.Appointments.Find(review.AppointmentId);
+            appointment.IsReviewed = true;
+            _context.Appointments.Update(appointment);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetReview", new { id = review.ReviewId }, review);
