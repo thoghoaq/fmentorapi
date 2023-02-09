@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FMentorAPI.Models
 {
@@ -31,6 +32,8 @@ namespace FMentorAPI.Models
         public string Status { get; set; } = null!;
         [StringLength(500, ErrorMessage = "Note cannot be longer than 500 characters.")]
         public string? Note { get; set; }
+        [Column("is_reviewed")]
+        public bool IsReviewed { get; set; } = false;
 
         public virtual Mentee Mentee { get; set; } = null!;
         public virtual Mentor Mentor { get; set; } = null!;
