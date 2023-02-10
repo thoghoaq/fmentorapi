@@ -119,10 +119,10 @@ namespace FMentorAPI.Controllers
                 favoriteCourse = new FavoriteCourse { CourseId = courseId, MenteeId = menteeId };
                 _context.FavoriteCourses.Add(favoriteCourse);
                 _context.SaveChanges();
-                return new FavoriteCourseResponseModel { CourseId = menteeId, MenteeId = menteeId, IsFavorite = true };
+                return new FavoriteCourseResponseModel { CourseId = courseId, MenteeId = menteeId, IsFavorite = true };
             }
-            else return new FavoriteCourseResponseModel { CourseId = menteeId, MenteeId = menteeId, IsFavorite = true };
-            return new FavoriteCourseResponseModel { CourseId = menteeId, MenteeId = menteeId, IsFavorite = false };
+            else return new FavoriteCourseResponseModel { CourseId = courseId, MenteeId = menteeId, IsFavorite = true };
+            return new FavoriteCourseResponseModel { CourseId = courseId, MenteeId = menteeId, IsFavorite = false };
         }
 
         [HttpPost("/api/mentees/unfavorite_course")]
@@ -138,12 +138,12 @@ namespace FMentorAPI.Controllers
             {
                 _context.FavoriteCourses.Remove(favoriteCourse);
                 _context.SaveChanges();
-                return new FavoriteCourseResponseModel { CourseId = menteeId, MenteeId = menteeId, IsFavorite = false };
+                return new FavoriteCourseResponseModel { CourseId = courseId, MenteeId = menteeId, IsFavorite = false };
 
             }
-            else return new FavoriteCourseResponseModel { CourseId = menteeId, MenteeId = menteeId, IsFavorite = false };
+            else return new FavoriteCourseResponseModel { CourseId = courseId, MenteeId = menteeId, IsFavorite = false };
 
-            return new FavoriteCourseResponseModel { CourseId = menteeId, MenteeId = menteeId, IsFavorite = true };
+            return new FavoriteCourseResponseModel { CourseId = courseId, MenteeId = menteeId, IsFavorite = true };
         }
         private FollowedMentor GetFollowedMentor(int mentorId, int menteeId)
         {
@@ -165,10 +165,10 @@ namespace FMentorAPI.Controllers
                 followedMenter = new FollowedMentor { MenteeId = menteeId, MentorId = mentorId };
                 _context.FollowedMentors.Add(followedMenter);
                 _context.SaveChanges();
-                return new FollowMentorResponseModel { MentorId = menteeId, MenteeId = menteeId, IsFollow = true };
+                return new FollowMentorResponseModel { MentorId = mentorId, MenteeId = menteeId, IsFollow = true };
             }
-            else return new FollowMentorResponseModel { MentorId = menteeId, MenteeId = menteeId, IsFollow = true };
-            return new FollowMentorResponseModel { MentorId = menteeId, MenteeId = menteeId, IsFollow = false };
+            else return new FollowMentorResponseModel { MentorId = mentorId, MenteeId = menteeId, IsFollow = true };
+            return new FollowMentorResponseModel { MentorId = mentorId, MenteeId = menteeId, IsFollow = false };
         }
 
         [HttpPost("/api/mentees/unfollowed_mentor")]
@@ -184,11 +184,11 @@ namespace FMentorAPI.Controllers
             {
                 _context.FollowedMentors.Remove(followedMenter);
                 _context.SaveChanges();
-                return new FollowMentorResponseModel { MentorId = menteeId, MenteeId = menteeId, IsFollow = false };
+                return new FollowMentorResponseModel { MentorId = mentorId, MenteeId = menteeId, IsFollow = false };
                 
-            } else return new FollowMentorResponseModel { MentorId = menteeId, MenteeId = menteeId, IsFollow = false };
+            } else return new FollowMentorResponseModel { MentorId = mentorId, MenteeId = menteeId, IsFollow = false };
 
-            return new FollowMentorResponseModel { MentorId = menteeId, MenteeId = menteeId, IsFollow = true };
+            return new FollowMentorResponseModel { MentorId = mentorId, MenteeId = menteeId, IsFollow = true };
         }
 
         // DELETE: api/Mentees/5
