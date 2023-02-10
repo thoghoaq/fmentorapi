@@ -9,6 +9,7 @@ using FMentorAPI.Models;
 using AutoMapper;
 using FMentorAPI.DTOs;
 using FMentorAPI.DTOs.RequestModel;
+using FMentorAPI.DTOs.RequestModel.UpdateRequestModel;
 
 namespace FMentorAPI.Controllers
 {
@@ -139,14 +140,18 @@ namespace FMentorAPI.Controllers
         // PUT: api/Bookings/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBooking(int id, Booking booking)
+        public async Task<IActionResult> PutBooking(int id, UpdateBookingRequestModel booking)
         {
-            if (id != booking.BookingId)
+            var result =_context.Bookings.FindAsync(id).Result;
+            if (result == null)
             {
                 return BadRequest();
             }
 
-            _context.Entry(booking).State = EntityState.Modified;
+            result.Status = booking.Status;
+            result.ReasonForRejection = booking.ReasonForRejection;
+
+            _context.Entry(result).State = EntityState.Modified;
 
             try
             {

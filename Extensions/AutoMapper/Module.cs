@@ -33,6 +33,8 @@ namespace FMentorAPI.Extensions.AutoMapper
 
             mc.CreateMap<Booking, DTOs.RequestModel.BookingRequestModel>().ReverseMap();
 
+            mc.CreateMap<Booking, DTOs.RequestModel.UpdateRequestModel.UpdateBookingRequestModel>().ReverseMap();
+
         }
     }
 }
