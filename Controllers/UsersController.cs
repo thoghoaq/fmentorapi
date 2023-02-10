@@ -149,7 +149,8 @@ namespace FMentorAPI.Controllers
             {
                 
                     var specialty = await _context.Specialties.FirstOrDefaultAsync(s => s.Name.Equals(name));
-                    if (specialty != null && _context.UserSpecialties.FirstOrDefault(u => u.UserId == id && u.UserSpecialtyId == specialty.SpecialtyId) == null)
+                    var userSpecialty = _context.UserSpecialties.FirstOrDefault(u => u.UserId == id && u.SpecialtyId == specialty.SpecialtyId);
+                    if (specialty != null && userSpecialty == null)
                     {
                         _context.UserSpecialties.Add(new UserSpecialty { SpecialtyId = specialty.SpecialtyId, UserId = id });
                         _context.SaveChanges();
