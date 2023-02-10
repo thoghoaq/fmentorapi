@@ -9,6 +9,7 @@ using FMentorAPI.Models;
 using AutoMapper;
 using FMentorAPI.DTOs;
 using System.Diagnostics.Metrics;
+using System.ComponentModel.DataAnnotations;
 
 namespace FMentorAPI.Controllers
 {
@@ -41,40 +42,49 @@ namespace FMentorAPI.Controllers
             }
             return _mapper.Map<List<MentorResponseModel2>>(await _context.Mentors.Include(u => u.User).ToListAsync());
         }
-
-        [HttpGet("/followed/{id}")]
+        [HttpGet("/api/mentors/followed/{id}")]
         public async Task<ActionResult<IEnumerable<MentorResponseModel2>>> GetFollowedMentorsByMenteeId(int id)
         {
-            if (_context.Mentees.FirstOrDefault(m => m.MenteeId == id) == null)
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+            if (user == null)
                 return NotFound();
-            var followedMentors = await _context.FollowedMentors.Where(m => m.MenteeId == id).ToListAsync();
+            var mentee = _context.Mentees.Include(m => m.User).FirstOrDefault(m => m.UserId == user.UserId);
+            if (mentee == null)
+                return NotFound();
+            var followedMentors = await _context.FollowedMentors.Where(m => m.MenteeId == mentee.MenteeId).ToListAsync();
 
             if (followedMentors == null)
             {
                 return NotFound();
             }
 
-            var mentors = new List<MentorResponseModel2>();
+            var mentors = new List<Mentor>();
 
             foreach (var followedMentor in followedMentors)
             {
                 var mentor = await _context.Mentors.FirstOrDefaultAsync(c => c.MentorId == followedMentor.MentorId);
                 if (mentor != null)
                 {
-                    mentors.Add(new MentorResponseModel2
+                    var user1 = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                    if (user1 == null)
                     {
-                        MentorId = mentor.MentorId,
-                        Availability = mentor.Availability,
-                        HourlyRate = mentor.HourlyRate,
-                        Specialty = mentor.Specialty,
-                        UserId = mentor.UserId
-                    });
+                        return NotFound();
+                    }
+                    mentor.User = user1;
+                    mentors.Add(mentor);
                 }
             }
-            return mentors != null ? Ok(mentors) : NotFound();
+            return _mapper.Map<List<MentorResponseModel2>>(mentors);
         }
 
-        [HttpGet("/specialty/{id}")]
+        [HttpGet("/api/mentors/is-followed")]
+        public async Task<ActionResult<bool>> CheckIfMenterIsFollowedByMentee([Required] int mentorId, [Required] int menteeId)
+        {
+            return _context.FollowedMentors.FirstOrDefault(f => f.MenteeId == menteeId && f.MentorId == mentorId) != null;
+            
+        }
+
+        [HttpGet("/api/mentors/specialty/{id}")]
         public async Task<ActionResult<IEnumerable<MentorResponseModel2>>> GetFollowedMentorsBySpecialtyId(int id)
         {
             if (_context.Specialties.FirstOrDefault(m => m.SpecialtyId == id) == null)
@@ -86,24 +96,23 @@ namespace FMentorAPI.Controllers
                 return NotFound();
             }
 
-            var mentors = new List<MentorResponseModel2>();
+            var mentors = new List<Mentor>();
 
             foreach (var userSpecialty in userSpecialties)
             {
                 var mentor = await _context.Mentors.FirstOrDefaultAsync(c => c.UserId == userSpecialty.UserId);
                 if (mentor != null)
                 {
-                    mentors.Add(new MentorResponseModel2
+                    var user1 = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                    if (user1 == null)
                     {
-                        MentorId = mentor.MentorId,
-                        Availability = mentor.Availability,
-                        HourlyRate = mentor.HourlyRate,
-                        Specialty = mentor.Specialty,
-                        UserId = mentor.UserId
-                    });
+                        return NotFound();
+                    }
+                    mentor.User = user1;
+                    mentors.Add(mentor);
                 }
             }
-            return mentors != null ? Ok(mentors) : NotFound();
+            return _mapper.Map<List<MentorResponseModel2>>(mentors);
         }
 
         // GET: api/Mentors/5
@@ -131,6 +140,41 @@ namespace FMentorAPI.Controllers
                 }
                 mentor.User = user;
                 mentorResponse = _mapper.Map<MentorResponseModel2>(mentor);
+                mentorResponse.NumberMentee = numberMentees;
+                mentorResponse.NumberFollower = numberFollowers;
+            }
+            if (mentor == null)
+            {
+                return NotFound();
+            }
+
+            return mentorResponse;
+        }
+
+        [HttpGet("/api/mentors/user/{id}")]
+        public async Task<ActionResult<MentorResponseModel>> GetMentorByUserId(int id)
+        {
+            var mentor = _context.Mentors.Include(u => u.User).Where(m => m.UserId == id).FirstOrDefault();
+            MentorResponseModel mentorResponse = null;
+            if (mentor != null)
+            {
+                var user = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                int numberFollowers = _context.FollowedMentors.Where(f => f.MentorId == id).Count();
+                int numberMentees = 0;
+                List<Course> courses = _context.Courses.Where(c => c.MentorId == id).ToList();
+                List<FavoriteCourse> favoriteCourses = _context.FavoriteCourses.ToList();
+                numberMentees = (from course in courses
+                                 join favorite in favoriteCourses
+                                 on course.CourseId equals favorite.CourseId
+                                 into g
+                                 select new { NumberMentee = g.Count() }).Count();
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                mentor.User = user;
+                mentorResponse = _mapper.Map<MentorResponseModel>(mentor);
                 mentorResponse.NumberMentee = numberMentees;
                 mentorResponse.NumberFollower = numberFollowers;
             }

@@ -29,7 +29,28 @@ namespace FMentorAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BookingResponseModel>>> GetBookings()
         {
-            return _mapper.Map<List<BookingResponseModel>> (await _context.Bookings.Include(m => m.Mentor).ToListAsync());
+            var bookings = await _context.Bookings.Include(m => m.Mentor).ToListAsync();
+            foreach(var booking in bookings)
+            {
+                var mentor = _context.Mentors.Find(booking.MentorId);
+                if (mentor == null)
+                    return NotFound();
+                var mentee = _context.Mentees.Find(booking.MenteeId);
+                if (mentee == null)
+                    return NotFound();
+                var user = _context.Users.Where(u => u.UserId == mentee.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                var user1 = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                if (user1 == null || user == null)
+                {
+                    return NotFound();
+                }
+                mentor.User = user1;
+                mentee.User = user;
+                booking.Mentor = mentor;
+                booking.Mentee = mentee;
+            }
+            
+            return _mapper.Map<List<BookingResponseModel>> (bookings);
         }
 
         // GET: api/Bookings/5
@@ -43,6 +64,23 @@ namespace FMentorAPI.Controllers
                 return NotFound();
             }
 
+            var mentor = _context.Mentors.Find(booking.MentorId);
+            if (mentor == null)
+                return NotFound();
+            var mentee = _context.Mentees.Find(booking.MenteeId);
+            if (mentee == null)
+                return NotFound();
+            var user = _context.Users.Where(u => u.UserId == mentee.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+            var user1 = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+            if (user1 == null || user == null)
+            {
+                return NotFound();
+            }
+            mentor.User = user1;
+            mentee.User = user;
+            booking.Mentor = mentor;
+            booking.Mentee = mentee;
+
             return _mapper.Map<BookingResponseModel>(booking);
         }
 
@@ -50,18 +88,24 @@ namespace FMentorAPI.Controllers
         public async Task<ActionResult<IEnumerable<BookingResponseModel>>> GetBookingsByMentee(int id)
         {
             var bookings = await _context.Bookings.Include(m => m.Mentor).Where(u => u.MenteeId == id).ToListAsync();
-            foreach(Booking booking in bookings)
+            foreach (var booking in bookings)
             {
-                var mentor = booking.Mentor;
-                if (mentor != null)
+                var mentor = _context.Mentors.Find(booking.MentorId);
+                if (mentor == null)
+                    return NotFound();
+                var mentee = _context.Mentees.Find(booking.MenteeId);
+                if (mentee == null)
+                    return NotFound();
+                var user = _context.Users.Where(u => u.UserId == mentee.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                var user1 = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                if (user1 == null || user == null)
                 {
-                    var user = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).FirstOrDefault();
-                    if (user == null)
-                    {
-                        return NotFound();
-                    }
-                    mentor.User = user;
+                    return NotFound();
                 }
+                mentor.User = user1;
+                mentee.User = user;
+                booking.Mentor = mentor;
+                booking.Mentee = mentee;
             }
             return _mapper.Map<List<BookingResponseModel>>(bookings);
         }
@@ -70,18 +114,24 @@ namespace FMentorAPI.Controllers
         public async Task<ActionResult<IEnumerable<BookingResponseModel>>> GetBookingsByMentor(int id)
         {
             var bookings = await _context.Bookings.Include(m => m.Mentee).Where(u => u.MentorId == id).ToListAsync();
-            foreach (Booking booking in bookings)
+            foreach (var booking in bookings)
             {
-                var mentor = booking.Mentee;
-                if (mentor != null)
+                var mentor = _context.Mentors.Find(booking.MentorId);
+                if (mentor == null)
+                    return NotFound();
+                var mentee = _context.Mentees.Find(booking.MenteeId);
+                if (mentee == null)
+                    return NotFound();
+                var user = _context.Users.Where(u => u.UserId == mentee.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                var user1 = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+                if (user1 == null || user == null)
                 {
-                    var user = _context.Users.Where(u => u.UserId == mentor.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
-                    if (user == null)
-                    {
-                        return NotFound();
-                    }
-                    mentor.User = user;
+                    return NotFound();
                 }
+                mentor.User = user1;
+                mentee.User = user;
+                booking.Mentor = mentor;
+                booking.Mentee = mentee;
             }
             return _mapper.Map<List<BookingResponseModel>>(bookings);
         }

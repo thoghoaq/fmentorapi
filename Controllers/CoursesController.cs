@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FMentorAPI.Models;
 using AutoMapper;
 using FMentorAPI.DTOs;
+using System.ComponentModel.DataAnnotations;
 
 namespace FMentorAPI.Controllers
 {
@@ -44,12 +45,22 @@ namespace FMentorAPI.Controllers
 
             return _mapper.Map<CourseResponseModel>(course);
         }
+        [HttpGet("/api/courses/is-favorite")]
+        public async Task<ActionResult<bool>> CheckIfMenterIsFollowedByMentee([Required] int courseId, [Required] int menteeId)
+        {
+            return _context.FavoriteCourses.FirstOrDefault(f => f.MenteeId == menteeId && f.CourseId == courseId) != null;
+
+        }
         [HttpGet("favorite/{id}")]
         public async Task<ActionResult<CourseResponseModel>> GetFavoriteCourseByMentee(int id)
         {
-            if (_context.Mentees.FirstOrDefault(m => m.MenteeId == id) == null)
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+            if (user == null)
                 return NotFound();
-            var favoriteCourses = await _context.FavoriteCourses.Where(m => m.MenteeId == id).ToListAsync();
+            var mentee = _context.Mentees.Include(m => m.User).FirstOrDefault(m => m.UserId == user.UserId);
+            if (mentee == null)
+                return NotFound();
+            var favoriteCourses = await _context.FavoriteCourses.Where(m => m.MenteeId == mentee.MenteeId).ToListAsync();
 
             if (favoriteCourses == null)
             {

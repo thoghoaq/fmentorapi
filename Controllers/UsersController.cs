@@ -89,7 +89,8 @@ namespace FMentorAPI.Controllers
             return CreatedAtAction("GetUser", new { id = user.UserId }, user);
         }
 
-        [HttpPost("/signin")]
+        [HttpPost]
+        [Route("signin")]
         public async Task<ActionResult<UserResponseModel>> SignIn(SignInRequestModel model)
         {
             if (model == null)
