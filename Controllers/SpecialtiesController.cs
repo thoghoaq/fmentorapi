@@ -67,7 +67,34 @@ namespace FMentorAPI.Controllers
                 .OrderByDescending(x => x.NumberMentor).Take(3)
                 .ToList();
         }
-
+        [HttpGet("user/{id}")]
+        public async Task<ActionResult<IEnumerable<SpecialtyResponseModel>>> GetSpecialtiesByUserId(int id)
+        {
+            if (_context.Users.Find(id) == null)
+                return NotFound("User is not already exist!");
+            List<Specialty> specialties = new List<Specialty>();
+            List<UserSpecialty> userSpecialties = await _context.UserSpecialties.Where(u => u.UserId == id).ToListAsync();
+            foreach (var userSpecialty in userSpecialties)
+            {
+                var specialty = _context.Specialties.Find(userSpecialty.SpecialtyId);
+                if (specialty != null)
+                    specialties.Add(specialty);
+            }
+            return (from specialty in specialties
+                    join userSpecialty in userSpecialties
+                    on specialty.SpecialtyId equals userSpecialty.SpecialtyId
+                    into g
+                    select
+                    new SpecialtyResponseModel
+                    {
+                        SpecialtyId = specialty.SpecialtyId,
+                        Name = specialty.Name,
+                        NumberMentor = g.Count(),
+                        Picture = specialty.Picture
+                    })
+                .OrderByDescending(x => x.NumberMentor)
+                .ToList();
+        }
         // GET: api/Specialties/5
         [HttpGet("{id}")]
         public async Task<ActionResult<SpecialtyResponseModel>> GetSpecialty(int id)

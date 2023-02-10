@@ -132,6 +132,82 @@ namespace FMentorAPI.Controllers
             return NoContent();
         }
 
+        [HttpPost("add-specialties/{id}")]
+        public async Task<ActionResult<bool>> SignUp([FromBody] List<String> specialtiesName, int id)
+        {
+            if (specialtiesName == null)
+            {
+                return BadRequest("List is null!");
+            }
+            if (_context.Users.Find(id) == null)
+                return BadRequest("Id is not exist!");
+            if (specialtiesName.Count == 0)
+                return Ok(true);
+            try
+            {
+                foreach (var name in specialtiesName)
+            {
+                
+                    var specialty = await _context.Specialties.FirstOrDefaultAsync(s => s.Name.Equals(name));
+                    if (specialty != null && _context.UserSpecialties.FirstOrDefault(u => u.UserId == id && u.UserSpecialtyId == specialty.SpecialtyId) == null)
+                    {
+                        _context.UserSpecialties.Add(new UserSpecialty { SpecialtyId = specialty.SpecialtyId, UserId = id });
+                        _context.SaveChanges();
+                    }
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error");
+            }
+
+            return Ok(true);
+        }
+
+        [HttpPost("sign-up")]
+        public async Task<ActionResult<UserResponseModel>> SignUp(SignUpRequestModel model)
+        {
+            if (model == null)
+            {
+                return BadRequest("Model is empty!");
+            }
+            if (!ModelState.IsValid)
+                return BadRequest("Model is not valid!");
+            if(!model.Password.Equals(model.ConfirmPassword))
+                return BadRequest("Password is not equal Confirm Password!");
+            if (_context.Users.FirstOrDefault(u => u.Email== model.Email) != null)
+                return BadRequest("The email address is already exist!");
+            User user = new User { Email = model.Email, Name = model.Name, Password = model.Password, Description = " ", IsMentor = 0, Photo = " ", VideoIntroduction = " " };
+            try
+            {
+                var entity = _context.Users.Add(user);
+                _context.SaveChanges();
+                Mentee mentee = new Mentee { UserId = user.UserId };
+                _context.Mentees.Add(mentee);
+                _context.SaveChanges();
+
+                var userResponse = _context.Users.Where(u => u.Email == entity.Entity.Email && u.Password == entity.Entity.Password)
+                    .Include(m => m.Mentees)
+                    .Include(m => m.Mentors)
+                    .Include(m => m.Jobs)
+                    .Include(m => m.Educations)
+                    .Include(m => m.Wallet)
+                    .Include(m => m.Payments)
+                    .Include(m => m.ReviewReviewees)
+                    .Include(m => m.ReviewReviewers)
+                    .Include(m => m.UserSpecialties)
+                    .Include(m => m.IsMentorNavigation)
+                    .FirstOrDefault();
+
+                return Ok(_mapper.Map<UserResponseModel>(user));
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
+        }
+
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.UserId == id);

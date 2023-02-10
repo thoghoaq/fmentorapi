@@ -169,6 +169,7 @@ namespace FMentorAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Appointment>> PostAppointment(Appointment appointment)
         {
+            appointment.IsReviewed = false;
             _context.Appointments.Add(appointment);
             await _context.SaveChangesAsync();
 
