@@ -171,9 +171,9 @@ namespace FMentorAPI.Controllers
         // POST: api/Appointments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Appointment>> PostAppointment(int bookingId, string? note)
+        public async Task<ActionResult<Appointment>> PostAppointment(AppointmentRequestModel appointmentRequest)
         {
-            Booking? booking = _context.Bookings.Where(b => b.BookingId == bookingId && b.Status == "Scheduled").FirstOrDefault();
+            Booking? booking = _context.Bookings.Where(b => b.BookingId == appointmentRequest.BookingId && b.Status == "Scheduled").FirstOrDefault();
             if (booking == null)
             {
                 return BadRequest();
@@ -190,7 +190,7 @@ namespace FMentorAPI.Controllers
                 MentorId = booking.MentorId,
                 Status = "Accepted",
                 StartTime = booking.StartTime,
-                Note = note,
+                Note = appointmentRequest.Note,
             };
             _context.Appointments.Add(_mapper.Map<Appointment>(newAppointment));
             var status = await _context.SaveChangesAsync();
