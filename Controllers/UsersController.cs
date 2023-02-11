@@ -10,6 +10,7 @@ using AutoMapper;
 using FMentorAPI.DTOs;
 using System.Diagnostics.Metrics;
 using FMentorAPI.DTOs.RequestModel;
+using FMentorAPI.DTOs.RequestModel.UpdateRequestModel;
 
 namespace FMentorAPI.Controllers
 {
@@ -53,32 +54,33 @@ namespace FMentorAPI.Controllers
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutUser(int id, UpdateUserRequestModel model)
         {
-            if (id != user.UserId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(user).State = EntityState.Modified;
-
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+                return NotFound();
+            if (model == null)
+                return BadRequest("Model is empty!");
+            if (!ModelState.IsValid)
+                return BadRequest("Model is not valid!");
+            if(model.Age != null)
+                user.Age = (int) model.Age;
+            if(model.Description != null)
+                user.Description = model.Description;
+            if (model.Photo != null)
+                user.Photo = model.Photo;
+            if(model.VideoIntroduction != null) user.VideoIntroduction = model.VideoIntroduction;
+            user.Name = model.Name;
             try
             {
+                var entity = _context.Users.Update(user);
                 await _context.SaveChangesAsync();
+                return Ok(_mapper.Map<UserResponseModel>(user));
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception e)
             {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return StatusCode(500, e.Message);
             }
-
-            return NoContent();
         }
 
         // POST: api/Users
