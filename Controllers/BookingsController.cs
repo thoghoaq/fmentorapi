@@ -88,7 +88,7 @@ namespace FMentorAPI.Controllers
         [HttpGet("mentee/{id}")]
         public async Task<ActionResult<IEnumerable<BookingResponseModel>>> GetBookingsByMentee(int id)
         {
-            var bookings = await _context.Bookings.Include(m => m.Mentor).Where(u => u.MenteeId == id).ToListAsync();
+            var bookings = await _context.Bookings.Include(m => m.Mentor).Where(u => u.MenteeId == id && u.Status == "Scheduled").ToListAsync();
             foreach (var booking in bookings)
             {
                 var mentor = _context.Mentors.Find(booking.MentorId);
@@ -114,7 +114,7 @@ namespace FMentorAPI.Controllers
         [HttpGet("mentor/{id}")]
         public async Task<ActionResult<IEnumerable<BookingResponseModel>>> GetBookingsByMentor(int id)
         {
-            var bookings = await _context.Bookings.Include(m => m.Mentee).Where(u => u.MentorId == id).ToListAsync();
+            var bookings = await _context.Bookings.Include(m => m.Mentee).Where(u => u.MentorId == id && u.Status == "Scheduled").ToListAsync();
             foreach (var booking in bookings)
             {
                 var mentor = _context.Mentors.Find(booking.MentorId);

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
-namespace FMentorAPI.DTOs
+﻿namespace FMentorAPI.DTOs.RequestModel
 {
-    public class AppointmentResponseModel
+    public class AppointmentRequestModel
     {
-        public int AppointmentId { get; set; }
         public int MentorId { get; set; }
         public int MenteeId { get; set; }
         public DateTime StartTime { get; set; }
@@ -17,7 +12,5 @@ namespace FMentorAPI.DTOs
         public string Status { get; set; } = null!;
         public string? Note { get; set; }
         public bool IsReviewed { get; set; }
-        public virtual MentorResponseModel2 Mentor { get; set; } = null!;
-        public virtual MenteeResponseModel2 Mentee { get; set; } = null!;
     }
 }

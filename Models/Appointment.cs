@@ -24,6 +24,7 @@ namespace FMentorAPI.Models
         [Required]
         [StringLength(255, ErrorMessage = "Google Meet Link cannot be longer than 255 characters.")]
         public string GoogleMeetLink { get; set; } = null!;
+        public string Password { get; set; }
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Duration must be greater than 0.")]
         public int Duration { get; set; }
