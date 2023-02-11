@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FMentorAPI.Models;
 using AutoMapper;
 using FMentorAPI.DTOs;
+using FMentorAPI.DTOs.RequestModel;
 
 namespace FMentorAPI.Controllers
 {
@@ -48,43 +49,100 @@ namespace FMentorAPI.Controllers
         // PUT: api/Educations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEducation(int id, Education education)
+        public async Task<IActionResult> PutEducation(int id, EducationRequestModel education)
         {
-            if (id != education.EducationId)
+            var education1 = await _context.Educations.FindAsync(id);
+            if (education1 == null)
             {
-                return BadRequest();
+                return NotFound("Not found education");
             }
+            if (education == null)
+            {
+                return BadRequest("Education is empty!");
+            }
+            if (_context.Users.Find(education.UserId) == null)
+                return NotFound("User not found!");
+            if (!ModelState.IsValid)
+                return BadRequest("Education is not valid!");
+            if(education.StartDate > DateTime.Now)
+                return BadRequest("Start date must be before or equal today!");
+            //if (_context.Jobs.Any(j => j.IsCurrent == 1))
+            //    return BadRequest("Current job is already exits!");
+            if (!education.IsCurrent && education.EndDate == null)
+                return BadRequest("Required the end date");
+            if (education.StartDate >= education.EndDate)
+                return BadRequest("Start date must be before end date!");
+            if (education.EndDate > DateTime.Now)
+                return BadRequest("End date must be before or equal today!");
+            //if (job.StartDate != null && job.StartDate < lastEndDate)
+            //    return BadRequest("The new job start date must be after the last job end date");
 
-            _context.Entry(education).State = EntityState.Modified;
 
+            if (_context.Educations.Where(j => j.UserId == j.UserId && j.School.Equals(education.School) && j.Major.Equals(education.Major) && j.StartDate == education.StartDate).Count() > 1)
+                return BadRequest("The education is already exist!");
+            byte isCurrent = education.IsCurrent ? byte.Parse("1") : byte.Parse("0");
+            //Education education1 = new Education { UserId = education.UserId, School = education.School, IsCurrent = isCurrent, StartDate = education.StartDate, EndDate = education.EndDate, Major = education.Major };
+            education1.StartDate = education.StartDate;
+            education1.IsCurrent = isCurrent;
+            education1.EndDate = education.EndDate;
+            education1.School = education.School;
+            education1.Major = education.Major;
             try
             {
-                await _context.SaveChangesAsync();
+                var entity = _context.Educations.Update(education1);
+                _context.SaveChanges();
+                return Ok(_mapper.Map<EducationResponseModel>(entity.Entity));
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!EducationExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(ex.Message);
             }
-
-            return NoContent();
         }
 
         // POST: api/Educations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Education>> PostEducation(Education education)
+        public async Task<ActionResult<EducationResponseModel>> PostEducation(EducationRequestModel education)
         {
-            _context.Educations.Add(education);
-            await _context.SaveChangesAsync();
+            //var lastEndDate = _context.Jobs.ToList().OrderByDescending(x => x.EndDate).FirstOrDefault().EndDate;
+            if (education == null)
+            {
+                return BadRequest("Education is empty!");
+            }
+            if (_context.Users.Find(education.UserId) == null)
+                return NotFound("User not found!");
+            if (!ModelState.IsValid)
+                return BadRequest("Education is not valid!");
+            //if (_context.Jobs.Any(j => j.IsCurrent == 1))
+            //    return BadRequest("Current job is already exits!");
+            if (education.StartDate > DateTime.Now)
+                return BadRequest("Start date must be before or equal today!");
+            //if (_context.Jobs.Any(j => j.IsCurrent == 1))
+            //    return BadRequest("Current job is already exits!");
+            if (!education.IsCurrent && education.EndDate == null)
+                return BadRequest("Required the end date");
+            if (education.StartDate >= education.EndDate)
+                return BadRequest("Start date must be before end date!");
+            if (education.EndDate > DateTime.Now)
+                return BadRequest("End date must be before or equal today!");
+            //if (job.StartDate != null && job.StartDate < lastEndDate)
+            //    return BadRequest("The new job start date must be after the last job end date");
 
-            return CreatedAtAction("GetEducation", new { id = education.EducationId }, education);
+
+            if (_context.Educations.FirstOrDefault(j => j.UserId == j.UserId && j.School.Equals(education.School) && j.Major.Equals(education.Major) && j.StartDate == education.StartDate) != null)
+                return BadRequest("The education is already exist!");
+            byte isCurrent = education.IsCurrent ? byte.Parse("1") : byte.Parse("0");
+            Education education1 = new Education { UserId = education.UserId, School = education.School, IsCurrent = isCurrent, StartDate = education.StartDate, EndDate = education.EndDate, Major = education.Major };
+            try
+            {
+                var entity = _context.Educations.Add(education1);
+                _context.SaveChanges();
+                return CreatedAtAction("GetEducation", new { id = education1.EducationId }, _mapper.Map<EducationResponseModel>(entity.Entity));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // DELETE: api/Educations/5
