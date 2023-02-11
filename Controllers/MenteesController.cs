@@ -36,7 +36,7 @@ namespace FMentorAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<MenteeResponseModel2>> GetMentee(int id)
         {
-            var mentee = await _context.Mentees.FindAsync(id);
+            var mentee = _context.Mentees.Where(m => m.MenteeId == id).Include(u => u.User).FirstOrDefault();
 
             if (mentee == null)
             {
