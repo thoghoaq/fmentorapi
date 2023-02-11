@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using FMentorAPI.Models;
 using AutoMapper;
 using FMentorAPI.DTOs;
+using FMentorAPI.DTOs.RequestModel;
+using FMentorAPI.Extensions.ZoomAPI;
 
 namespace FMentorAPI.Controllers
 {
@@ -17,11 +19,13 @@ namespace FMentorAPI.Controllers
     {
         private readonly FMentorDBContext _context;
         private readonly IMapper _mapper;
+        private readonly IZoomExtension _zoomExtension;
 
-        public AppointmentsController(FMentorDBContext context, IMapper mapper)
+        public AppointmentsController(FMentorDBContext context, IMapper mapper, IZoomExtension zoomExtension)
         {
             _context = context;
             _mapper = mapper;
+            _zoomExtension = zoomExtension;
         }
 
         // GET: api/Appointments
@@ -167,13 +171,44 @@ namespace FMentorAPI.Controllers
         // POST: api/Appointments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Appointment>> PostAppointment(Appointment appointment)
+        public async Task<ActionResult<Appointment>> PostAppointment(AppointmentRequestModel appointmentRequest)
         {
-            appointment.IsReviewed = false;
-            _context.Appointments.Add(appointment);
-            await _context.SaveChangesAsync();
+            Booking? booking = _context.Bookings.Where(b => b.BookingId == appointmentRequest.BookingId && b.Status == "Scheduled").FirstOrDefault();
+            if (booking == null)
+            {
+                return BadRequest();
+            }
+            ZoomLinkModel zoomLink = await _zoomExtension.CreateMeetingAsync();
+            Appointment newAppointment = new()
+            {
+                GoogleMeetLink = zoomLink.Url,
+                Password = zoomLink.Password,
+                EndTime = booking.StartTime.AddMinutes(booking.Duration),
+                IsReviewed = false,
+                Duration = booking.Duration,
+                MenteeId = booking.MenteeId,
+                MentorId = booking.MentorId,
+                Status = "Accepted",
+                StartTime = booking.StartTime,
+                Note = appointmentRequest.Note,
+            };
+            _context.Appointments.Add(_mapper.Map<Appointment>(newAppointment));
+            var status = await _context.SaveChangesAsync();
+            if (status == 1)
+            {
+                booking.Status = "Accepted";
+                _context.Bookings.Update(booking);
+                var updateStatus = await _context.SaveChangesAsync();
+                if (updateStatus == 0)
+                {
+                    throw new Exception("UPDATE_BOOKING_STATUS_FAIL");
+                }
+            } else
+            {
+                throw new Exception("CREATE_APPOINTMENT_FAIL");
+            }
 
-            return CreatedAtAction("GetAppointment", new { id = appointment.AppointmentId }, appointment);
+            return CreatedAtAction("GetAppointment", new { id = newAppointment.AppointmentId }, newAppointment);
         }
 
         // DELETE: api/Appointments/5

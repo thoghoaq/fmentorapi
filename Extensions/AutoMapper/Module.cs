@@ -32,6 +32,7 @@ namespace FMentorAPI.Extensions.AutoMapper
             mc.CreateMap<Wallet, DTOs.WalletResponseModel>().ReverseMap();
 
             mc.CreateMap<Booking, DTOs.RequestModel.BookingRequestModel>().ReverseMap();
+            mc.CreateMap<Appointment, DTOs.RequestModel.AppointmentRequestModel>().ReverseMap();
 
             mc.CreateMap<Booking, DTOs.RequestModel.UpdateRequestModel.UpdateBookingRequestModel>().ReverseMap();
 
