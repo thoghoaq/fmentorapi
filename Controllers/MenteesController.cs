@@ -43,6 +43,8 @@ namespace FMentorAPI.Controllers
                 return NotFound();
             }
 
+            var user = _context.Users.Where(u => u.UserId == mentee.UserId).Include(j => j.Jobs).Include(e => e.Educations).FirstOrDefault();
+            mentee.User = user;
             return _mapper.Map<MenteeResponseModel2>(mentee);
         }
         [HttpGet("/api/mentees/user/{id}")]

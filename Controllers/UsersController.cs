@@ -43,7 +43,10 @@ namespace FMentorAPI.Controllers
             {
                 return NotFound();
             }
-
+            var jobs = await _context.Jobs.Where(j => j.UserId == user.UserId).OrderBy(j => j.StartDate).ToListAsync();
+            var educations = await _context.Educations.Where(j => j.UserId == user.UserId).OrderBy(j => j.StartDate).ToListAsync();
+            user.Jobs = jobs;
+            user.Educations = educations;
             return _mapper.Map<UserResponseModel>(user);
         }
 
@@ -187,20 +190,11 @@ namespace FMentorAPI.Controllers
                 Mentee mentee = new Mentee { UserId = user.UserId };
                 _context.Mentees.Add(mentee);
                 _context.SaveChanges();
-
-                var userResponse = _context.Users.Where(u => u.Email == entity.Entity.Email && u.Password == entity.Entity.Password)
-                    .Include(m => m.Mentees)
-                    .Include(m => m.Mentors)
-                    .Include(m => m.Jobs)
-                    .Include(m => m.Educations)
-                    .Include(m => m.Wallet)
-                    .Include(m => m.Payments)
-                    .Include(m => m.ReviewReviewees)
-                    .Include(m => m.ReviewReviewers)
-                    .Include(m => m.UserSpecialties)
-                    .Include(m => m.IsMentorNavigation)
-                    .FirstOrDefault();
-
+                
+                var jobs = await _context.Jobs.Where(j => j.UserId == user.UserId).OrderBy(j => j.StartDate).ToListAsync();
+                var educations = await _context.Educations.Where(j => j.UserId == user.UserId).OrderBy(j => j.StartDate).ToListAsync();
+                user.Jobs = jobs;
+                user.Educations = educations;
                 return Ok(_mapper.Map<UserResponseModel>(user));
             } catch (Exception ex)
             {
