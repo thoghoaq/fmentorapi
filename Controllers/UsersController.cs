@@ -108,8 +108,12 @@ namespace FMentorAPI.Controllers
             {
                 return NotFound();
             }
-            _context.UserTokens.Add(new UserToken { UserId = user.UserId, Token = token });
-            _context.SaveChanges();
+            if (_context.UserTokens.FirstOrDefault(u => u.UserId == user.UserId && u.Token.Equals(token)) == null)
+            {
+                _context.UserTokens.Add(new UserToken { UserId = user.UserId, Token = token });
+                _context.SaveChanges();
+            }
+            
             return Ok(_mapper.Map<UserResponseModel>(user));
         }
 
