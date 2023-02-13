@@ -36,6 +36,7 @@ namespace FMentorAPI.Models
         public virtual DbSet<Wallet> Wallets { get; set; } = null!;
         public virtual DbSet<Payment> Payments { get; set; } = null!;
         public virtual DbSet<Ranking> Rankings { get; set; } = null!;
+        public virtual DbSet<UserToken> UserTokens { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -49,6 +50,10 @@ namespace FMentorAPI.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<UserToken>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.Token });
+            });
             modelBuilder.Entity<FavoriteCourse>(entity =>
             {
                 entity.HasKey(e => new { e.CourseId, e.MenteeId });

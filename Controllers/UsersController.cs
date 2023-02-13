@@ -11,6 +11,7 @@ using FMentorAPI.DTOs;
 using System.Diagnostics.Metrics;
 using FMentorAPI.DTOs.RequestModel;
 using FMentorAPI.DTOs.RequestModel.UpdateRequestModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace FMentorAPI.Controllers
 {
@@ -83,20 +84,9 @@ namespace FMentorAPI.Controllers
             }
         }
 
-        // POST: api/Users
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
-        {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
-        }
-
         [HttpPost]
         [Route("signin")]
-        public async Task<ActionResult<UserResponseModel>> SignIn(SignInRequestModel model)
+        public async Task<ActionResult<UserResponseModel>> SignIn(SignInRequestModel model,[Required] string token)
         {
             if (model == null)
             {
@@ -118,6 +108,8 @@ namespace FMentorAPI.Controllers
             {
                 return NotFound();
             }
+            _context.UserTokens.Add(new UserToken { UserId = user.UserId, Token = token });
+            _context.SaveChanges();
             return Ok(_mapper.Map<UserResponseModel>(user));
         }
 
@@ -203,11 +195,6 @@ namespace FMentorAPI.Controllers
                 return BadRequest(ex.Message);
             }
             
-        }
-
-        private bool UserExists(int id)
-        {
-            return _context.Users.Any(e => e.UserId == id);
         }
     }
 }
