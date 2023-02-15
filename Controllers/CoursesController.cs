@@ -97,7 +97,7 @@ namespace FMentorAPI.Controllers
         }
 
         [HttpPost("recommended-courses/{token}")]
-        public async Task<ActionResult> RecommendedCourseForMentee(String token, List<CourseResponseModel> courseResponseModels)
+        public async Task<ActionResult> RecommendedCourseForMentee(String token, List<int> courseResponseModels)
         {
             var user = await _context.UserTokens.FirstOrDefaultAsync(u => u.Token.Equals(token));
             if (user == null)
@@ -114,6 +114,46 @@ namespace FMentorAPI.Controllers
 
             var result = await _notificationService.SendNotification(notificationModel);
             return Ok(result);
+        }
+
+        [HttpPost("recommended-course")]
+        public async Task<ActionResult<CourseResponseModel>> GetRecommendCourse(List<int> ids)
+        {
+            List<Course> favoriteCourses = new List<Course>();
+            foreach (int id in ids)
+            {
+                var course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == id);
+                if(course != null)
+                    favoriteCourses.Add(course);
+            }
+
+            if (favoriteCourses == null)
+            {
+                return NotFound();
+            }
+
+            var courses = new List<CourseResponseModel>();
+
+            foreach (var favoriteCourse in favoriteCourses)
+            {
+                var course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == favoriteCourse.CourseId);
+                if (course != null)
+                {
+                    courses.Add(new CourseResponseModel
+                    {
+                        CourseId = course.CourseId,
+                        Description = course.Description,
+                        Instructor = course.Instructor,
+                        Link = course.Link,
+                        MentorId = course.MentorId,
+                        Platform = course.Platform,
+                        Photo = course.Photo,
+                        Title = course.Title
+                    });
+                }
+            }
+
+            return courses != null ? Ok(courses) : NotFound();
         }
 
         [HttpGet("mentor/{id}")]
