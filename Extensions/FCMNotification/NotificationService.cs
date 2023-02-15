@@ -40,6 +40,7 @@ namespace FMentorAPI.Extensions.FCMNotification
                     DataPayload dataPayload = new DataPayload();
                     dataPayload.Title = notificationModel.Title;
                     dataPayload.Body = notificationModel.Body;
+                    dataPayload.Route = notificationModel.Route;
 
                     GoogleNotification notification = new GoogleNotification();
                     notification.Data = dataPayload;

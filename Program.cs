@@ -2,11 +2,13 @@ using AutoMapper;
 using CorePush.Apple;
 using CorePush.Google;
 using FMentorAPI.Extensions.AutoMapper;
+using FMentorAPI.Extensions.Cron;
 using FMentorAPI.Extensions.FCMNotification;
 using FMentorAPI.Extensions.ZoomAPI;
 using FMentorAPI.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Quartz;
 using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +28,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
+builder.Services.AddQuartz(q =>
+{
+    q.UseMicrosoftDependencyInjectionScopedJobFactory();
+    var jobKey = new JobKey("UpdateAppointmentStatus");
+    q.AddJob<UpdateAppointmentStatus>(opts => opts.WithIdentity(jobKey));
+
+    q.AddTrigger(opts => opts
+    .ForJob(jobKey)
+    .WithIdentity("UpdateAppointmentStatus-trigger")
+    .WithCronSchedule("0/10 * * * * ?"));
+}
+) ;
+builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
 var app = builder.Build();
 
