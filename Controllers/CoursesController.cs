@@ -9,6 +9,9 @@ using FMentorAPI.Models;
 using AutoMapper;
 using FMentorAPI.DTOs;
 using System.ComponentModel.DataAnnotations;
+using FMentorAPI.DTOs.RequestModel;
+using FMentorAPI.Extensions.FCMNotification;
+using System.Text.Json;
 
 namespace FMentorAPI.Controllers
 {
@@ -18,11 +21,13 @@ namespace FMentorAPI.Controllers
     {
         private readonly FMentorDBContext _context;
         private readonly IMapper _mapper;
+        private readonly INotificationService _notificationService;
 
-        public CoursesController(FMentorDBContext context, IMapper mapper)
+        public CoursesController(FMentorDBContext context, IMapper mapper, INotificationService notificationService)
         {
             _context = context;
             _mapper = mapper;
+            _notificationService = notificationService;
         }
 
         // GET: api/Courses
@@ -85,6 +90,64 @@ namespace FMentorAPI.Controllers
                         Photo = course.Photo,
                         Title = course.Title
                     }) ;
+                }
+            }
+
+            return courses != null ? Ok(courses) : NotFound();
+        }
+
+        [HttpPost("recommended-courses/{token}")]
+        public async Task<ActionResult> RecommendedCourseForMentee(String token, List<CourseResponseModel> courseResponseModels)
+        {
+            var user = await _context.UserTokens.FirstOrDefaultAsync(u => u.Token.Equals(token));
+            if (user == null)
+                return NotFound("User is not already exist!");
+
+            NotificationRequestModel notificationModel = new NotificationRequestModel
+            {
+                DeviceId = token,
+                IsAndroiodDevice = true,
+                Title = "Recommended courses!",
+                Body = "Recommended courses!",
+                Route = "recommended - " + JsonSerializer.Serialize(courseResponseModels)
+            };
+
+            var result = await _notificationService.SendNotification(notificationModel);
+            return Ok(result);
+        }
+
+        [HttpGet("mentor/{id}")]
+        public async Task<ActionResult<CourseResponseModel>> GetCoursesByMentor(int id)
+        {
+            var mentor = await _context.Mentors.FirstOrDefaultAsync(u => u.MentorId == id);
+            if (mentor == null)
+                return NotFound("Mentor is not already exist!");
+            
+            var favoriteCourses = await _context.Courses.Where(m => m.MentorId == id).ToListAsync();
+
+            if (favoriteCourses == null)
+            {
+                return NotFound();
+            }
+
+            var courses = new List<CourseResponseModel>();
+
+            foreach (var favoriteCourse in favoriteCourses)
+            {
+                var course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == favoriteCourse.CourseId);
+                if (course != null)
+                {
+                    courses.Add(new CourseResponseModel
+                    {
+                        CourseId = course.CourseId,
+                        Description = course.Description,
+                        Instructor = course.Instructor,
+                        Link = course.Link,
+                        MentorId = course.MentorId,
+                        Platform = course.Platform,
+                        Photo = course.Photo,
+                        Title = course.Title
+                    });
                 }
             }
 

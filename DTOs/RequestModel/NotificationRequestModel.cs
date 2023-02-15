@@ -12,6 +12,8 @@ namespace FMentorAPI.DTOs.RequestModel
         public string Title { get; set; }
         [JsonProperty("body")]
         public string Body { get; set; }
+        [JsonProperty("route")]
+        public string Route { get; set; }
     }
     public class GoogleNotification
     {
@@ -21,6 +23,8 @@ namespace FMentorAPI.DTOs.RequestModel
             public string Title { get; set; }
             [JsonProperty("body")]
             public string Body { get; set; }
+            [JsonProperty("route")]
+            public string Route { get; set; }
         }
         [JsonProperty("priority")]
         public string Priority { get; set; } = "high";
