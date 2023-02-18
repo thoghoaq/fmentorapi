@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
+using FirebaseAdmin.Auth;
 using FMentorAPI.BusinessLogic.DTOs;
 using FMentorAPI.BusinessLogic.DTOs.RequestModel;
 using FMentorAPI.BusinessLogic.DTOs.RequestModel.UpdateRequestModel;
+using FMentorAPI.BusinessLogic.Services;
 using FMentorAPI.BusinessLogic.Utils;
 using FMentorAPI.DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +19,15 @@ namespace FMentorAPI.WebAPI.Controllers
         private readonly FMentorDBContext _context;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+        private readonly IFireBaseService _fireBaseService;
 
-        public UsersController(FMentorDBContext context, IMapper mapper, IConfiguration configuration)
+        public UsersController(FMentorDBContext context, IMapper mapper, IConfiguration configuration,
+            IFireBaseService fireBaseService)
         {
             _context = context;
             _mapper = mapper;
             _configuration = configuration;
+            _fireBaseService = fireBaseService;
         }
 
         // GET: api/Users
@@ -85,7 +90,7 @@ namespace FMentorAPI.WebAPI.Controllers
 
         [HttpPost]
         [Route("signin")]
-        public async Task<ActionResult<UserResponseModel>> SignIn(SignInRequestModel model, [Required]string token)
+        public async Task<ActionResult<UserResponseModel>> SignIn(SignInRequestModel model, [Required] string token)
         {
             var user = _context.Users.Where(u => u.Email == model.Email)
                 .Include(m => m.Mentees)
@@ -117,6 +122,93 @@ namespace FMentorAPI.WebAPI.Controllers
             #region Generate JWT
 
             var accessToken = AccessTokenManager.GenerateJwtToken(user.Email,
+                new[] { user.IsMentor.ToString() }, user.UserId.ToString(), _configuration);
+
+            var result = _mapper.Map<UserResponseModel>(user);
+            result.AccessToken = accessToken;
+
+            #endregion
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("firebase")]
+        public async Task<ActionResult<UserResponseModel>> SignInByFirebase(string idToken, [Required] string token)
+        {
+            string accessToken;
+            UserRecord userRecord = await _fireBaseService.GetUserRecordByIdToken(idToken);
+
+
+            var user = _context.Users.Where(u => u.Email == userRecord.Email)
+                .Include(m => m.Mentees)
+                .Include(m => m.Mentors)
+                .Include(m => m.Jobs)
+                .Include(m => m.Educations)
+                .Include(m => m.Wallets)
+                .Include(m => m.ReviewReviewees)
+                .Include(m => m.ReviewReviewers)
+                .Include(m => m.UserSpecialties)
+                .Include(m => m.IsMentorNavigation)
+                .FirstOrDefault();
+            
+            if (user == null)
+            {
+                try
+                {
+                    if (_context.Users.FirstOrDefault(u => u.Email == userRecord.Email) != null)
+                        return BadRequest("The email address is already exist!");
+                    User newUser = new User
+                    {
+                        Email = userRecord.Email, Name = userRecord.DisplayName, Password = " ",
+                        Description = " ", IsMentor = 0,
+                        Photo = " ", VideoIntroduction = " "
+                    };
+                    var entity = _context.Users.Add(newUser).Entity;
+                    _context.SaveChanges();
+                    Mentee mentee = new Mentee { UserId = entity.UserId };
+                    _context.Mentees.Add(mentee);
+                    _context.Wallets.Add(new Wallet()
+                    {
+                        Balance = 0,
+                        UserId = entity.UserId
+                    });
+                    _context.SaveChanges();
+
+                    var jobs = await _context.Jobs.Where(j => j.UserId == entity.UserId).OrderBy(j => j.StartDate)
+                        .ToListAsync();
+                    var educations = await _context.Educations.Where(j => j.UserId == entity.UserId).OrderBy(j => j.StartDate)
+                        .ToListAsync();
+                    entity.Jobs = jobs;
+                    entity.Educations = educations;
+                    
+                    #region Generate JWT
+
+                     accessToken = AccessTokenManager.GenerateJwtToken(entity.Email,
+                        new[] { entity.IsMentor.ToString() }, entity.UserId.ToString(), _configuration);
+
+                    var resultCreated = _mapper.Map<UserResponseModel>(user);
+                    resultCreated.AccessToken = accessToken;
+
+                    #endregion
+
+                    return Ok(resultCreated);
+                }
+                catch (Exception e)
+                {
+                    return BadRequest(e.Message);
+                }
+            }
+
+            if (_context.UserTokens.FirstOrDefault(u => u.UserId == user.UserId && u.Token.Equals(token)) == null)
+            {
+                _context.UserTokens.Add(new UserToken { UserId = user.UserId, Token = token });
+                _context.SaveChanges();
+            }
+            
+            #region Generate JWT
+
+             accessToken = AccessTokenManager.GenerateJwtToken(user.Email,
                 new[] { user.IsMentor.ToString() }, user.UserId.ToString(), _configuration);
 
             var result = _mapper.Map<UserResponseModel>(user);
@@ -204,6 +296,11 @@ namespace FMentorAPI.WebAPI.Controllers
                 _context.SaveChanges();
                 Mentee mentee = new Mentee { UserId = user.UserId };
                 _context.Mentees.Add(mentee);
+                _context.Wallets.Add(new Wallet()
+                {
+                    Balance = 0,
+                    UserId = user.UserId
+                });
                 _context.SaveChanges();
 
                 var jobs = await _context.Jobs.Where(j => j.UserId == user.UserId).OrderBy(j => j.StartDate)

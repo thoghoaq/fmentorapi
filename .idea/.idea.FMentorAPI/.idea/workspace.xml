@@ -8,7 +8,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e2fb9765-5605-40ef-9ed0-743fabff1568" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/Services/FireBaseService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Keys/firebase.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.FMentorAPI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FMentorAPI/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/FMentorAPI.BusinessLogic.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/FMentorAPI.BusinessLogic.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/UsersController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="quangnt/authentication" />
+        <entry key="$PROJECT_DIR$" value="refactor" />
       </map>
     </option>
   </component>
@@ -28,6 +33,8 @@
     <setting file="file://$PROJECT_DIR$/FMentorAPI.BusinessLogic/AutoMapper/AutoMapperExtension.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/FMentorAPI.BusinessLogic/AutoMapper/Module.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://D:/2022-Hackathon/New folder/fmentorapi-new/FMentorAPI.BusinessLogic/DTOs/WalletResponseModel.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/2022-Hackathon/New folder/fmentorapi-new/FMetorAPI.WebbAPI/Controllers/UsersController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/2022-Hackathon/New folder/fmentorapi-new/FMetorAPI.WebbAPI/Extensions/SwaggerConfig.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -207,19 +214,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/UsersController.cs</url>
-          <line>183</line>
-          <properties documentPath="D:\2022-Hackathon\New folder\fmentorapi-new\FMetorAPI.WebbAPI\Controllers\UsersController.cs" initialLine="183" containingFunctionPresentation="method 'SignUp'">
-            <startOffsets>
-              <option value="6600" />
-            </startOffsets>
-            <endOffsets>
-              <option value="6618" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/FMentorAPI.BusinessLogic/Utils/AccessTokenManager.cs</url>
           <line>13</line>
           <properties documentPath="D:\2022-Hackathon\New folder\fmentorapi-new\FMentorAPI.BusinessLogic\Utils\AccessTokenManager.cs" initialLine="13" containingFunctionPresentation="method 'GenerateJwtToken'">
@@ -231,6 +225,19 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/UsersController.cs</url>
+          <line>270</line>
+          <properties documentPath="D:\2022-Hackathon\New folder\fmentorapi-new\FMetorAPI.WebbAPI\Controllers\UsersController.cs" initialLine="270" containingFunctionPresentation="method 'SignUp'">
+            <startOffsets>
+              <option value="10105" />
+            </startOffsets>
+            <endOffsets>
+              <option value="10123" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

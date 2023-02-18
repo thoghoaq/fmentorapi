@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Quartz;
 using System.Configuration;
 using System.Reflection;
+using FirebaseAdmin;
 using FMentorAPI.BusinessLogic.AutoMapper;
 using FMentorAPI.BusinessLogic.FCMNotification;
 using FMentorAPI.BusinessLogic.Services;
@@ -13,6 +14,7 @@ using FMentorAPI.DataAccess.Models;
 using FMentorAPI.WebAPI.Extensions;
 using FMentorAPI.WebAPI.Extensions.Cron;
 using FMentorAPI.WebAPI.Extensions.ZoomAPI;
+using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.OpenApi.Models;
 
@@ -24,6 +26,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<IZoomExtension, ZoomExtension>();
     builder.Services.AddScoped<INotificationService, NotificationService>();
     builder.Services.AddScoped<IPaymentService, PaymentService>();
+    builder.Services.AddScoped<IFireBaseService, FireBaseService>();
     builder.Services.AddHttpClient<FcmSender>();
     builder.Services.AddHttpClient<ApnSender>();
     //var appSettingsSection = Configuration.GetSection("FcmNotification");
@@ -58,6 +61,16 @@ var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>()
     // Configure the HTTP request pipeline.
    
     app.ConfigureSwaggerApps(provider);
+    
+    #region Firebase
+
+    var pathToKey = Path.Combine(Directory.GetCurrentDirectory(), "Keys", "firebase.json");
+    FirebaseApp.Create(new AppOptions
+    {
+        Credential = GoogleCredential.FromFile(pathToKey)
+    });
+
+    #endregion
     
     app.UseCors(policyBuilder => policyBuilder
         .AllowAnyHeader()
