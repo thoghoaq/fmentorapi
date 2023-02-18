@@ -79,7 +79,7 @@ namespace FMentorAPI.WebAPI.Extensions.Cron
         {
             try
             {
-                var ovedue = _dbcontext.Appointments.Where(a => a.StartTime <= DateTime.Now && a.Status.Equals("Accepted")).ToList();
+                var ovedue = _dbcontext.Appointments.Where(a => a.StartTime.AddMinutes(0) <= DateTime.Now && a.Status.Equals("Accepted")).ToList();
                 foreach (var item in ovedue)
                 {
                     item.Status = "Happenning";
