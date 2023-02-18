@@ -7,12 +7,9 @@
     <projectFile profileName="IIS Express">FMetorAPI.WebbAPI/FMentorAPI.WebAPI.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e2fb9765-5605-40ef-9ed0-743fabff1568" name="Changes" comment="Get list mentor by specialties id">
-      <change afterPath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/DTOs/DonateResponseModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/DTOs/RequestModel/DonateRequestModel.cs" afterDir="false" />
+    <list default="true" id="e2fb9765-5605-40ef-9ed0-743fabff1568" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FMentorAPI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FMentorAPI/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/Services/PaymentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/Services/PaymentService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/DTOs/WalletResponseModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/DTOs/WalletResponseModel.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +25,6 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/FMentorAPI.BusinessLogic/AutoMapper/AutoMapperExtension.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://D:/2022-Hackathon/New folder/fmentorapi-new/FMentorAPI.BusinessLogic/AutoMapper/Module.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/FMentorAPI.BusinessLogic/AutoMapper/Module.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -44,22 +40,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlserver",
-      "azure"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlserver&quot;,
+      &quot;azure&quot;
     ]
   }
-}]]></component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.FMentorAPI.WebAPI: IIS Express">
+}</component>
+  <component name="RunManager" selected=".NET Launch Settings Profile.FMentorAPI.WebAPI: FMentorAPI">
     <configuration name="FMentorAPI" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/FMentorAPI.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net6.0" />
