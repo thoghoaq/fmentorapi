@@ -22,6 +22,7 @@
         public string VideoIntroduction { get; set; } = null!;
         public byte IsMentor { get; set; }
         public string? Photo { get; set; }
+        public string AccessToken { get; set; }
 
         public virtual UserPermissionResponseModel IsMentorNavigation { get; set; } = null!;
         public virtual WalletResponseModel? Wallet { get; set; }

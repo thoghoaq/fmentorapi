@@ -3,6 +3,7 @@ using AutoMapper;
 using FMentorAPI.BusinessLogic.DTOs;
 using FMentorAPI.BusinessLogic.DTOs.RequestModel;
 using FMentorAPI.BusinessLogic.DTOs.RequestModel.UpdateRequestModel;
+using FMentorAPI.BusinessLogic.Utils;
 using FMentorAPI.DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,11 +16,13 @@ namespace FMentorAPI.WebAPI.Controllers
     {
         private readonly FMentorDBContext _context;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
-        public UsersController(FMentorDBContext context, IMapper mapper)
+        public UsersController(FMentorDBContext context, IMapper mapper, IConfiguration configuration)
         {
             _context = context;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
         // GET: api/Users
@@ -39,8 +42,10 @@ namespace FMentorAPI.WebAPI.Controllers
             {
                 return NotFound();
             }
+
             var jobs = await _context.Jobs.Where(j => j.UserId == user.UserId).OrderBy(j => j.StartDate).ToListAsync();
-            var educations = await _context.Educations.Where(j => j.UserId == user.UserId).OrderBy(j => j.StartDate).ToListAsync();
+            var educations = await _context.Educations.Where(j => j.UserId == user.UserId).OrderBy(j => j.StartDate)
+                .ToListAsync();
             user.Jobs = jobs;
             user.Educations = educations;
             return _mapper.Map<UserResponseModel>(user);
@@ -58,13 +63,13 @@ namespace FMentorAPI.WebAPI.Controllers
                 return BadRequest("Model is empty!");
             if (!ModelState.IsValid)
                 return BadRequest("Model is not valid!");
-            if(model.Age != null)
-                user.Age = (int) model.Age;
-            if(model.Description != null)
+            if (model.Age != null)
+                user.Age = (int)model.Age;
+            if (model.Description != null)
                 user.Description = model.Description;
             if (model.Photo != null)
                 user.Photo = model.Photo;
-            if(model.VideoIntroduction != null) user.VideoIntroduction = model.VideoIntroduction;
+            if (model.VideoIntroduction != null) user.VideoIntroduction = model.VideoIntroduction;
             user.Name = model.Name;
             try
             {
@@ -80,13 +85,9 @@ namespace FMentorAPI.WebAPI.Controllers
 
         [HttpPost]
         [Route("signin")]
-        public async Task<ActionResult<UserResponseModel>> SignIn(SignInRequestModel model,[Required] string token)
+        public async Task<ActionResult<UserResponseModel>> SignIn(SignInRequestModel model, string? token)
         {
-            if (model == null)
-            {
-                return BadRequest();
-            }
-            var user = _context.Users.Where(u => u.Email == model.Email && u.Password == model.Password)
+            var user = _context.Users.Where(u => u.Email == model.Email)
                 .Include(m => m.Mentees)
                 .Include(m => m.Mentors)
                 .Include(m => m.Jobs)
@@ -101,13 +102,29 @@ namespace FMentorAPI.WebAPI.Controllers
             {
                 return NotFound();
             }
-            if (_context.UserTokens.FirstOrDefault(u => u.UserId == user.UserId && u.Token.Equals(token)) == null)
+
+            if (PasswordHashUtil.VerifyPassword(user.Password, model.Password))
             {
-                _context.UserTokens.Add(new UserToken { UserId = user.UserId, Token = token });
-                _context.SaveChanges();
+                return BadRequest();
             }
-            
-            return Ok(_mapper.Map<UserResponseModel>(user));
+
+            // if (_context.UserTokens.FirstOrDefault(u => u.UserId == user.UserId && u.Token.Equals(token)) == null)
+            // {
+            //     _context.UserTokens.Add(new UserToken { UserId = user.UserId, Token = token });
+            //     _context.SaveChanges();
+            // }
+
+            #region Generate JWT
+
+            var accessToken = AccessTokenManager.GenerateJwtToken(user.Email,
+                new[] { user.IsMentor.ToString() }, user.UserId.ToString(), _configuration);
+
+            var result = _mapper.Map<UserResponseModel>(user);
+            result.AccessToken = accessToken;
+
+            #endregion
+
+            return Ok(result);
         }
 
         // DELETE: api/Users/5
@@ -133,6 +150,7 @@ namespace FMentorAPI.WebAPI.Controllers
             {
                 return BadRequest("List is null!");
             }
+
             if (_context.Users.Find(id) == null)
                 return BadRequest("Id is not exist!");
             if (specialtiesName.Count == 0)
@@ -140,17 +158,17 @@ namespace FMentorAPI.WebAPI.Controllers
             try
             {
                 foreach (var name in specialtiesName)
-            {
-                
+                {
                     var specialty = await _context.Specialties.FirstOrDefaultAsync(s => s.Name.Equals(name));
-                    var userSpecialty = _context.UserSpecialties.FirstOrDefault(u => u.UserId == id && u.SpecialtyId == specialty.SpecialtyId);
+                    var userSpecialty = _context.UserSpecialties.FirstOrDefault(u =>
+                        u.UserId == id && u.SpecialtyId == specialty.SpecialtyId);
                     if (specialty != null && userSpecialty == null)
                     {
-                        _context.UserSpecialties.Add(new UserSpecialty { SpecialtyId = specialty.SpecialtyId, UserId = id });
+                        _context.UserSpecialties.Add(new UserSpecialty
+                            { SpecialtyId = specialty.SpecialtyId, UserId = id });
                         _context.SaveChanges();
                     }
                 }
-                
             }
             catch (Exception ex)
             {
@@ -167,13 +185,19 @@ namespace FMentorAPI.WebAPI.Controllers
             {
                 return BadRequest("Model is empty!");
             }
+
             if (!ModelState.IsValid)
                 return BadRequest("Model is not valid!");
-            if(!model.Password.Equals(model.ConfirmPassword))
+            if (!model.Password.Equals(model.ConfirmPassword))
                 return BadRequest("Password is not equal Confirm Password!");
-            if (_context.Users.FirstOrDefault(u => u.Email== model.Email) != null)
+            if (_context.Users.FirstOrDefault(u => u.Email == model.Email) != null)
                 return BadRequest("The email address is already exist!");
-            User user = new User { Email = model.Email, Name = model.Name, Password = model.Password, Description = " ", IsMentor = 0, Photo = " ", VideoIntroduction = " " };
+            User user = new User
+            {
+                Email = model.Email, Name = model.Name, Password = PasswordHashUtil.HashPassword(model.Password),
+                Description = " ", IsMentor = 0,
+                Photo = " ", VideoIntroduction = " "
+            };
             try
             {
                 var entity = _context.Users.Add(user);
@@ -181,17 +205,30 @@ namespace FMentorAPI.WebAPI.Controllers
                 Mentee mentee = new Mentee { UserId = user.UserId };
                 _context.Mentees.Add(mentee);
                 _context.SaveChanges();
-                
-                var jobs = await _context.Jobs.Where(j => j.UserId == user.UserId).OrderBy(j => j.StartDate).ToListAsync();
-                var educations = await _context.Educations.Where(j => j.UserId == user.UserId).OrderBy(j => j.StartDate).ToListAsync();
+
+                var jobs = await _context.Jobs.Where(j => j.UserId == user.UserId).OrderBy(j => j.StartDate)
+                    .ToListAsync();
+                var educations = await _context.Educations.Where(j => j.UserId == user.UserId).OrderBy(j => j.StartDate)
+                    .ToListAsync();
                 user.Jobs = jobs;
                 user.Educations = educations;
-                return Ok(_mapper.Map<UserResponseModel>(user));
-            } catch (Exception ex)
+
+                #region Generate JWT
+
+                var accessToken = AccessTokenManager.GenerateJwtToken(user.Email,
+                    new[] { user.IsMentor.ToString() }, user.UserId.ToString(), _configuration);
+
+                var result = _mapper.Map<UserResponseModel>(user);
+                result.AccessToken = accessToken;
+
+                #endregion
+
+                return Ok(result);
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-            
         }
     }
 }

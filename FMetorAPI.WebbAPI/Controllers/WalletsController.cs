@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FMentorAPI.BusinessLogic.DTOs;
 using FMentorAPI.DataAccess.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +9,7 @@ namespace FMentorAPI.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class WalletsController : ControllerBase
     {
         private readonly FMentorDBContext _context;

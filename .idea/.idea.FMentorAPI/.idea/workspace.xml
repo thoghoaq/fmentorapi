@@ -8,8 +8,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e2fb9765-5605-40ef-9ed0-743fabff1568" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Extensions/AuthConfig.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Extensions/SwaggerConfig.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FMentorAPI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FMentorAPI/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/DTOs/WalletResponseModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/DTOs/WalletResponseModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/DTOs/UserResponseModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/DTOs/UserResponseModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/FMentorAPI.BusinessLogic.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/FMentorAPI.BusinessLogic.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/UsersController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/WalletsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/WalletsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FMetorAPI.WebbAPI/FMentorAPI.WebAPI.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/FMentorAPI.WebAPI.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FMetorAPI.WebbAPI/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +32,11 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/296c84d22be7053f23e15813c26e08f741d1c3b347ba282d25805329d1/OpenApiSecurityScheme.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f4708639776589f5ac2739f6fcbfc67343b1f9dac51cc1dbfdb003eef77cc1c/Monitor.CoreCLR.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/FMentorAPI.BusinessLogic/AutoMapper/AutoMapperExtension.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/FMentorAPI.BusinessLogic/AutoMapper/Module.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://D:/2022-Hackathon/New folder/fmentorapi-new/FMentorAPI.BusinessLogic/DTOs/WalletResponseModel.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -167,7 +178,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676707007112</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Add WalletId response when login">
+      <created>1676715148688</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1676715148688</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -191,6 +209,39 @@
     <MESSAGE value="refactor" />
     <MESSAGE value="refactor DB" />
     <MESSAGE value="Get list mentor by specialties id" />
-    <option name="LAST_COMMIT_MESSAGE" value="Get list mentor by specialties id" />
+    <MESSAGE value="Add WalletId response when login" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add WalletId response when login" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/UsersController.cs</url>
+          <line>183</line>
+          <properties documentPath="D:\2022-Hackathon\New folder\fmentorapi-new\FMetorAPI.WebbAPI\Controllers\UsersController.cs" initialLine="183" containingFunctionPresentation="method 'SignUp'">
+            <startOffsets>
+              <option value="6606" />
+            </startOffsets>
+            <endOffsets>
+              <option value="6624" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/FMentorAPI.BusinessLogic/Utils/AccessTokenManager.cs</url>
+          <line>13</line>
+          <properties documentPath="D:\2022-Hackathon\New folder\fmentorapi-new\FMentorAPI.BusinessLogic\Utils\AccessTokenManager.cs" initialLine="13" containingFunctionPresentation="method 'GenerateJwtToken'">
+            <startOffsets>
+              <option value="498" />
+            </startOffsets>
+            <endOffsets>
+              <option value="499" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

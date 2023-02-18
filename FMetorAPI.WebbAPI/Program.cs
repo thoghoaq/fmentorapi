@@ -5,12 +5,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using System.Configuration;
+using System.Reflection;
 using FMentorAPI.BusinessLogic.AutoMapper;
 using FMentorAPI.BusinessLogic.FCMNotification;
 using FMentorAPI.BusinessLogic.Services;
 using FMentorAPI.DataAccess.Models;
+using FMentorAPI.WebAPI.Extensions;
 using FMentorAPI.WebAPI.Extensions.Cron;
 using FMentorAPI.WebAPI.Extensions.ZoomAPI;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -28,7 +32,9 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
+    builder.Services.ConfigureSwaggerServices("FMentor.APIs");
+    builder.Services.ConfigureAuthServices(builder.Configuration);
+
     builder.Services.AddCors();
     builder.Services.AddQuartz(q =>
         {
@@ -47,12 +53,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 var app = builder.Build();
+var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 {
     // Configure the HTTP request pipeline.
-    app.UseSwagger();
-    app.UseSwaggerUI();
-
-    app.UseCors(builder => builder
+   
+    app.ConfigureSwaggerApps(provider);
+    
+    app.UseCors(policyBuilder => policyBuilder
         .AllowAnyHeader()
         .AllowAnyMethod()
         .SetIsOriginAllowed(origin => true)
@@ -62,8 +69,8 @@ var app = builder.Build();
 
     app.UseHttpsRedirection();
 
-    app.UseAuthorization();
-
+    app.ConfigureAuthApps();
+    
     app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
     app.MapControllers();
