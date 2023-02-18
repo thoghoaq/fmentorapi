@@ -7,15 +7,11 @@
     <projectFile profileName="IIS Express">FMetorAPI.WebbAPI/FMentorAPI.WebAPI.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e2fb9765-5605-40ef-9ed0-743fabff1568" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/FMentorAPI.DataAccess/Models/Transaction.cs" afterDir="false" />
+    <list default="true" id="e2fb9765-5605-40ef-9ed0-743fabff1568" name="Changes" comment="refactor DB">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FMentorAPI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FMentorAPI/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/FMentorAPI/v17/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/FMentorAPI/v17/.suo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FMentorAPI.DataAccess/Models/FMentorDBContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMentorAPI.DataAccess/Models/FMentorDBContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FMentorAPI.DataAccess/Models/Payment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMentorAPI.DataAccess/Models/Payment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FMentorAPI.DataAccess/Models/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMentorAPI.DataAccess/Models/User.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FMentorAPI.DataAccess/Models/Wallet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMentorAPI.DataAccess/Models/Wallet.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/UsersController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/AutoMapper/Module.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/AutoMapper/Module.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/DTOs/UserSpecialtyResponseModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/DTOs/UserSpecialtyResponseModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/UserSpecialtiesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/UserSpecialtiesController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +132,7 @@
       <updated>1676690844731</updated>
       <workItem from="1676690852477" duration="3010000" />
       <workItem from="1676697736097" duration="2211000" />
-      <workItem from="1676703871208" duration="1224000" />
+      <workItem from="1676703871208" duration="3000000" />
     </task>
     <task id="LOCAL-00001" summary="refactor">
       <created>1676697788928</created>
@@ -159,7 +155,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676698010310</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="refactor DB">
+      <created>1676705219361</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1676705219361</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -181,6 +184,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor" />
+    <MESSAGE value="refactor DB" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor DB" />
   </component>
 </project>

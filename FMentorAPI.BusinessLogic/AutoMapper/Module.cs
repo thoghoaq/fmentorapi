@@ -38,6 +38,8 @@ namespace FMentorAPI.BusinessLogic.AutoMapper
             mc.CreateMap<Booking, DTOs.RequestModel.UpdateRequestModel.UpdateBookingRequestModel>().ReverseMap();
 
             mc.CreateMap<User, ReviewerInfo>().ReverseMap();
+            mc.CreateMap<User, UserInfo>().ReverseMap();
+
         }
     }
 }

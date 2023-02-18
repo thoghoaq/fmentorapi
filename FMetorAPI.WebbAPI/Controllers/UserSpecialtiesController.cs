@@ -21,9 +21,18 @@ namespace FMentorAPI.WebAPI.Controllers
 
         // GET: api/UserSpecialties
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserSpecialtyResponseModel>>> GetUserSpecialties()
+        public async Task<ActionResult<IEnumerable<UserInfo>>> GetUserSpecialties(
+            [FromQuery] int? specialtyId)
         {
-            return _mapper.Map<List<UserSpecialtyResponseModel>>(await _context.UserSpecialties.ToListAsync());
+            var result = _context.UserSpecialties.Include(x => x.User).AsQueryable();
+
+            if (specialtyId != null)
+            {
+                result = result.Where(x => x.SpecialtyId == specialtyId);
+            }
+
+            return _mapper.Map<List<UserInfo>>(await result.Where(x => x.User.IsMentor == 1).Select(x => x.User)
+                .ToListAsync());
         }
 
         // GET: api/UserSpecialties/5
