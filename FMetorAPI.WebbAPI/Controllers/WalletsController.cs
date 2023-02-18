@@ -9,7 +9,6 @@ namespace FMentorAPI.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class WalletsController : ControllerBase
     {
         private readonly FMentorDBContext _context;

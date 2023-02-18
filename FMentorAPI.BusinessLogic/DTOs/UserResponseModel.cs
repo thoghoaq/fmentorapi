@@ -25,7 +25,7 @@
         public string AccessToken { get; set; }
 
         public virtual UserPermissionResponseModel IsMentorNavigation { get; set; } = null!;
-        public virtual WalletResponseModel? Wallet { get; set; }
+        public virtual ICollection<WalletResponseModel> Wallets { get; set; }
         public virtual ICollection<EducationResponseModel> Educations { get; set; }
         public virtual ICollection<JobResponseModel> Jobs { get; set; }
         public virtual ICollection<MenteeResponseModel> Mentees { get; set; }

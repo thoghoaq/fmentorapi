@@ -8,16 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e2fb9765-5605-40ef-9ed0-743fabff1568" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Extensions/AuthConfig.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Extensions/SwaggerConfig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.FMentorAPI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FMentorAPI/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/DTOs/UserResponseModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/DTOs/UserResponseModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/FMentorAPI.BusinessLogic.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/FMentorAPI.BusinessLogic.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/UsersController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/WalletsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/WalletsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FMetorAPI.WebbAPI/FMentorAPI.WebAPI.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/FMentorAPI.WebAPI.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FMetorAPI.WebbAPI/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +18,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="refactor" />
+        <entry key="$PROJECT_DIR$" value="quangnt/authentication" />
       </map>
     </option>
   </component>
@@ -66,7 +57,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.FMentorAPI.WebAPI: FMentorAPI">
+  <component name="RunManager" selected=".NET Launch Settings Profile.FMentorAPI.WebAPI: IIS Express">
     <configuration name="FMentorAPI" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/FMentorAPI.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net6.0" />
@@ -220,10 +211,10 @@
           <line>183</line>
           <properties documentPath="D:\2022-Hackathon\New folder\fmentorapi-new\FMetorAPI.WebbAPI\Controllers\UsersController.cs" initialLine="183" containingFunctionPresentation="method 'SignUp'">
             <startOffsets>
-              <option value="6606" />
+              <option value="6600" />
             </startOffsets>
             <endOffsets>
-              <option value="6624" />
+              <option value="6618" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="1" />
