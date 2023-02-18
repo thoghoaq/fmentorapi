@@ -40,6 +40,7 @@ namespace FMentorAPI.BusinessLogic.AutoMapper
             mc.CreateMap<User, ReviewerInfo>().ReverseMap();
             mc.CreateMap<User, UserInfo>().ReverseMap();
 
+            mc.CreateMap<Review, DTOs.RequestModel.ReviewRequestModel>().ReverseMap();
         }
     }
 }

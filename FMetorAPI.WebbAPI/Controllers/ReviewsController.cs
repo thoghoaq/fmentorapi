@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using FMentorAPI.BusinessLogic.DTOs;
+using FMentorAPI.BusinessLogic.DTOs.RequestModel;
 using FMentorAPI.DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -88,7 +89,7 @@ namespace FMentorAPI.WebAPI.Controllers
         // POST: api/Reviews
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ReviewResponseModel>> PostReview(ReviewResponseModel review)
+        public async Task<ActionResult<ReviewRequestModel>> PostReview(ReviewRequestModel review)
         {
             if (_context.Users.Find(review.RevieweeId) == null)
                 return NotFound("Mentee not found!");
