@@ -26,7 +26,7 @@ namespace FMentorAPI.WebAPI.Extensions.Cron
         {
             try
             {
-                var ovedue = _dbcontext.Appointments.Where(a => a.StartTime.AddMinutes(a.Duration) <= DateTime.Now && a.Status.Equals("Happenning")).ToList();
+                var ovedue = _dbcontext.Appointments.Where(a => a.StartTime.AddMinutes(a.Duration) >= DateTime.Now && a.Status.Equals("Happenning")).ToList();
                 foreach (var item in ovedue)
                 {
                     item.Status = "Completed";
