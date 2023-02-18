@@ -85,7 +85,7 @@ namespace FMentorAPI.WebAPI.Controllers
 
         [HttpPost]
         [Route("signin")]
-        public async Task<ActionResult<UserResponseModel>> SignIn(SignInRequestModel model, string? token)
+        public async Task<ActionResult<UserResponseModel>> SignIn(SignInRequestModel model, [Required]string token)
         {
             var user = _context.Users.Where(u => u.Email == model.Email)
                 .Include(m => m.Mentees)
@@ -108,11 +108,11 @@ namespace FMentorAPI.WebAPI.Controllers
                 return BadRequest();
             }
 
-            // if (_context.UserTokens.FirstOrDefault(u => u.UserId == user.UserId && u.Token.Equals(token)) == null)
-            // {
-            //     _context.UserTokens.Add(new UserToken { UserId = user.UserId, Token = token });
-            //     _context.SaveChanges();
-            // }
+            if (_context.UserTokens.FirstOrDefault(u => u.UserId == user.UserId && u.Token.Equals(token)) == null)
+            {
+                _context.UserTokens.Add(new UserToken { UserId = user.UserId, Token = token });
+                _context.SaveChanges();
+            }
 
             #region Generate JWT
 
