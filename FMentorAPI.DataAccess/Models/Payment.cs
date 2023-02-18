@@ -1,21 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FMentorAPI.DataAccess.Models
+﻿namespace FMentorAPI.DataAccess.Models
 {
     public partial class Payment
     {
-        [Key]
+        public Payment()
+        {
+            Transactions = new HashSet<Transaction>();
+        }
+
         public int PaymentId { get; set; }
-        [Required]
-        public int UserId { get; set; }
-        [Required]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Amount must be greater than 0.")]
+        public int WalletId { get; set; }
         public decimal Amount { get; set; }
-        [Required]
         public DateTime PaymentDate { get; set; }
-        [StringLength(255, ErrorMessage = "Note cannot be longer than 255 characters.")]
         public string? Note { get; set; }
 
-        public virtual User User { get; set; } = null!;
+        public virtual Wallet Wallet { get; set; } = null!;
+        public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }

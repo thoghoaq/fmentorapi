@@ -40,40 +40,38 @@ namespace FMentorAPI.DataAccess.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=tcp:fmentor-sea.database.windows.net,1433;Initial Catalog=FMentorDatabase;Persist Security Info=False;User ID=sqladmin;Password=adpass01@;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https: //go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer(
+                    "Server=tcp:fmentor-sea.database.windows.net,1433;Initial Catalog=FMentorDatabase;Persist Security Info=False;User ID=sqladmin;Password=adpass01@;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserToken>(entity =>
-            {
-                entity.HasKey(e => new { e.UserId, e.Token });
-            });
+            modelBuilder.Entity<UserToken>(entity => { entity.HasKey(e => new { e.UserId, e.Token }); });
             modelBuilder.Entity<FavoriteCourse>(entity =>
             {
                 entity.HasKey(e => new { e.CourseId, e.MenteeId });
                 entity.HasOne(e => e.Course)
-                .WithMany(e => e.FavoriteCourses)
-                .HasForeignKey(e => e.CourseId)
-                ;
+                    .WithMany(e => e.FavoriteCourses)
+                    .HasForeignKey(e => e.CourseId)
+                    ;
                 entity.HasOne(e => e.Mentee)
-                .WithMany(e => e.FavoriteCourses)
-                .HasForeignKey(e => e.MenteeId)
-                ;
+                    .WithMany(e => e.FavoriteCourses)
+                    .HasForeignKey(e => e.MenteeId)
+                    ;
             });
             modelBuilder.Entity<FollowedMentor>(entity =>
             {
                 entity.HasKey(e => new { e.MentorId, e.MenteeId });
                 entity.HasOne(e => e.Mentor)
-                .WithMany(e => e.FollowedMentors)
-                .HasForeignKey(e => e.MentorId)
-                ;
+                    .WithMany(e => e.FollowedMentors)
+                    .HasForeignKey(e => e.MentorId)
+                    ;
                 entity.HasOne(e => e.Mentee)
-                .WithMany(e => e.FollowedMentors)
-                .HasForeignKey(e => e.MenteeId)
-                ;
+                    .WithMany(e => e.FollowedMentors)
+                    .HasForeignKey(e => e.MenteeId)
+                    ;
             });
             modelBuilder.Entity<Appointment>(entity =>
             {
@@ -337,7 +335,6 @@ namespace FMentorAPI.DataAccess.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Mentors__user_id__08B54D69");
-
             });
 
             modelBuilder.Entity<MentorAvailability>(entity =>
@@ -366,7 +363,6 @@ namespace FMentorAPI.DataAccess.Models
                     .HasForeignKey(d => d.MentorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("MentorAvailability_Mentors_mentor_id_fk");
-
             });
 
             modelBuilder.Entity<MentorWorkingTime>(entity =>
@@ -411,13 +407,32 @@ namespace FMentorAPI.DataAccess.Models
                     .HasColumnType("datetime")
                     .HasColumnName("payment_date");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.WalletId).HasColumnName("wallet_id");
 
-                entity.HasOne(d => d.User)
+                entity.HasOne(d => d.Wallet)
                     .WithMany(p => p.Payments)
-                    .HasForeignKey(d => d.UserId)
+                    .HasForeignKey(d => d.WalletId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Payments_Users_user_id_fk");
+                    .HasConstraintName("FK_Payments_Wallets");
+            });
+            
+            modelBuilder.Entity<Transaction>(entity =>
+            {
+                entity.ToTable("Transaction");
+
+                entity.HasIndex(e => e.TransactionId, "Transaction_TransactionId_index");
+
+                entity.Property(e => e.Amount).HasColumnType("money");
+
+                entity.HasOne(d => d.Payment)
+                    .WithMany(p => p.Transactions)
+                    .HasForeignKey(d => d.PaymentId)
+                    .HasConstraintName("Transaction_Payments_payment_id_fk");
+
+                entity.HasOne(d => d.Wallet)
+                    .WithMany(p => p.Transactions)
+                    .HasForeignKey(d => d.WalletId)
+                    .HasConstraintName("FK_Transaction_Wallets");
             });
 
             modelBuilder.Entity<Ranking>(entity =>
@@ -502,13 +517,11 @@ namespace FMentorAPI.DataAccess.Models
                 entity.Property(e => e.Age).HasColumnName("age");
 
                 entity.Property(e => e.Description)
-                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("description");
 
                 entity.Property(e => e.Email)
-                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("email");
@@ -516,13 +529,11 @@ namespace FMentorAPI.DataAccess.Models
                 entity.Property(e => e.IsMentor).HasColumnName("is_mentor");
 
                 entity.Property(e => e.Name)
-                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("name");
 
                 entity.Property(e => e.Password)
-                    .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("password");
@@ -589,22 +600,21 @@ namespace FMentorAPI.DataAccess.Models
 
             modelBuilder.Entity<Wallet>(entity =>
             {
-                entity.HasKey(e => e.UserId)
-                    .HasName("PK__Wallets__B9BE370F907A3F31");
-
-                entity.Property(e => e.UserId)
+                entity.Property(e => e.WalletId)
                     .ValueGeneratedNever()
-                    .HasColumnName("user_id");
+                    .HasColumnName("wallet_id");
 
                 entity.Property(e => e.Balance)
                     .HasColumnType("money")
                     .HasColumnName("balance");
 
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
                 entity.HasOne(d => d.User)
-                    .WithOne(p => p.Wallet)
-                    .HasForeignKey<Wallet>(d => d.UserId)
+                    .WithMany(p => p.Wallets)
+                    .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Wallets_Users_user_id_fk");
+                    .HasConstraintName("FK_Wallets_Users");
             });
 
             OnModelCreatingPartial(modelBuilder);

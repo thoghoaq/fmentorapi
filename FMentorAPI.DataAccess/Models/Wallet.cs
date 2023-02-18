@@ -1,15 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FMentorAPI.DataAccess.Models
+﻿namespace FMentorAPI.DataAccess.Models
 {
     public partial class Wallet
     {
-        [Key]
+        public Wallet()
+        {
+            Payments = new HashSet<Payment>();
+            Transactions = new HashSet<Transaction>();
+        }
+
         public int UserId { get; set; }
-        [Required]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Balance must be greater than 0.")]
         public decimal Balance { get; set; }
+        public int WalletId { get; set; }
 
         public virtual User User { get; set; } = null!;
+        public virtual ICollection<Payment> Payments { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }
