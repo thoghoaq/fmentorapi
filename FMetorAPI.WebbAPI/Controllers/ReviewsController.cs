@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using FMentorAPI.BusinessLogic.DTOs;
 using FMentorAPI.DataAccess.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +40,20 @@ namespace FMentorAPI.WebAPI.Controllers
 
             return _mapper.Map<ReviewResponseModel>(review);
         }
+     
+        [HttpGet("reviewee/{revieweeId}")]
+        public async Task<ActionResult<List<ReviewResponseModel>>> GetReviewsByReviewee(int revieweeId)
+        {
+            var reviews = await _context.Reviews
+                .Include(x=>x.Reviewer)
+                .Where(x=>x.RevieweeId==revieweeId)
+                .ProjectTo<ReviewResponseModel>(_mapper.ConfigurationProvider)
+                .ToListAsync();
 
+            return reviews;
+        }
+
+        
         // PUT: api/Reviews/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

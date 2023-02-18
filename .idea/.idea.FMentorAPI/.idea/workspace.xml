@@ -7,11 +7,24 @@
     <projectFile profileName="IIS Express">FMetorAPI.WebbAPI/FMentorAPI.WebAPI.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e2fb9765-5605-40ef-9ed0-743fabff1568" name="Changes" comment="" />
+    <list default="true" id="e2fb9765-5605-40ef-9ed0-743fabff1568" name="Changes" comment="refactor">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.FMentorAPI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FMentorAPI/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/config/applicationhost.config" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/config/applicationhost.config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/AutoMapper/Module.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/AutoMapper/Module.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/DTOs/ReviewResponseModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMentorAPI.BusinessLogic/DTOs/ReviewResponseModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/ReviewsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Controllers/ReviewsController.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="refactor" />
+      </map>
+    </option>
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/FMentorAPI.BusinessLogic/AutoMapper/AutoMapperExtension.cs" root0="FORCE_HIGHLIGHTING" />
@@ -118,7 +131,30 @@
       <option name="presentableId" value="Default" />
       <updated>1676690844731</updated>
       <workItem from="1676690852477" duration="3010000" />
+      <workItem from="1676697736097" duration="2211000" />
     </task>
+    <task id="LOCAL-00001" summary="refactor">
+      <created>1676697788928</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1676697788928</updated>
+    </task>
+    <task id="LOCAL-00002" summary="refactor">
+      <created>1676697872006</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1676697872006</updated>
+    </task>
+    <task id="LOCAL-00003" summary="refactor">
+      <created>1676698010310</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1676698010310</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -139,5 +175,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor" />
   </component>
 </project>

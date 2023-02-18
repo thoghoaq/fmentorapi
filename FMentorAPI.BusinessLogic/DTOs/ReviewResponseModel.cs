@@ -8,6 +8,14 @@
         public int RevieweeId { get; set; }
         public int Rating { get; set; }
         public string Comment { get; set; } = null!;
+
+        public ReviewerInfo Reviewer { get; set; }
         
+    }
+
+    public class ReviewerInfo
+    {
+        public string Name { get; set; }
+        public string? Photo  { get; set; }
     }
 }

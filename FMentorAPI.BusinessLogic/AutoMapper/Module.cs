@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FMentorAPI.BusinessLogic.DTOs;
 using FMentorAPI.DataAccess.Models;
 
 namespace FMentorAPI.BusinessLogic.AutoMapper
@@ -36,6 +37,7 @@ namespace FMentorAPI.BusinessLogic.AutoMapper
 
             mc.CreateMap<Booking, DTOs.RequestModel.UpdateRequestModel.UpdateBookingRequestModel>().ReverseMap();
 
+            mc.CreateMap<User, ReviewerInfo>().ReverseMap();
         }
     }
 }
