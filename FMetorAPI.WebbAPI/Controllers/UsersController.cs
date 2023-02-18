@@ -293,15 +293,16 @@ namespace FMentorAPI.WebAPI.Controllers
             try
             {
                 var entity = _context.Users.Add(user);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 Mentee mentee = new Mentee { UserId = user.UserId };
                 _context.Mentees.Add(mentee);
                 _context.Wallets.Add(new Wallet()
                 {
+                    WalletId = _context.Wallets.Max(x => x.WalletId) + 1,
                     Balance = 0,
                     UserId = user.UserId
                 });
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
 
                 var jobs = await _context.Jobs.Where(j => j.UserId == user.UserId).OrderBy(j => j.StartDate)
                     .ToListAsync();
