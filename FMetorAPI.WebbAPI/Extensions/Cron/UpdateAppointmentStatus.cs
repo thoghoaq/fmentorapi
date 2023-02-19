@@ -22,7 +22,7 @@ namespace FMentorAPI.WebAPI.Extensions.Cron
             try
             {
                 var overdue = _dbcontext.Appointments.Where(a =>
-                    a.StartTime.AddMinutes(a.Duration) >= DateTime.Now && a.Status.Equals("Happening")).ToList();
+                    a.EndTime >= DateTime.Now && a.Status.Equals("Happening")).ToList();
                 foreach (var item in overdue)
                 {
                     item.Status = "Completed";
