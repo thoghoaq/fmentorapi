@@ -47,8 +47,9 @@ var builder = WebApplication.CreateBuilder(args);
 
             q.AddTrigger(opts => opts
                 .ForJob(jobKey)
+                .StartNow()
                 .WithIdentity("UpdateAppointmentStatus-trigger")
-                .WithCronSchedule("0/10 * * * * ?"));
+                .WithSimpleSchedule(x => x.WithIntervalInSeconds(30).RepeatForever()));
         }
     );
     builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
@@ -59,9 +60,9 @@ var app = builder.Build();
 var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 {
     // Configure the HTTP request pipeline.
-   
+
     app.ConfigureSwaggerApps(provider);
-    
+
     #region Firebase
 
     var pathToKey = Path.Combine(Directory.GetCurrentDirectory(), "Keys", "firebase.json");
@@ -71,7 +72,7 @@ var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>()
     });
 
     #endregion
-    
+
     app.UseCors(policyBuilder => policyBuilder
         .AllowAnyHeader()
         .AllowAnyMethod()
@@ -83,7 +84,7 @@ var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>()
     app.UseHttpsRedirection();
 
     app.ConfigureAuthApps();
-    
+
     app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
     app.MapControllers();

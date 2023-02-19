@@ -1,0 +1,454 @@
+Index: obj/FMentorAPI.csproj.nuget.g.targets
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\r\n<Project ToolsVersion=\"14.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">\r\n  <ImportGroup Condition=\" '$(ExcludeRestorePackageImports)' != 'true' \">\r\n    <Import Project=\"$(NuGetPackageRoot)microsoft.extensions.apidescription.server\\3.0.0\\build\\Microsoft.Extensions.ApiDescription.Server.targets\" Condition=\"Exists('$(NuGetPackageRoot)microsoft.extensions.apidescription.server\\3.0.0\\build\\Microsoft.Extensions.ApiDescription.Server.targets')\" />\r\n  </ImportGroup>\r\n</Project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/obj/FMentorAPI.csproj.nuget.g.targets b/obj/FMentorAPI.csproj.nuget.g.targets
+--- a/obj/FMentorAPI.csproj.nuget.g.targets	(revision ae8d63dac8e31a72b8b56d3796317b6f659bc6d1)
++++ b/obj/FMentorAPI.csproj.nuget.g.targets	(date 1676770540859)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="utf-8" standalone="no"?>
+ <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+-    <Import Project="$(NuGetPackageRoot)microsoft.extensions.apidescription.server\3.0.0\build\Microsoft.Extensions.ApiDescription.Server.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.apidescription.server\3.0.0\build\Microsoft.Extensions.ApiDescription.Server.targets')" />
++    <Import Project="$(NuGetPackageRoot)microsoft.extensions.apidescription.server\6.0.5\build\Microsoft.Extensions.ApiDescription.Server.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.apidescription.server\6.0.5\build\Microsoft.Extensions.ApiDescription.Server.targets')" />
+   </ImportGroup>
+ </Project>
+\ No newline at end of file
+Index: obj/project.assets.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/obj/project.assets.json b/obj/project.assets.json
+--- a/obj/project.assets.json	(revision ae8d63dac8e31a72b8b56d3796317b6f659bc6d1)
++++ b/obj/project.assets.json	(date 1676770540875)
+@@ -1220,6 +1220,43 @@
+           "buildTransitive/netcoreapp3.1/_._": {}
+         }
+       },
++      "Microsoft.Extensions.FileProviders.Abstractions/6.0.0": {
++        "type": "package",
++        "dependencies": {
++          "Microsoft.Extensions.Primitives": "6.0.0"
++        },
++        "compile": {
++          "lib/net6.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {
++            "related": ".xml"
++          }
++        },
++        "runtime": {
++          "lib/net6.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {
++            "related": ".xml"
++          }
++        },
++        "build": {
++          "buildTransitive/netcoreapp3.1/_._": {}
++        }
++      },
++      "Microsoft.Extensions.Hosting.Abstractions/6.0.0": {
++        "type": "package",
++        "dependencies": {
++          "Microsoft.Extensions.Configuration.Abstractions": "6.0.0",
++          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
++          "Microsoft.Extensions.FileProviders.Abstractions": "6.0.0"
++        },
++        "compile": {
++          "lib/netstandard2.1/Microsoft.Extensions.Hosting.Abstractions.dll": {
++            "related": ".xml"
++          }
++        },
++        "runtime": {
++          "lib/netstandard2.1/Microsoft.Extensions.Hosting.Abstractions.dll": {
++            "related": ".xml"
++          }
++        }
++      },
+       "Microsoft.Extensions.Logging/6.0.0": {
+         "type": "package",
+         "dependencies": {
+@@ -1887,6 +1924,60 @@
+           "lib/netstandard2.0/BouncyCastle.Crypto.dll": {
+             "related": ".xml"
+           }
++        }
++      },
++      "Quartz/3.6.0": {
++        "type": "package",
++        "dependencies": {
++          "Microsoft.Extensions.Logging.Abstractions": "2.1.1",
++          "System.Configuration.ConfigurationManager": "6.0.1",
++          "System.Diagnostics.DiagnosticSource": "4.7.1"
++        },
++        "compile": {
++          "lib/netstandard2.0/Quartz.dll": {
++            "related": ".xml"
++          }
++        },
++        "runtime": {
++          "lib/netstandard2.0/Quartz.dll": {
++            "related": ".xml"
++          }
++        }
++      },
++      "Quartz.Extensions.DependencyInjection/3.6.0": {
++        "type": "package",
++        "dependencies": {
++          "Microsoft.Extensions.Configuration.Abstractions": "6.0.0",
++          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
++          "Microsoft.Extensions.Options": "6.0.0",
++          "Quartz": "3.6.0"
++        },
++        "compile": {
++          "lib/net6.0/Quartz.Extensions.DependencyInjection.dll": {
++            "related": ".xml"
++          }
++        },
++        "runtime": {
++          "lib/net6.0/Quartz.Extensions.DependencyInjection.dll": {
++            "related": ".xml"
++          }
++        }
++      },
++      "Quartz.Extensions.Hosting/3.6.0": {
++        "type": "package",
++        "dependencies": {
++          "Microsoft.Extensions.Hosting.Abstractions": "6.0.0",
++          "Quartz.Extensions.DependencyInjection": "3.6.0"
++        },
++        "compile": {
++          "lib/net6.0/Quartz.Extensions.Hosting.dll": {
++            "related": ".xml"
++          }
++        },
++        "runtime": {
++          "lib/net6.0/Quartz.Extensions.Hosting.dll": {
++            "related": ".xml"
++          }
+         }
+       },
+       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
+@@ -2322,7 +2413,7 @@
+           "lib/netstandard1.0/System.Composition.TypedParts.dll": {}
+         }
+       },
+-      "System.Configuration.ConfigurationManager/6.0.0": {
++      "System.Configuration.ConfigurationManager/6.0.1": {
+         "type": "package",
+         "dependencies": {
+           "System.Security.Cryptography.ProtectedData": "6.0.0",
+@@ -5157,6 +5248,50 @@
+         "useSharedDesignerContext.txt"
+       ]
+     },
++    "Microsoft.Extensions.FileProviders.Abstractions/6.0.0": {
++      "sha512": "0pd4/fho0gC12rQswaGQxbU34jOS1TPS8lZPpkFCH68ppQjHNHYle9iRuHeev1LhrJ94YPvzcRd8UmIuFk23Qw==",
++      "type": "package",
++      "path": "microsoft.extensions.fileproviders.abstractions/6.0.0",
++      "files": [
++        ".nupkg.metadata",
++        ".signature.p7s",
++        "Icon.png",
++        "LICENSE.TXT",
++        "THIRD-PARTY-NOTICES.TXT",
++        "buildTransitive/netcoreapp2.0/Microsoft.Extensions.FileProviders.Abstractions.targets",
++        "buildTransitive/netcoreapp3.1/_._",
++        "lib/net461/Microsoft.Extensions.FileProviders.Abstractions.dll",
++        "lib/net461/Microsoft.Extensions.FileProviders.Abstractions.xml",
++        "lib/net6.0/Microsoft.Extensions.FileProviders.Abstractions.dll",
++        "lib/net6.0/Microsoft.Extensions.FileProviders.Abstractions.xml",
++        "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Abstractions.dll",
++        "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Abstractions.xml",
++        "microsoft.extensions.fileproviders.abstractions.6.0.0.nupkg.sha512",
++        "microsoft.extensions.fileproviders.abstractions.nuspec",
++        "useSharedDesignerContext.txt"
++      ]
++    },
++    "Microsoft.Extensions.Hosting.Abstractions/6.0.0": {
++      "sha512": "GcT5l2CYXL6Sa27KCSh0TixsRfADUgth+ojQSD5EkzisZxmGFh7CwzkcYuGwvmXLjr27uWRNrJ2vuuEjMhU05Q==",
++      "type": "package",
++      "path": "microsoft.extensions.hosting.abstractions/6.0.0",
++      "files": [
++        ".nupkg.metadata",
++        ".signature.p7s",
++        "Icon.png",
++        "LICENSE.TXT",
++        "THIRD-PARTY-NOTICES.TXT",
++        "lib/net461/Microsoft.Extensions.Hosting.Abstractions.dll",
++        "lib/net461/Microsoft.Extensions.Hosting.Abstractions.xml",
++        "lib/netstandard2.0/Microsoft.Extensions.Hosting.Abstractions.dll",
++        "lib/netstandard2.0/Microsoft.Extensions.Hosting.Abstractions.xml",
++        "lib/netstandard2.1/Microsoft.Extensions.Hosting.Abstractions.dll",
++        "lib/netstandard2.1/Microsoft.Extensions.Hosting.Abstractions.xml",
++        "microsoft.extensions.hosting.abstractions.6.0.0.nupkg.sha512",
++        "microsoft.extensions.hosting.abstractions.nuspec",
++        "useSharedDesignerContext.txt"
++      ]
++    },
+     "Microsoft.Extensions.Logging/6.0.0": {
+       "sha512": "eIbyj40QDg1NDz0HBW0S5f3wrLVnKWnDJ/JtZ+yJDFnDj90VoPuoPmFkeaXrtu+0cKm5GRAwoDf+dBWXK0TUdg==",
+       "type": "package",
+@@ -6395,6 +6530,60 @@
+         "portable.bouncycastle.nuspec"
+       ]
+     },
++    "Quartz/3.6.0": {
++      "sha512": "wrFs45sMjcsYqEGPcIdeocZeFUiuj7iKfytRiEeMTYqU4QItDZZSu4FphLyvzzvYq7jXYFcXPl9ZkBTQ8wXoTw==",
++      "type": "package",
++      "path": "quartz/3.6.0",
++      "files": [
++        ".nupkg.metadata",
++        ".signature.p7s",
++        "lib/net462/Quartz.dll",
++        "lib/net462/Quartz.xml",
++        "lib/net472/Quartz.dll",
++        "lib/net472/Quartz.xml",
++        "lib/netstandard2.0/Quartz.dll",
++        "lib/netstandard2.0/Quartz.xml",
++        "quartz-logo-small.png",
++        "quartz.3.6.0.nupkg.sha512",
++        "quartz.nuspec"
++      ]
++    },
++    "Quartz.Extensions.DependencyInjection/3.6.0": {
++      "sha512": "bsZkFNwaofiul2xZXJB6x9ANxNt/XQnCO5c2ofjefbqPKUklTcdmf1e/M7JiRUp8h1ydq2vsLNYLZPAWNzuaMA==",
++      "type": "package",
++      "path": "quartz.extensions.dependencyinjection/3.6.0",
++      "files": [
++        ".nupkg.metadata",
++        ".signature.p7s",
++        "lib/net6.0/Quartz.Extensions.DependencyInjection.dll",
++        "lib/net6.0/Quartz.Extensions.DependencyInjection.xml",
++        "lib/netcoreapp3.1/Quartz.Extensions.DependencyInjection.dll",
++        "lib/netcoreapp3.1/Quartz.Extensions.DependencyInjection.xml",
++        "lib/netstandard2.0/Quartz.Extensions.DependencyInjection.dll",
++        "lib/netstandard2.0/Quartz.Extensions.DependencyInjection.xml",
++        "quartz-logo-small.png",
++        "quartz.extensions.dependencyinjection.3.6.0.nupkg.sha512",
++        "quartz.extensions.dependencyinjection.nuspec"
++      ]
++    },
++    "Quartz.Extensions.Hosting/3.6.0": {
++      "sha512": "M1F0/4QtjqcY+huIBzuNaKBEVSyag6J4FMNPMges7Hay64EsIym+xqV1E5b1/nXSdkaWuZjWV6nppiuu4e4k6A==",
++      "type": "package",
++      "path": "quartz.extensions.hosting/3.6.0",
++      "files": [
++        ".nupkg.metadata",
++        ".signature.p7s",
++        "lib/net6.0/Quartz.Extensions.Hosting.dll",
++        "lib/net6.0/Quartz.Extensions.Hosting.xml",
++        "lib/netcoreapp3.1/Quartz.Extensions.Hosting.dll",
++        "lib/netcoreapp3.1/Quartz.Extensions.Hosting.xml",
++        "lib/netstandard2.0/Quartz.Extensions.Hosting.dll",
++        "lib/netstandard2.0/Quartz.Extensions.Hosting.xml",
++        "quartz-logo-small.png",
++        "quartz.extensions.hosting.3.6.0.nupkg.sha512",
++        "quartz.extensions.hosting.nuspec"
++      ]
++    },
+     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
+       "sha512": "HdSSp5MnJSsg08KMfZThpuLPJpPwE5hBXvHwoKWosyHHfe8Mh5WKT0ylEOf6yNzX6Ngjxe4Whkafh5q7Ymac4Q==",
+       "type": "package",
+@@ -7026,10 +7215,10 @@
+         "system.composition.typedparts.nuspec"
+       ]
+     },
+-    "System.Configuration.ConfigurationManager/6.0.0": {
+-      "sha512": "7T+m0kDSlIPTHIkPMIu6m6tV6qsMqJpvQWW2jIc2qi7sn40qxFo0q+7mEQAhMPXZHMKnWrnv47ntGlM/ejvw3g==",
++    "System.Configuration.ConfigurationManager/6.0.1": {
++      "sha512": "jXw9MlUu/kRfEU0WyTptAVueupqIeE3/rl0EZDMlf8pcvJnitQ8HeVEp69rZdaStXwTV72boi/Bhw8lOeO+U2w==",
+       "type": "package",
+-      "path": "system.configuration.configurationmanager/6.0.0",
++      "path": "system.configuration.configurationmanager/6.0.1",
+       "files": [
+         ".nupkg.metadata",
+         ".signature.p7s",
+@@ -7046,7 +7235,7 @@
+         "lib/netstandard2.0/System.Configuration.ConfigurationManager.xml",
+         "runtimes/win/lib/net461/System.Configuration.ConfigurationManager.dll",
+         "runtimes/win/lib/net461/System.Configuration.ConfigurationManager.xml",
+-        "system.configuration.configurationmanager.6.0.0.nupkg.sha512",
++        "system.configuration.configurationmanager.6.0.1.nupkg.sha512",
+         "system.configuration.configurationmanager.nuspec",
+         "useSharedDesignerContext.txt"
+       ]
+@@ -10533,27 +10722,25 @@
+       "Microsoft.EntityFrameworkCore.Tools >= 6.0.13",
+       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 6.0.11",
+       "Newtonsoft.Json >= 13.0.2",
++      "Quartz >= 3.6.0",
++      "Quartz.Extensions.Hosting >= 3.6.0",
+       "Swashbuckle.AspNetCore >= 6.5.0"
+     ]
+   },
+   "packageFolders": {
+-    "C:\\Users\\HP\\.nuget\\packages\\": {},
+-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
++    "C:\\Users\\quang\\.nuget\\packages\\": {}
+   },
+   "project": {
+     "version": "1.0.0",
+     "restore": {
+-      "projectUniqueName": "D:\\fmentor\\fmentorapi\\FMentorAPI.csproj",
++      "projectUniqueName": "D:\\2022-Hackathon\\New folder\\fmentorapi-new\\FMentorAPI.csproj",
+       "projectName": "FMentorAPI",
+-      "projectPath": "D:\\fmentor\\fmentorapi\\FMentorAPI.csproj",
+-      "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+-      "outputPath": "D:\\fmentor\\fmentorapi\\obj\\",
++      "projectPath": "D:\\2022-Hackathon\\New folder\\fmentorapi-new\\FMentorAPI.csproj",
++      "packagesPath": "C:\\Users\\quang\\.nuget\\packages\\",
++      "outputPath": "D:\\2022-Hackathon\\New folder\\fmentorapi-new\\obj\\",
+       "projectStyle": "PackageReference",
+-      "fallbackFolders": [
+-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+-      ],
+       "configFilePaths": [
+-        "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
++        "C:\\Users\\quang\\AppData\\Roaming\\NuGet\\NuGet.Config",
+         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+       ],
+       "originalTargetFrameworks": [
+@@ -10611,6 +10798,14 @@
+             "target": "Package",
+             "version": "[13.0.2, )"
+           },
++          "Quartz": {
++            "target": "Package",
++            "version": "[3.6.0, )"
++          },
++          "Quartz.Extensions.Hosting": {
++            "target": "Package",
++            "version": "[3.6.0, )"
++          },
+           "Swashbuckle.AspNetCore": {
+             "target": "Package",
+             "version": "[6.5.0, )"
+Index: obj/FMentorAPI.csproj.nuget.dgspec.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{\r\n  \"format\": 1,\r\n  \"restore\": {\r\n    \"D:\\\\FPT University\\\\EXE201\\\\fmentorapi\\\\FMentorAPI.csproj\": {}\r\n  },\r\n  \"projects\": {\r\n    \"D:\\\\FPT University\\\\EXE201\\\\fmentorapi\\\\FMentorAPI.csproj\": {\r\n      \"version\": \"1.0.0\",\r\n      \"restore\": {\r\n        \"projectUniqueName\": \"D:\\\\FPT University\\\\EXE201\\\\fmentorapi\\\\FMentorAPI.csproj\",\r\n        \"projectName\": \"FMentorAPI\",\r\n        \"projectPath\": \"D:\\\\FPT University\\\\EXE201\\\\fmentorapi\\\\FMentorAPI.csproj\",\r\n        \"packagesPath\": \"C:\\\\Users\\\\Admin\\\\.nuget\\\\packages\\\\\",\r\n        \"outputPath\": \"D:\\\\FPT University\\\\EXE201\\\\fmentorapi\\\\obj\\\\\",\r\n        \"projectStyle\": \"PackageReference\",\r\n        \"configFilePaths\": [\r\n          \"C:\\\\Users\\\\Admin\\\\AppData\\\\Roaming\\\\NuGet\\\\NuGet.Config\",\r\n          \"C:\\\\Program Files (x86)\\\\NuGet\\\\Config\\\\Microsoft.VisualStudio.Offline.config\"\r\n        ],\r\n        \"originalTargetFrameworks\": [\r\n          \"net6.0\"\r\n        ],\r\n        \"sources\": {\r\n          \"C:\\\\Program Files (x86)\\\\Microsoft SDKs\\\\NuGetPackages\\\\\": {},\r\n          \"https://api.nuget.org/v3/index.json\": {}\r\n        },\r\n        \"frameworks\": {\r\n          \"net6.0\": {\r\n            \"targetAlias\": \"net6.0\",\r\n            \"projectReferences\": {}\r\n          }\r\n        },\r\n        \"warningProperties\": {\r\n          \"warnAsError\": [\r\n            \"NU1605\"\r\n          ]\r\n        }\r\n      },\r\n      \"frameworks\": {\r\n        \"net6.0\": {\r\n          \"targetAlias\": \"net6.0\",\r\n          \"dependencies\": {\r\n            \"AutoMapper\": {\r\n              \"target\": \"Package\",\r\n              \"version\": \"[12.0.1, )\"\r\n            },\r\n            \"Microsoft.EntityFrameworkCore.Design\": {\r\n              \"include\": \"Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive\",\r\n              \"suppressParent\": \"All\",\r\n              \"target\": \"Package\",\r\n              \"version\": \"[6.0.13, )\"\r\n            },\r\n            \"Microsoft.EntityFrameworkCore.SqlServer\": {\r\n              \"target\": \"Package\",\r\n              \"version\": \"[6.0.13, )\"\r\n            },\r\n            \"Microsoft.EntityFrameworkCore.Tools\": {\r\n              \"include\": \"Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive\",\r\n              \"suppressParent\": \"All\",\r\n              \"target\": \"Package\",\r\n              \"version\": \"[6.0.13, )\"\r\n            },\r\n            \"Microsoft.VisualStudio.Web.CodeGeneration.Design\": {\r\n              \"target\": \"Package\",\r\n              \"version\": \"[6.0.11, )\"\r\n            },\r\n            \"Swashbuckle.AspNetCore\": {\r\n              \"target\": \"Package\",\r\n              \"version\": \"[6.2.3, )\"\r\n            }\r\n          },\r\n          \"imports\": [\r\n            \"net461\",\r\n            \"net462\",\r\n            \"net47\",\r\n            \"net471\",\r\n            \"net472\",\r\n            \"net48\",\r\n            \"net481\"\r\n          ],\r\n          \"assetTargetFallback\": true,\r\n          \"warn\": true,\r\n          \"frameworkReferences\": {\r\n            \"Microsoft.AspNetCore.App\": {\r\n              \"privateAssets\": \"none\"\r\n            },\r\n            \"Microsoft.NETCore.App\": {\r\n              \"privateAssets\": \"all\"\r\n            }\r\n          },\r\n          \"runtimeIdentifierGraphPath\": \"C:\\\\Program Files\\\\dotnet\\\\sdk\\\\6.0.400\\\\RuntimeIdentifierGraph.json\"\r\n        }\r\n      }\r\n    }\r\n  }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/obj/FMentorAPI.csproj.nuget.dgspec.json b/obj/FMentorAPI.csproj.nuget.dgspec.json
+--- a/obj/FMentorAPI.csproj.nuget.dgspec.json	(revision ae8d63dac8e31a72b8b56d3796317b6f659bc6d1)
++++ b/obj/FMentorAPI.csproj.nuget.dgspec.json	(date 1676770540875)
+@@ -1,20 +1,20 @@
+ {
+   "format": 1,
+   "restore": {
+-    "D:\\FPT University\\EXE201\\fmentorapi\\FMentorAPI.csproj": {}
++    "D:\\2022-Hackathon\\New folder\\fmentorapi-new\\FMentorAPI.csproj": {}
+   },
+   "projects": {
+-    "D:\\FPT University\\EXE201\\fmentorapi\\FMentorAPI.csproj": {
++    "D:\\2022-Hackathon\\New folder\\fmentorapi-new\\FMentorAPI.csproj": {
+       "version": "1.0.0",
+       "restore": {
+-        "projectUniqueName": "D:\\FPT University\\EXE201\\fmentorapi\\FMentorAPI.csproj",
++        "projectUniqueName": "D:\\2022-Hackathon\\New folder\\fmentorapi-new\\FMentorAPI.csproj",
+         "projectName": "FMentorAPI",
+-        "projectPath": "D:\\FPT University\\EXE201\\fmentorapi\\FMentorAPI.csproj",
+-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+-        "outputPath": "D:\\FPT University\\EXE201\\fmentorapi\\obj\\",
++        "projectPath": "D:\\2022-Hackathon\\New folder\\fmentorapi-new\\FMentorAPI.csproj",
++        "packagesPath": "C:\\Users\\quang\\.nuget\\packages\\",
++        "outputPath": "D:\\2022-Hackathon\\New folder\\fmentorapi-new\\obj\\",
+         "projectStyle": "PackageReference",
+         "configFilePaths": [
+-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
++          "C:\\Users\\quang\\AppData\\Roaming\\NuGet\\NuGet.Config",
+           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+         ],
+         "originalTargetFrameworks": [
+@@ -44,6 +44,10 @@
+               "target": "Package",
+               "version": "[12.0.1, )"
+             },
++            "CorePush": {
++              "target": "Package",
++              "version": "[3.1.1, )"
++            },
+             "Microsoft.EntityFrameworkCore.Design": {
+               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+               "suppressParent": "All",
+@@ -64,9 +68,21 @@
+               "target": "Package",
+               "version": "[6.0.11, )"
+             },
++            "Newtonsoft.Json": {
++              "target": "Package",
++              "version": "[13.0.2, )"
++            },
++            "Quartz": {
++              "target": "Package",
++              "version": "[3.6.0, )"
++            },
++            "Quartz.Extensions.Hosting": {
++              "target": "Package",
++              "version": "[3.6.0, )"
++            },
+             "Swashbuckle.AspNetCore": {
+               "target": "Package",
+-              "version": "[6.2.3, )"
++              "version": "[6.5.0, )"
+             }
+           },
+           "imports": [
+@@ -88,7 +104,7 @@
+               "privateAssets": "all"
+             }
+           },
+-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
++          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+         }
+       }
+     }
+Index: obj/FMentorAPI.csproj.nuget.g.props
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\r\n<Project ToolsVersion=\"14.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">\r\n  <PropertyGroup Condition=\" '$(ExcludeRestorePackageImports)' != 'true' \">\r\n    <RestoreSuccess Condition=\" '$(RestoreSuccess)' == '' \">True</RestoreSuccess>\r\n    <RestoreTool Condition=\" '$(RestoreTool)' == '' \">NuGet</RestoreTool>\r\n    <ProjectAssetsFile Condition=\" '$(ProjectAssetsFile)' == '' \">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>\r\n    <NuGetPackageRoot Condition=\" '$(NuGetPackageRoot)' == '' \">$(UserProfile)\\.nuget\\packages\\</NuGetPackageRoot>\r\n    <NuGetPackageFolders Condition=\" '$(NuGetPackageFolders)' == '' \">C:\\Users\\Admin\\.nuget\\packages\\</NuGetPackageFolders>\r\n    <NuGetProjectStyle Condition=\" '$(NuGetProjectStyle)' == '' \">PackageReference</NuGetProjectStyle>\r\n    <NuGetToolVersion Condition=\" '$(NuGetToolVersion)' == '' \">6.3.0</NuGetToolVersion>\r\n  </PropertyGroup>\r\n  <ItemGroup Condition=\" '$(ExcludeRestorePackageImports)' != 'true' \">\r\n    <SourceRoot Include=\"C:\\Users\\Admin\\.nuget\\packages\\\" />\r\n  </ItemGroup>\r\n  <ImportGroup Condition=\" '$(ExcludeRestorePackageImports)' != 'true' \">\r\n    <Import Project=\"$(NuGetPackageRoot)microsoft.extensions.apidescription.server\\3.0.0\\build\\Microsoft.Extensions.ApiDescription.Server.props\" Condition=\"Exists('$(NuGetPackageRoot)microsoft.extensions.apidescription.server\\3.0.0\\build\\Microsoft.Extensions.ApiDescription.Server.props')\" />\r\n    <Import Project=\"$(NuGetPackageRoot)swashbuckle.aspnetcore\\6.2.3\\build\\Swashbuckle.AspNetCore.props\" Condition=\"Exists('$(NuGetPackageRoot)swashbuckle.aspnetcore\\6.2.3\\build\\Swashbuckle.AspNetCore.props')\" />\r\n    <Import Project=\"$(NuGetPackageRoot)microsoft.entityframeworkcore\\6.0.13\\buildTransitive\\net6.0\\Microsoft.EntityFrameworkCore.props\" Condition=\"Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore\\6.0.13\\buildTransitive\\net6.0\\Microsoft.EntityFrameworkCore.props')\" />\r\n    <Import Project=\"$(NuGetPackageRoot)microsoft.entityframeworkcore.design\\6.0.13\\build\\net6.0\\Microsoft.EntityFrameworkCore.Design.props\" Condition=\"Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore.design\\6.0.13\\build\\net6.0\\Microsoft.EntityFrameworkCore.Design.props')\" />\r\n  </ImportGroup>\r\n  <PropertyGroup Condition=\" '$(ExcludeRestorePackageImports)' != 'true' \">\r\n    <PkgMicrosoft_Extensions_ApiDescription_Server Condition=\" '$(PkgMicrosoft_Extensions_ApiDescription_Server)' == '' \">C:\\Users\\Admin\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0</PkgMicrosoft_Extensions_ApiDescription_Server>\r\n    <PkgMessagePackAnalyzer Condition=\" '$(PkgMessagePackAnalyzer)' == '' \">C:\\Users\\Admin\\.nuget\\packages\\messagepackanalyzer\\2.1.152</PkgMessagePackAnalyzer>\r\n    <PkgMicrosoft_CodeAnalysis_Analyzers Condition=\" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' \">C:\\Users\\Admin\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.3.2</PkgMicrosoft_CodeAnalysis_Analyzers>\r\n    <PkgMicrosoft_CodeAnalysis_AnalyzerUtilities Condition=\" '$(PkgMicrosoft_CodeAnalysis_AnalyzerUtilities)' == '' \">C:\\Users\\Admin\\.nuget\\packages\\microsoft.codeanalysis.analyzerutilities\\3.3.0</PkgMicrosoft_CodeAnalysis_AnalyzerUtilities>\r\n    <PkgMicrosoft_EntityFrameworkCore_Tools Condition=\" '$(PkgMicrosoft_EntityFrameworkCore_Tools)' == '' \">C:\\Users\\Admin\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\6.0.13</PkgMicrosoft_EntityFrameworkCore_Tools>\r\n  </PropertyGroup>\r\n</Project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/obj/FMentorAPI.csproj.nuget.g.props b/obj/FMentorAPI.csproj.nuget.g.props
+--- a/obj/FMentorAPI.csproj.nuget.g.props	(revision ae8d63dac8e31a72b8b56d3796317b6f659bc6d1)
++++ b/obj/FMentorAPI.csproj.nuget.g.props	(date 1676770540859)
+@@ -5,24 +5,24 @@
+     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
+     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
+     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
+-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\Admin\.nuget\packages\</NuGetPackageFolders>
++    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\quang\.nuget\packages\</NuGetPackageFolders>
+     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
+-    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.3.0</NuGetToolVersion>
++    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.4.0</NuGetToolVersion>
+   </PropertyGroup>
+   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+-    <SourceRoot Include="C:\Users\Admin\.nuget\packages\" />
++    <SourceRoot Include="C:\Users\quang\.nuget\packages\" />
+   </ItemGroup>
+   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+-    <Import Project="$(NuGetPackageRoot)microsoft.extensions.apidescription.server\3.0.0\build\Microsoft.Extensions.ApiDescription.Server.props" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.apidescription.server\3.0.0\build\Microsoft.Extensions.ApiDescription.Server.props')" />
+-    <Import Project="$(NuGetPackageRoot)swashbuckle.aspnetcore\6.2.3\build\Swashbuckle.AspNetCore.props" Condition="Exists('$(NuGetPackageRoot)swashbuckle.aspnetcore\6.2.3\build\Swashbuckle.AspNetCore.props')" />
++    <Import Project="$(NuGetPackageRoot)microsoft.extensions.apidescription.server\6.0.5\build\Microsoft.Extensions.ApiDescription.Server.props" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.apidescription.server\6.0.5\build\Microsoft.Extensions.ApiDescription.Server.props')" />
++    <Import Project="$(NuGetPackageRoot)swashbuckle.aspnetcore\6.5.0\build\Swashbuckle.AspNetCore.props" Condition="Exists('$(NuGetPackageRoot)swashbuckle.aspnetcore\6.5.0\build\Swashbuckle.AspNetCore.props')" />
+     <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore\6.0.13\buildTransitive\net6.0\Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore\6.0.13\buildTransitive\net6.0\Microsoft.EntityFrameworkCore.props')" />
+     <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore.design\6.0.13\build\net6.0\Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore.design\6.0.13\build\net6.0\Microsoft.EntityFrameworkCore.Design.props')" />
+   </ImportGroup>
+   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+-    <PkgMicrosoft_Extensions_ApiDescription_Server Condition=" '$(PkgMicrosoft_Extensions_ApiDescription_Server)' == '' ">C:\Users\Admin\.nuget\packages\microsoft.extensions.apidescription.server\3.0.0</PkgMicrosoft_Extensions_ApiDescription_Server>
+-    <PkgMessagePackAnalyzer Condition=" '$(PkgMessagePackAnalyzer)' == '' ">C:\Users\Admin\.nuget\packages\messagepackanalyzer\2.1.152</PkgMessagePackAnalyzer>
+-    <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">C:\Users\Admin\.nuget\packages\microsoft.codeanalysis.analyzers\3.3.2</PkgMicrosoft_CodeAnalysis_Analyzers>
+-    <PkgMicrosoft_CodeAnalysis_AnalyzerUtilities Condition=" '$(PkgMicrosoft_CodeAnalysis_AnalyzerUtilities)' == '' ">C:\Users\Admin\.nuget\packages\microsoft.codeanalysis.analyzerutilities\3.3.0</PkgMicrosoft_CodeAnalysis_AnalyzerUtilities>
+-    <PkgMicrosoft_EntityFrameworkCore_Tools Condition=" '$(PkgMicrosoft_EntityFrameworkCore_Tools)' == '' ">C:\Users\Admin\.nuget\packages\microsoft.entityframeworkcore.tools\6.0.13</PkgMicrosoft_EntityFrameworkCore_Tools>
++    <PkgMicrosoft_Extensions_ApiDescription_Server Condition=" '$(PkgMicrosoft_Extensions_ApiDescription_Server)' == '' ">C:\Users\quang\.nuget\packages\microsoft.extensions.apidescription.server\6.0.5</PkgMicrosoft_Extensions_ApiDescription_Server>
++    <PkgMessagePackAnalyzer Condition=" '$(PkgMessagePackAnalyzer)' == '' ">C:\Users\quang\.nuget\packages\messagepackanalyzer\2.1.152</PkgMessagePackAnalyzer>
++    <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">C:\Users\quang\.nuget\packages\microsoft.codeanalysis.analyzers\3.3.2</PkgMicrosoft_CodeAnalysis_Analyzers>
++    <PkgMicrosoft_CodeAnalysis_AnalyzerUtilities Condition=" '$(PkgMicrosoft_CodeAnalysis_AnalyzerUtilities)' == '' ">C:\Users\quang\.nuget\packages\microsoft.codeanalysis.analyzerutilities\3.3.0</PkgMicrosoft_CodeAnalysis_AnalyzerUtilities>
++    <PkgMicrosoft_EntityFrameworkCore_Tools Condition=" '$(PkgMicrosoft_EntityFrameworkCore_Tools)' == '' ">C:\Users\quang\.nuget\packages\microsoft.entityframeworkcore.tools\6.0.13</PkgMicrosoft_EntityFrameworkCore_Tools>
+   </PropertyGroup>
+ </Project>
+\ No newline at end of file
