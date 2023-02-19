@@ -21,8 +21,10 @@ namespace FMentorAPI.WebAPI.Extensions.Cron
         {
             try
             {
-                var overdue = _dbcontext.Appointments.Where(a =>
-                    a.EndTime >= DateTime.UtcNow.AddHours(7) && a.Status.Equals("Happening")).ToList();
+                var overdue = _dbcontext.Appointments
+                    .Where(a => a.Status.Equals("Happening")).ToList().AsQueryable();
+                
+                overdue = overdue.Where(x => DateTime.Compare(x.EndTime, DateTime.UtcNow.AddHours(7)) <= 0);
                 foreach (var item in overdue)
                 {
                     item.Status = "Completed";
@@ -78,8 +80,10 @@ namespace FMentorAPI.WebAPI.Extensions.Cron
 
         public Task UpdateHappening()
         {
-                var appointments = _dbcontext.Appointments.Where(a =>
-                a.StartTime >= DateTime.UtcNow.AddHours(7) && a.Status.Equals("Accepted")).ToList();
+            var appointments = _dbcontext.Appointments
+                .Where(a => a.Status.Equals("Accepted")).ToList().AsQueryable();
+                
+           appointments = appointments.Where(x => DateTime.Compare(x.StartTime, DateTime.UtcNow.AddHours(7)) <= 0);
 
             foreach (var item in appointments)
             {
@@ -124,6 +128,7 @@ namespace FMentorAPI.WebAPI.Extensions.Cron
                     }
                 }
             }
+
             return Task.FromResult(true);
         }
     }

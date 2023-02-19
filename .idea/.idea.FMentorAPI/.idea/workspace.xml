@@ -7,8 +7,9 @@
     <projectFile profileName="IIS Express">FMetorAPI.WebbAPI/FMentorAPI.WebAPI.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b802b6f3-e1d1-4e9c-ac00-9410e5c6ecba" name="Changes" comment="Update job complete appointment">
+    <list default="true" id="b802b6f3-e1d1-4e9c-ac00-9410e5c6ecba" name="Changes" comment="update utc">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FMentorAPI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FMentorAPI/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Extensions/Cron/UpdateAppointmentStatus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/FMetorAPI.WebbAPI/Extensions/Cron/UpdateAppointmentStatus.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +28,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f4708639776589f5ac2739f6fcbfc67343b1f9dac51cc1dbfdb003eef77cc1c/Monitor.CoreCLR.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/FMentorAPI.BusinessLogic/AutoMapper/AutoMapperExtension.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/FMentorAPI.BusinessLogic/AutoMapper/Module.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://D:/2022-Hackathon/New folder/fmentorapi-new/FMetorAPI.WebbAPI/Extensions/Cron/UpdateAppointmentStatus.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/2022-Hackathon/New folder/fmentorapi-new/FMetorAPI.WebbAPI/Program.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -190,7 +192,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676775109445</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="update utc">
+      <created>1676776897144</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1676776897144</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -217,7 +226,8 @@
     <MESSAGE value="Add WalletId response when login" />
     <MESSAGE value="Update appointment status job" />
     <MESSAGE value="Update job complete appointment" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update job complete appointment" />
+    <MESSAGE value="update utc" />
+    <option name="LAST_COMMIT_MESSAGE" value="update utc" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
