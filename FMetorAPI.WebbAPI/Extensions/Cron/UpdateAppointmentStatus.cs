@@ -22,7 +22,7 @@ namespace FMentorAPI.WebAPI.Extensions.Cron
             try
             {
                 var overdue = _dbcontext.Appointments.Where(a =>
-                    a.EndTime >= DateTime.Now && a.Status.Equals("Happening")).ToList();
+                    a.EndTime >= DateTime.UtcNow.AddHours(7) && a.Status.Equals("Happening")).ToList();
                 foreach (var item in overdue)
                 {
                     item.Status = "Completed";
@@ -79,7 +79,7 @@ namespace FMentorAPI.WebAPI.Extensions.Cron
         public Task UpdateHappening()
         {
                 var appointments = _dbcontext.Appointments.Where(a =>
-                a.StartTime >= DateTime.Now && a.Status.Equals("Accepted")).ToList();
+                a.StartTime >= DateTime.UtcNow.AddHours(7) && a.Status.Equals("Accepted")).ToList();
 
             foreach (var item in appointments)
             {

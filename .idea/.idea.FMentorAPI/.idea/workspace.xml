@@ -7,7 +7,7 @@
     <projectFile profileName="IIS Express">FMetorAPI.WebbAPI/FMentorAPI.WebAPI.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b802b6f3-e1d1-4e9c-ac00-9410e5c6ecba" name="Changes" comment="Update appointment status job">
+    <list default="true" id="b802b6f3-e1d1-4e9c-ac00-9410e5c6ecba" name="Changes" comment="Update job complete appointment">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.FMentorAPI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.FMentorAPI/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -183,7 +183,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676773939020</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Update job complete appointment">
+      <created>1676775109445</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1676775109445</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -209,7 +216,8 @@
     <MESSAGE value="Get list mentor by specialties id" />
     <MESSAGE value="Add WalletId response when login" />
     <MESSAGE value="Update appointment status job" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update appointment status job" />
+    <MESSAGE value="Update job complete appointment" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update job complete appointment" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
