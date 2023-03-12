@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DocumentationFile>bin\Debug\FMentorAPI.WebAPI.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DocumentationFile>bin\Release\FMentorAPI.WebAPI.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.13" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
+    <PackageReference Include="Quartz" Version="3.6.0" />
+    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.6.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="DataAccess\obj\DataAccess.csproj.nuget.dgspec.json" />
+    <_ContentIncludedByDefault Remove="DataAccess\obj\project.assets.json" />
+    <_ContentIncludedByDefault Remove="DataAccess\obj\project.packagespec.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FMentorAPI.BusinessLogic\FMentorAPI.BusinessLogic.csproj" />
+  </ItemGroup>
+
+</Project>

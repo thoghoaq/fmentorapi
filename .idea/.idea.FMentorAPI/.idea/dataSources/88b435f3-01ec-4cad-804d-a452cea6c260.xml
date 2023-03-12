@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="Microsoft SQL Server (JetBrains)">
+  <database-model serializer="dbm" dbms="AZURE" family-id="AZURE" format-version="4.39">
+    <root id="1">
+      <Dbms>AZURE</Dbms>
+      <ServerVersion>12.0.937</ServerVersion>
+    </root>
+    <database id="2" parent="1" name="FMentorDatabase">
+      <ObjectId>5</ObjectId>
+    </database>
+    <database id="3" parent="1" name="master">
+      <Collation>SQL_Latin1_General_CP1_CI_AS</Collation>
+      <Current>1</Current>
+      <Fingerprint>1.44965/39A20772-5608-4BA2-A65C-4A4ED5E04FC3@fmentor-sea</Fingerprint>
+      <Grants>1|database||5|alter any user|O
+1|database||1|connect|G
+1|database||5|connect|G
+6|role||5|alter|O
+7|role||5|alter|O</Grants>
+      <ObjectId>1</ObjectId>
+      <PermissionsCheckSum>6783918165</PermissionsCheckSum>
+    </database>
+    <login id="4" parent="1" name="##MS_DatabaseConnector##">
+      <Enabled>1</Enabled>
+      <ObjectId>14</ObjectId>
+      <Type>server-role</Type>
+    </login>
+    <login id="5" parent="1" name="##MS_DatabaseManager##">
+      <Enabled>1</Enabled>
+      <ObjectId>15</ObjectId>
+      <Type>server-role</Type>
+    </login>
+    <login id="6" parent="1" name="##MS_DefinitionReader##">
+      <Enabled>1</Enabled>
+      <ObjectId>13</ObjectId>
+      <Type>server-role</Type>
+    </login>
+    <login id="7" parent="1" name="##MS_LoginManager##">
+      <Enabled>1</Enabled>
+      <ObjectId>16</ObjectId>
+      <Type>server-role</Type>
+    </login>
+    <login id="8" parent="1" name="##MS_SecurityDefinitionReader##">
+      <Enabled>1</Enabled>
+      <ObjectId>17</ObjectId>
+      <Type>server-role</Type>
+    </login>
+    <login id="9" parent="1" name="##MS_ServerStateManager##">
+      <Enabled>1</Enabled>
+      <ObjectId>12</ObjectId>
+      <Type>server-role</Type>
+    </login>
+    <login id="10" parent="1" name="##MS_ServerStateReader##">
+      <Enabled>1</Enabled>
+      <ObjectId>11</ObjectId>
+      <Type>server-role</Type>
+    </login>
+  </database-model>
+</dataSource>
